@@ -1,0 +1,14 @@
+{
+  "name": "property2",
+  "version": "0.0.0",
+  "description": "Property Search Application",
+  "scripts": {
+    "test": "tape test/*.js",
+    "jekyll": "bundle exec jekyll serve --baseurl /property2 --port $PORT"
+  },
+  "repository": "https://github.com/CityOfPhiladelphia/property2.git",
+  "license": "ISC",
+  "devDependencies": {
+    "tape": "^3.5.0"
+  }
+}
