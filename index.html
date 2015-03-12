@@ -1,12 +1,87 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Property</title>
-    <link rel="stylesheet" href="styles.css">
+    <title>Property Service</title>
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="//code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
+    <link rel="stylesheet" href="//cityofphiladelphia.github.io/patterns/0.2.0/css/patterns.css">
+    <link rel="stylesheet" href="style.css">
+    <script src="//cdnjs.cloudflare.com/ajax/libs/modernizr/2.8.3/modernizr.js"></script>
   </head>
   <body>
-    <script type="text/javascript" src="//code.jquery.com/jquery-2.1.3.min.js"></script>
-    <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/fastclick/1.0.6/fastclick.min.js"></script>
+    <div id="page" class="page">
+      <header class="site-header app" role="banner">
+        <div class="row">
+          <div class="small-24 medium-24 column">
+            <a href="http://alpha.phila.gov"><img src="//cityofphiladelphia.github.io/patterns/images/city-of-philadelphia-logo.png" class="logo no-scale" alt="City of Philadelphia"></a>
+            <h1 class="page-title">Property Service</h1>
+          </div>
+        </div>
+      </header>
+      <div class="row">
+        <div class="small-24 columns">
+          <div class="divider"></div>
+        </div>
+      </div>
+      <div class="row">
+        <div id="breadcrumbs" class="large-24 columns">
+          <ul class="inline-list">
+            <li><a href="http://alpha.phila.gov">alpha.phila.gov</a></li>
+            <li>Property Service</li>
+          </ul>
+        </div>
+      </div>
+      <div class="search-head">
+        <div class="row">
+          <div class="medium-8 columns">
+            <h1>Search properties:</h1>
+          </div>
+          <div class="medium-16 columns">
+            <form class="search">
+              <input type="text" id="property-search" name="q" placeholder="1234 Market, for example">
+              <input type="submit">
+            </form>
+          </div>
+        </div>
+      </div>
+      <div id="content" class="row"></div>
+    </div>
+    <footer class="site-footer" role="contentinfo">
+      <div class="row">
+        <div class="large-6 columns">
+          <a href="http://alpha.phila.gov">City of Philadelphia</a>
+        </div>
+        <div class="large-3 columns feedback">
+          <a href="">Feedback</a>
+        </div>
+        <div class="large-3 columns feedback">
+          <a href="">Terms of Use</a>
+        </div>
+        <div class="large-12 columns">
+          <nav>
+            <ul id="language" class="inline-list">
+              <li class="active"><a href="" data-language="en">English</a></li>
+              <li><a href="" data-language="es">Español</a></li>
+              <li><a href="" data-language="fr">Français</a></li>
+              <li><a href="" data-language="km">ភាសាខ្មែរ</a></li>
+              <li><a href="" data-language="vi">Tiếng Việt</a></li>
+              <li><a href="" data-language="zh">繁體中文</a></li>
+            </ul>
+          </nav>
+        </div>
+      </div>
+    </footer>
+    <div id="templates">
+      <div id="count" class="medium-6 columns"><span id="total"></span> addresses returned</div>
+      <article id="result">
+        <h1><a><!-- address link --></a></h1>
+        <p><!-- more info can go here --></p>
+      </article>
+      <div id="results" class="medium-18 columns search-results-list"></div>
+      <div id="address"><h2></h2></div>
+    </div>
+    <script src="//code.jquery.com/jquery-2.1.3.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/fastclick/1.0.6/fastclick.min.js"></script>
     <script src="bundle.js"></script>
   </body>
 </html>

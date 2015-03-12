@@ -8,6 +8,7 @@
   "repository": "https://github.com/CityOfPhiladelphia/property2.git",
   "license": "ISC",
   "devDependencies": {
-    "cheerio": "^0.18.0"
+    "cheerio": "^0.18.0",
+    "uglify-js": "^2.4.17"
   }
 }
