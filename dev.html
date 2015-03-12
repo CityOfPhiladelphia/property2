@@ -9,7 +9,7 @@
     <script src="//cdnjs.cloudflare.com/ajax/libs/modernizr/2.8.3/modernizr.js"></script>
   </head>
   <body>
-    <div id="page">
+    <div id="page" class="page">
       <header class="site-header app" role="banner">
         <div class="row">
           <div class="small-24 medium-24 column">
@@ -31,18 +31,29 @@
           </ul>
         </div>
       </div>
-      <div class="row">
-        <form class="search">
-          <input type="text" id="property-search" name="q" placeholder="Search address"><input type="submit">
-        </form>
+      <div class="search-head">
+        <div class="row">
+          <div class="medium-8 columns">
+            <h1>Search properties:</h1>
+          </div>
+          <div class="medium-16 columns">
+            <form class="search">
+              <input type="text" id="property-search" name="q" placeholder="1234 Market, for example">
+              <input type="submit">
+            </form>
+          </div>
+        </div>
       </div>
-      <div id="content"></div>
+      <div id="content" class="row"></div>
     </div>
     <div id="templates">
-      <div id="count"><span id="total"></span> addresses returned</div>
-      <div id="result" class="row"><h3 class="address"></h3></div>
-      <div id="results" class="row"></div>
-      <div id="item"><h2></h2></div>
+      <div id="count" class="medium-6 columns"><span id="total"></span> addresses returned</div>
+      <article id="result">
+        <h1><a><!-- address link --></a></h1>
+        <p><!-- more info can go here --></p>
+      </article>
+      <div id="results" class="medium-18 columns search-results-list"></div>
+      <div id="address"><h2></h2></div>
     </div>
     <script src="//code.jquery.com/jquery-2.1.3.min.js"></script>
     <script src="//cdnjs.cloudflare.com/ajax/libs/fastclick/1.0.6/fastclick.min.js"></script>
