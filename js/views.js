@@ -1,17 +1,32 @@
-app.views = {}
+app.views = {
+  search: function (q) {
+    app.els.search.val(q);
+  },
+  count: function (total) {
+    if (!app.els.count) app.els.count = app.templates.find('#count');
+    app.els.count.find('#total').text(total);
+    app.els.count.appendTo(app.els.results);
+  },
+  result: function (address) {
+    if (!app.els.result) app.els.result = app.templates.find('#result');
+    // Clone and append to #results
+    var result = app.els.result.clone();
+    result.find('h3').text(address.standardizedAddress);
+    result.appendTo(app.els.results);
+  },
+  results: function (q) {
+    if (!app.els.results) app.els.results = app.templates.find('#results');
 
-app.views.search = function () {
-  var template = app.templates.find('#search');
-  app.container.append(template);
-};
+    app.els.results.appendTo(app.els.content);
+    app.els.results.text('Loading...');
 
-app.views.results = function (q) {
-  var template = app.templates.find('#results');
-
-  $.ajax('https://api.phila.gov/ulrs/v3/addresses/' + q + '?format=json')
-    .done(function (data) {
-      console.log(data);
-    })
-    .fail(function () {
-    });
-};
+    $.ajax('https://api.phila.gov/ulrs/v3/addresses/' + q + '?format=json')
+      .done(function (data) {
+        app.els.results.empty();
+        app.views.count(data.addresses.length);
+        data.addresses.forEach(app.views.result);
+      })
+      .fail(function () {
+      });
+  }
+}

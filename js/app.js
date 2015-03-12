@@ -4,4 +4,7 @@ var app = {};
 // Expose it for introspection
 window.app = app;
 
-app.container = $('#container');
+app.els = {
+  content: $('#content'),
+  search: $('#property-search')
+};

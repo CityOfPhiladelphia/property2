@@ -3,7 +3,8 @@ function render () {
   var params = $.deparam(window.location.search.substr(1));
 
   if (params.q) {
-    // Render results
+    app.els.content.children().detach();
+    app.views.search(params.q);
     app.views.results(params.q);
   }
 }
