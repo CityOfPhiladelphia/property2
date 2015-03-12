@@ -1,4 +1,4 @@
-function render () {
+app.render = function () {
   // Check route and display corresponding view
   var params = $.deparam(window.location.search.substr(1));
 
@@ -9,11 +9,7 @@ function render () {
   }
 }
 
-// Initialize
-$.ajax('templates.html').done(function (html) {
-  app.templates = $(html);
-  render();
-});
+app.render();
 
 // Handle traversing of history
-window.onpopstate = render;
+window.onpopstate = app.render;

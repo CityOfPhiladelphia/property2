@@ -8,3 +8,7 @@ app.els = {
   content: $('#content'),
   search: $('#property-search')
 };
+
+$('#templates').children().each(function (i, template) {
+  app.els[template.id] = $(template);
+});
