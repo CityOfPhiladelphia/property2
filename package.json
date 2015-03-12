@@ -3,33 +3,11 @@
   "version": "0.0.0",
   "description": "Property Search Application",
   "scripts": {
-    "browserify": "browserify -t uglifyify client/app.js -o public/bundle.js",
-    "test": "standard && tape test/*.js",
-    "jekyll": "bundle exec jekyll serve --baseurl /property2 --port $PORT",
-    "watchify": "watchify client/app.js -o public/bundle.js -dv"
+    "jekyll": "bundle exec jekyll serve --baseurl ''"
   },
   "repository": "https://github.com/CityOfPhiladelphia/property2.git",
   "license": "ISC",
   "devDependencies": {
-    "browserify": "^9.0.3",
-    "standard": "^2.10.0",
-    "tape": "^3.5.0",
-    "uglifyify": "^3.0.1",
-    "watchify": "^2.4.0"
-  },
-  "standard": {
-    "ignore": [
-      "_site/**",
-      "public/bundle.js"
-    ]
-  },
-  "dependencies": {
-    "ampersand-app": "^1.0.3",
-    "ampersand-collection": "^1.4.1",
-    "ampersand-collection-rest-mixin": "^3.0.1",
-    "ampersand-collection-underscore-mixin": "^1.0.3",
-    "cheerio": "^0.18.0",
-    "domready": "^1.0.7",
-    "underscore": "^1.8.2"
+    "cheerio": "^0.18.0"
   }
 }
