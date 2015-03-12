@@ -23,7 +23,8 @@ app.views = {
         app.views.count(data.addresses.length);
         data.addresses.forEach(app.views.result);
       })
-      .fail(function () {
+      .fail(function (jqXHR, status, err) {
+        app.els.results.text('Failed to retrieve results. Please try another search.');
       });
   }
 }
