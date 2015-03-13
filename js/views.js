@@ -10,7 +10,6 @@ app.views = {
     // Clone and append to #results
     var result = app.els.result.clone();
     console.log(address);
-    result.removeAttr('id');
     var key = address.standardizedAddress;
     result.find('a').attr('href', '?' + $.param({a: key})).text(key);
     result.appendTo(app.els.results);

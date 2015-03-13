@@ -10,5 +10,6 @@ app.els = {
 };
 
 $('#templates').children().each(function (i, template) {
-  app.els[template.id] = $(template);
+  var el = $(template);
+  app.els[el.data('hook')] = el;
 });
