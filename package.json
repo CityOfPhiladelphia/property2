@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "description": "Property Search Application",
   "scripts": {
-    "jekyll": "bundle exec jekyll serve --baseurl ''"
+    "jekyll": "bundle exec jekyll serve"
   },
   "repository": "https://github.com/CityOfPhiladelphia/property2.git",
   "license": "ISC",
