@@ -3,7 +3,11 @@ app.views = {
     app.els.titleLink.attr('href', window.location.pathname);
   },
   search: function (q) {
-    app.els.search.val(q);
+    if (q) app.els.search.val(q);
+    else {
+      app.els.search.val('');
+      app.els.search.attr('placeholder', '1234 Market, for example');
+    }
   },
   count: function (total) {
     app.els.count.find('#total').text(total);

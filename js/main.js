@@ -4,10 +4,10 @@ app.render = function () {
 
   // Check route and display corresponding view
   var params = $.deparam(window.location.search.substr(1));
+  app.views.search(params.q);
 
   if (params.q) {
     app.els.content.children().detach();
-    app.views.search(params.q);
     app.views.results(params.q);
   }
 }
