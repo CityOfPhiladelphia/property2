@@ -14,7 +14,7 @@
         <div class="row">
           <div class="small-24 medium-24 column">
             <a href="http://alpha.phila.gov"><img src="//cityofphiladelphia.github.io/patterns/images/city-of-philadelphia-logo.png" class="logo no-scale" alt="City of Philadelphia"></a>
-            <h1 class="page-title">Property Service</h1>
+            <h1 class="page-title"><a data-hook="title-link">Property Service</a></h1>
           </div>
         </div>
       </header>
@@ -38,13 +38,13 @@
           </div>
           <div class="medium-16 columns">
             <form class="search">
-              <input type="text" id="property-search" name="q" placeholder="1234 Market, for example">
+              <input type="text" data-hook="property-search" name="q" placeholder="1234 Market, for example">
               <input type="submit">
             </form>
           </div>
         </div>
       </div>
-      <div id="content" class="row"></div>
+      <div data-hook="content" class="row"></div>
     </div>
     <footer class="site-footer" role="contentinfo">
       <div class="row">

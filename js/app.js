@@ -5,8 +5,9 @@ var app = {};
 window.app = app;
 
 app.els = {
-  content: $('#content'),
-  search: $('#property-search')
+  content: $('[data-hook=content]'),
+  search: $('[data-hook=property-search]'),
+  titleLink: $('[data-hook=title-link]')
 };
 
 $('#templates').children().each(function (i, template) {

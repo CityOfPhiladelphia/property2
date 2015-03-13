@@ -1,4 +1,7 @@
 app.views = {
+  titleLink: function () {
+    app.els.titleLink.attr('href', window.location.pathname);
+  },
   search: function (q) {
     app.els.search.val(q);
   },

@@ -1,4 +1,7 @@
 app.render = function () {
+  // Fix app name in header to point at page without "search" portion of URL
+  app.views.titleLink()
+
   // Check route and display corresponding view
   var params = $.deparam(window.location.search.substr(1));
 
