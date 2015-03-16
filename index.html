@@ -14,7 +14,7 @@
         <div class="row">
           <div class="small-24 medium-24 column">
             <a href="http://alpha.phila.gov"><img src="//cityofphiladelphia.github.io/patterns/images/city-of-philadelphia-logo.png" class="logo no-scale" alt="City of Philadelphia"></a>
-            <h1 class="page-title">Property Service</h1>
+            <h1 class="page-title" data-hook="app-title">Property Service</h1>
           </div>
         </div>
       </header>
@@ -27,7 +27,7 @@
         <div id="breadcrumbs" class="large-24 columns">
           <ul class="inline-list">
             <li><a href="http://alpha.phila.gov">alpha.phila.gov</a></li>
-            <li>Property Service</li>
+            <li data-hook="app-crumb">Property Service</li>
           </ul>
         </div>
       </div>
@@ -38,13 +38,13 @@
           </div>
           <div class="medium-16 columns">
             <form class="search">
-              <input type="text" id="property-search" name="q" placeholder="1234 Market, for example">
+              <input type="text" data-hook="property-search" name="q">
               <input type="submit">
             </form>
           </div>
         </div>
       </div>
-      <div id="content" class="row"></div>
+      <div data-hook="content" class="row"></div>
     </div>
     <footer class="site-footer" role="contentinfo">
       <div class="row">
@@ -71,7 +71,8 @@
         </div>
       </div>
     </footer>
-    <div id="templates">
+    <div id="templates" style="display:none">
+      <li data-hook="crumb"></li>
       <div data-hook="count" class="medium-6 columns"><span id="total"></span> addresses returned</div>
       <article data-hook="result">
         <h1><a><!-- address link --></a></h1>
