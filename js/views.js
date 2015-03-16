@@ -1,6 +1,17 @@
 app.views = {
   titleLink: function () {
-    app.els.titleLink.attr('href', window.location.pathname);
+    app.els.appTitle.contents().wrap(app.els.appLink);
+  },
+  breadcrumbs: function (section) {
+    if (section) {
+      app.els.appCrumbText.detach();
+      app.els.appCrumbLink.appendTo(app.els.appCrumb);
+      app.els.crumb.text(section).appendTo(app.els.appCrumb.parent());
+    } else {
+      app.els.appCrumbLink.detach();
+      app.els.appCrumbText.appendTo(app.els.appCrumb);
+      app.els.crumb.detach();
+    }
   },
   search: function (q) {
     if (q) app.els.search.val(q);
