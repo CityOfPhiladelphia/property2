@@ -1,17 +1,20 @@
-// Populate useful elements
+// Set up pointers to useful elements
 
 app.els = {
-  content: $('[data-hook=content]'),
-  search: $('[data-hook=search]'),
-  appTitle: $('[data-hook=app-title]'),
-  appCrumb: $('[data-hook=app-crumb]'),
   appLink: $('<a>').attr('href', window.location.pathname)
 };
+
+$('[data-hook]').each(function (i, el) {
+  var $el = $(el);
+  // Convert hyphen-names to camelCase in hooks
+  var hook = $el.data('hook').replace(/-([a-z])/g, function (m) {
+    return m[1].toUpperCase();
+  });
+  app.els[hook] = $el;
+});
 
 app.els.appCrumbText = app.els.appCrumb.contents();
 app.els.appCrumbLink = app.els.appLink.clone().text(app.els.appCrumb.text());
 
-$('#templates').children().each(function (i, template) {
-  var el = $(template);
-  app.els[el.data('hook')] = el;
-});
+// We have our pointers so we can take the templates container out of the DOM
+$('#templates').detach();
