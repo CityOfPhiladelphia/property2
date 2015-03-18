@@ -33,11 +33,17 @@ app.views = {
     result.appendTo(app.els.results);
   },
   results: function (data) {
+    if (history.replaceState && !history.state) history.replaceState(data);
     if (data.error) return app.els.content.text(data.error);
     app.els.content.empty();
     app.views.count(data.addresses.length);
     app.els.results.empty();
     data.addresses.forEach(app.views.result);
     app.els.results.appendTo(app.els.content);
+  },
+  address: function (data) {
+    if (history.replaceState && !history.state) history.replaceState(data);
+    app.els.content.empty();
+    app.els.content.append(app.els.address);
   }
 }

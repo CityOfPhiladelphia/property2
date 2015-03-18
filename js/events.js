@@ -6,5 +6,5 @@ app.els.search.parent().on('submit', function (e) {
   var q = e.target.elements.q;
   q.blur();
   history.pushState(null, q.value, '?' + $.param({q: q.value}));
-  app.render();
+  app.render(e);
 });
