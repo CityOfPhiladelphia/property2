@@ -1,0 +1,9 @@
+.columns {
+  transition: width 1s;
+}
+.search-head {
+  height: 120px;
+}
+.search-head .small-text {
+  margin-top: -20px;
+}

@@ -1,3 +1,5 @@
+/* global $,app */
+
 // Fix app name in header to point at page without "search" portion of URL
 app.views.titleLink()
 
@@ -12,21 +14,18 @@ function opaAddress (address) {
 app.render = function (e) {
   // Check route and display corresponding view
   var params = $.deparam(window.location.search.substr(1));
-  app.views.search(params.q);
 
   // Event passed in if called via onpopstate or event handler
   if (e) {
-    // Set existing content children aside for later
-    app.els.content.children().detach();
   }
 
   if (params.q) {
-    app.views.breadcrumbs('Search Results')
+    app.views.resultsPreFetch(params.q);
 
     // If we already have state no need to hit API
     if (history.state) app.views.results(history.state);
     else {
-      app.els.content.text('Loading...');
+      app.views.loading();
       $.ajax('https://api.phila.gov/ulrs/v3/addresses/' + encodeURIComponent(params.q) + '?format=json')
         .done(function (data) {
           app.views.results(data);
@@ -37,9 +36,11 @@ app.render = function (e) {
         });
     }
   } else if (params.a) {
-    app.views.breadcrumbs('Address')
-    if (history.state) app.views.address(history.state);
-    else {
+    app.views.addressPreFetch(params.a);
+    if (history.state) {
+      app.views.address(history.state);
+    } else {
+      app.views.loading();
       var addressData = {};
       var pending = 3;
       // Get CityMaps data
@@ -67,7 +68,9 @@ app.render = function (e) {
           --pending || app.views.address(addressData);
         });
       // Get L&I data
-      $.ajax('https://api.phila.gov/ulrs/v3/addresses/' + encodeURIComponent(params.a) + '/topics?format=json')
+      // Tim also pointed at http://api.phila.gov/ULRS311/Data/LIAddressKey/340%20n%2012th%20st
+      var topicsUrl = 'https://api.phila.gov/ulrs/v3/addresses/' + encodeURIComponent(params.a) + '/topics?format=json';
+      $.ajax(topicsUrl)
         .done(function (data) {
           var addressKey;
           data.topics.some(function (topic) {
@@ -81,8 +84,8 @@ app.render = function (e) {
             }
           });
           if (!addressKey) {
-            addressData.li = {error: 'No L&I key found in ULRS topics.'};
-            --pending || app.views.address(addressData);
+            addressData.li = {error: 'No L&I key found at ' + topicsUrl + '.'};
+            return --pending || app.views.address(addressData);
           }
           $.ajax('https://services.phila.gov/PhillyApi/Data/v1.0/locations(' + addressKey + ')?$format=json')
             .done(function (data) {
@@ -100,9 +103,11 @@ app.render = function (e) {
         });
     }
   } else {
-    app.views.breadcrumbs()
+    app.views.breadcrumbs();
+    app.views.search(null, 'Enter address, account number, intersection, or city block');
+    app.views.front();
   }
-}
+};
 
 app.render();
 
