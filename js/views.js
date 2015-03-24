@@ -63,7 +63,7 @@ app.views = {
   },
   addressPreFetch: function (address) {
     app.views.breadcrumbs('Address');
-    app.els.addressTitle.find('h1').html('&nbsp;');
+    app.els.addressTitle.find('h1').html(address);
     app.els.addressTitle.find('.small-text').empty();
     app.els.search.val('');
     app.els.search.attr('placeholder', 'Search for another property');
