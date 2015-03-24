@@ -26,7 +26,7 @@ app.render = function (e) {
     if (history.state) app.views.results(history.state);
     else {
       app.views.loading();
-      $.ajax('https://api.phila.gov/ulrs/v3/addresses/' + encodeURIComponent(params.q) + '?format=json')
+      $.ajax('http://api.phila.gov/opa/v1.1/address/' + encodeURIComponent(opaAddress(params.q)) + '?format=json')
         .done(function (data) {
           app.views.results(data);
         })
@@ -35,8 +35,8 @@ app.render = function (e) {
           app.views.results(data);
         });
     }
-  } else if (params.a) {
-    app.views.addressPreFetch(params.a);
+  } else if (params.p) {
+    app.views.addressPreFetch(params.p);
     if (history.state) {
       app.views.address(history.state);
     } else {
@@ -44,7 +44,7 @@ app.render = function (e) {
       var addressData = {};
       var pending = 3;
       // Get CityMaps data
-      $.ajax('https://api.phila.gov/ulrs/v3/addresses/' + encodeURIComponent(params.a) + '/service-areas?format=json')
+      $.ajax('https://api.phila.gov/ulrs/v3/addresses/' + encodeURIComponent(params.p) + '/service-areas?format=json')
         .done(function (data) {
           addressData.sa = data.serviceAreaValues;
           --pending || app.views.address(addressData);
@@ -54,7 +54,7 @@ app.render = function (e) {
           --pending || app.views.address(addressData);
         });
       // Get OPA data
-      $.ajax('http://api.phila.gov/opa/v1.1/address/' + encodeURIComponent(opaAddress(params.a)) + '?format=json')
+      $.ajax('http://api.phila.gov/opa/v1.1/address/' + encodeURIComponent(opaAddress(params.p)) + '?format=json')
         .done(function (data) {
           if (data.data && data.data.properties && data.data.properties.length) {
             addressData.opa = data.data.properties[0];
@@ -69,7 +69,7 @@ app.render = function (e) {
         });
       // Get L&I data
       // Tim also pointed at http://api.phila.gov/ULRS311/Data/LIAddressKey/340%20n%2012th%20st
-      var topicsUrl = 'https://api.phila.gov/ulrs/v3/addresses/' + encodeURIComponent(params.a) + '/topics?format=json';
+      var topicsUrl = 'https://api.phila.gov/ulrs/v3/addresses/' + encodeURIComponent(params.p) + '/topics?format=json';
       $.ajax(topicsUrl)
         .done(function (data) {
           var addressKey;

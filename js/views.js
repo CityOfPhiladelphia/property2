@@ -37,12 +37,15 @@ app.views = {
     app.els.content.children().detach();
     app.els.content.append(app.els.front);
   },
-  result: function (address) {
+  result: function (property) {
     // Clone and append to #results
     var result = app.els.result.clone();
-    //console.log(address);
-    var key = address.standardizedAddress;
-    result.find('a').attr('href', '?' + $.param({a: key})).text(key);
+    var key = property.property_id;
+    var unit = property.unit || '';
+    unit = unit.replace(/^0+/, '');
+    if (unit) unit = ' #' + unit;
+    result.find('a').attr('href', '?' + $.param({p: key}))
+      .text(property.full_address + unit);
     result.appendTo(app.els.results);
   },
   resultsPreFetch: function (q) {
@@ -56,9 +59,9 @@ app.views = {
     if (history.replaceState && !history.state) history.replaceState(data);
     if (data.error) return app.els.content.text(data.error);
     app.els.content.empty();
-    app.views.count(data.addresses.length);
+    app.views.count(data.total);
     app.els.results.empty();
-    data.addresses.forEach(app.views.result);
+    data.data.properties.forEach(app.views.result);
     app.els.results.appendTo(app.els.content);
   },
   addressPreFetch: function (address) {
