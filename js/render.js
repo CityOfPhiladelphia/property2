@@ -1,7 +1,7 @@
 /* global $,app */
 
 // Fix app name in header to point at page without "search" portion of URL
-app.views.titleLink()
+app.views.titleLink();
 
 // OPA address needs to either separate unit by slash or end in slash
 function opaAddress (address) {
