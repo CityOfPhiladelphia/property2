@@ -64,23 +64,23 @@ app.views = {
     data.data.properties.forEach(app.views.result);
     app.els.results.appendTo(app.els.content);
   },
-  addressPreFetch: function (address) {
+  propertyPreFetch: function (property) {
     app.views.breadcrumbs('Address');
-    app.els.addressTitle.find('h1').html(address);
-    app.els.addressTitle.find('.small-text').empty();
+    app.els.propertyTitle.find('h1').html(property);
+    app.els.propertyTitle.find('.small-text').empty();
     app.els.search.val('');
     app.els.search.attr('placeholder', 'Search for another property');
     app.els.searchLeft.removeClass('medium-4').addClass('medium-14')
       .on('transitionend', function (e) {
-        $(e.target).empty().append(app.els.addressTitle);
+        $(e.target).empty().append(app.els.propertyTitle);
       });
     app.els.searchBox.removeClass('medium-16').addClass('medium-10');
   },
-  address: function (data) {
+  property: function (data) {
     if (history.replaceState && !history.state) history.replaceState(data);
-    app.els.addressTitle.find('h1').text(data.opa.full_address);
-    app.els.addressTitle.find('.small-text').text('#' + data.opa.account_number);
+    app.els.propertyTitle.find('h1').text(data.opa.full_address);
+    app.els.propertyTitle.find('.small-text').text('#' + data.opa.account_number);
     app.els.content.empty();
-    app.els.content.append(app.els.address);
+    app.els.content.append(app.els.property);
   }
 };
