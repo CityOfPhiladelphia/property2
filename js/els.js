@@ -1,3 +1,4 @@
+/* global $,app */
 // Set up pointers to useful elements
 
 app.els = {
