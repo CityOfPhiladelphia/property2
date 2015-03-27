@@ -14,8 +14,22 @@ $('[data-hook]').each(function (i, el) {
   app.els[hook] = $el;
 });
 
+// We have our pointers so we can take the templates container out of the DOM
+$('#templates').detach();
+
 app.els.appCrumbText = app.els.appCrumb.contents();
 app.els.appCrumbLink = app.els.appLink.clone().text(app.els.appCrumb.text());
 
-// We have our pointers so we can take the templates container out of the DOM
-$('#templates').detach();
+// Attach listeners
+app.els.appLink.on('click', pushClick);
+app.els.appCrumbLink.on('click', pushClick);
+
+function pushClick (e) {
+  if (e.ctrlKey || e.altKey || e.shiftKey) return;
+  if (!history.pushState) return;
+  var a = $(e.target);
+  var href = a.attr('href');
+  e.preventDefault();
+  history.pushState(null, a.text(), href);
+  app.render(e);
+}
