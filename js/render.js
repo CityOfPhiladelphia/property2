@@ -36,72 +36,73 @@ app.render = function (e) {
         });
     }
   } else if (params.p) {
-    app.views.propertyPreFetch(params.p);
-    if (history.state) {
-      app.views.property(history.state);
-    } else {
-      app.views.loading();
-      var propertyData = {};
-      var pending = 3;
-      // Get CityMaps data
-      $.ajax('https://api.phila.gov/ulrs/v3/addresses/' + encodeURIComponent(params.p) + '/service-areas?format=json')
-        .done(function (data) {
-          propertyData.sa = data.serviceAreaValues;
-          --pending || app.views.property(propertyData);
-        })
-        .fail(function () {
-          propertyData.sa = {error: 'Failed to retrieve data for service areas.'};
-          --pending || app.views.property(propertyData);
-        });
-      // Get OPA data
-      $.ajax('http://api.phila.gov/opa/v1.1/address/' + encodeURIComponent(opaAddress(params.p)) + '?format=json')
-        .done(function (data) {
-          if (data.data && data.data.properties && data.data.properties.length) {
-            propertyData.opa = data.data.properties[0];
-          } else {
-            propertyData.opa = {error: 'No properties returned in OPA data.'};
-          }
-          --pending || app.views.property(propertyData);
-        })
-        .fail(function () {
-          propertyData.opa = {error: 'Failed to retrieve OPA address data.'};
-          --pending || app.views.property(propertyData);
-        });
-      // Get L&I data
-      // Tim also pointed at http://api.phila.gov/ULRS311/Data/LIAddressKey/340%20n%2012th%20st
-      var topicsUrl = 'https://api.phila.gov/ulrs/v3/addresses/' + encodeURIComponent(params.p) + '/topics?format=json';
-      $.ajax(topicsUrl)
-        .done(function (data) {
-          var addressKey;
-          data.topics.some(function (topic) {
-            if (topic.topicName === 'AddressKeys') {
-              return topic.keys.some(function (key) {
-                if (key.topicId) {
-                  addressKey = key.topicId;
-                  return true;
-                }
-              });
-            }
-          });
-          if (!addressKey) {
-            propertyData.li = {error: 'No L&I key found at ' + topicsUrl + '.'};
-            return --pending || app.views.address(propertyData);
-          }
-          $.ajax('https://services.phila.gov/PhillyApi/Data/v1.0/locations(' + addressKey + ')?$format=json')
-            .done(function (data) {
-              propertyData.li = data.d;
-              --pending || app.views.property(propertyData);
-            })
-            .fail(function () {
-              propertyData.li = {error: 'Failed to retrieve L&I address data.'};
-              --pending || app.views.property(propertyData);
-            });
-        })
-        .fail(function () {
-          propertyData.li = {error: 'Failed to retrieve address topics.'};
-          --pending || app.views.property(propertyData);
-        });
-    }
+    app.views.property(params.p);
+    // app.views.propertyPreFetch(params.p);
+    // if (history.state) {
+    //   app.views.property(history.state);
+    // } else {
+    //   app.views.loading();
+    //   var propertyData = {};
+    //   // Get OPA data
+    //   $.ajax('http://api.phila.gov/opa/v1.1/address/' + encodeURIComponent(opaAddress(params.p)) + '?format=json')
+    //     .done(function (data) {
+    //       if (data.data && data.data.properties && data.data.properties.length) {
+    //         propertyData.opa = data.data.properties[0];
+    //       } else {
+    //         propertyData.opa = {error: 'No properties returned in OPA data.'};
+    //       }
+    //       --pending || app.views.property(propertyData);
+    //     })
+    //     .fail(function () {
+    //       propertyData.opa = {error: 'Failed to retrieve OPA address data.'};
+    //       --pending || app.views.property(propertyData);
+    //     });
+    //   var pending = 3;
+    //   // Get CityMaps data
+    //   $.ajax('https://api.phila.gov/ulrs/v3/addresses/' + encodeURIComponent(params.p) + '/service-areas?format=json')
+    //     .done(function (data) {
+    //       propertyData.sa = data.serviceAreaValues;
+    //       --pending || app.views.property(propertyData);
+    //     })
+    //     .fail(function () {
+    //       propertyData.sa = {error: 'Failed to retrieve data for service areas.'};
+    //       --pending || app.views.property(propertyData);
+    //     });
+    //   // Get L&I data
+    //   // Tim also pointed at http://api.phila.gov/ULRS311/Data/LIAddressKey/340%20n%2012th%20st
+    //   var topicsUrl = 'https://api.phila.gov/ulrs/v3/addresses/' + encodeURIComponent(params.p) + '/topics?format=json';
+    //   $.ajax(topicsUrl)
+    //     .done(function (data) {
+    //       var addressKey;
+    //       data.topics.some(function (topic) {
+    //         if (topic.topicName === 'AddressKeys') {
+    //           return topic.keys.some(function (key) {
+    //             if (key.topicId) {
+    //               addressKey = key.topicId;
+    //               return true;
+    //             }
+    //           });
+    //         }
+    //       });
+    //       if (!addressKey) {
+    //         propertyData.li = {error: 'No L&I key found at ' + topicsUrl + '.'};
+    //         return --pending || app.views.address(propertyData);
+    //       }
+    //       $.ajax('https://services.phila.gov/PhillyApi/Data/v1.0/locations(' + addressKey + ')?$format=json')
+    //         .done(function (data) {
+    //           propertyData.li = data.d;
+    //           --pending || app.views.property(propertyData);
+    //         })
+    //         .fail(function () {
+    //           propertyData.li = {error: 'Failed to retrieve L&I address data.'};
+    //           --pending || app.views.property(propertyData);
+    //         });
+    //     })
+    //     .fail(function () {
+    //       propertyData.li = {error: 'Failed to retrieve address topics.'};
+    //       --pending || app.views.property(propertyData);
+    //     });
+    // }
   } else {
     app.views.breadcrumbs();
     app.views.search(null, 'Enter address, account number, intersection, or city block');
