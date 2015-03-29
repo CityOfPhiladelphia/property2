@@ -21,15 +21,17 @@ app.els.appCrumbText = app.els.appCrumb.contents();
 app.els.appCrumbLink = app.els.appLink.clone().text(app.els.appCrumb.text());
 
 // Attach listeners
-app.els.appLink.on('click', pushClick);
-app.els.appCrumbLink.on('click', pushClick);
+app.els.appLink.on('click', homeClick);
+app.els.appCrumbLink.on('click', homeClick);
 
-function pushClick (e) {
+function homeClick (e) {
   if (e.ctrlKey || e.altKey || e.shiftKey) return;
   if (!history.pushState) return;
   var a = $(e.target);
   var href = a.attr('href');
   e.preventDefault();
+  window.scroll(0, 0);
+  if (!window.location.search) return; // already home
   history.pushState(null, a.text(), href);
   app.render(e);
 }
