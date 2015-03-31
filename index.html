@@ -29,9 +29,9 @@
       </div>
       <div class="row">
         <div id="breadcrumbs" class="large-24 columns">
-          <ul class="inline-list">
+          <ul data-hook="crumbs" class="inline-list">
             <li><a href="http://alpha.phila.gov">alpha.phila.gov</a></li>
-            <li data-hook="app-crumb">Property</li>
+            <li>Property</li>
           </ul>
         </div>
       </div>
@@ -75,13 +75,14 @@
       </div>
     </footer>
     <div id="templates" style="display:none">
-      <li data-hook="crumb"></li>
+      <li data-hook="resultsCrumb">Results for <b></b></li>
+      <li data-hook="propertyCrumb"></li>
+      <div data-hook="results" class="medium-18 columns search-results-list"></div>
       <div data-hook="count" class="medium-6 columns"><span id="total"></span> properties returned</div>
       <article data-hook="result">
         <h1><a><!-- property link --></a></h1>
         <p><!-- more info can go here --></p>
       </article>
-      <div data-hook="results" class="medium-18 columns search-results-list"></div>
       <div data-hook="property"><h2></h2></div>
       <div data-hook="front" class="medium-24 columns">
         <p class="intro">Welcome to the property app.</p>
