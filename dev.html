@@ -11,7 +11,7 @@
 
     <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="//code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
-    <link rel="stylesheet" href="//cityofphiladelphia.github.io/patterns/dist/0.4.0/css/patterns.css">
+    <link rel="stylesheet" href="//cityofphiladelphia.github.io/patterns/dist/0.5.0/css/patterns.css">
     <link rel="stylesheet" href="style.css">
     <script src="//cdnjs.cloudflare.com/ajax/libs/modernizr/2.8.3/modernizr.js"></script>
   </head>
@@ -54,7 +54,7 @@
     </div>
 
     <footer class="site-footer" role="contentinfo">
-      <div class="row">
+      <div class="row classic">
         <div class="large-6 columns">
           <a href="http://alpha.phila.gov">City of Philadelphia</a>
         </div>
@@ -110,30 +110,30 @@
             <div data-hook="street-view" class="columns">[street view]</div>
           </div>
           <div class="row">
-            <div class="columns">
-              <h4>Improvement Description</h4>
+            <div class="small-24 columns">
+              <h4 class="alternate">Improvement Description</h4>
               <div data-hook="improvement-description"></div>
             </div>
           </div>
           <div class="row">
             <div class="medium-12 columns">
-              <h4>Land Area (SqFt)</h4>
+              <h4 class="alternate">Land Area (SqFt)</h4>
               <div data-hook="land-area"></div>
             </div>
             <div class="medium-12 columns">
-              <h4>Improvement Area (SqFt)</h4>
+              <h4 class="alternate">Improvement Area (SqFt)</h4>
               <div data-hook="improvement-area"></div>
             </div>
           </div>
           <div class="row">
-            <div class="columns">
-              <h4>Zoning</h4>
+            <div class="small-24 columns">
+              <h4 class="alternate">Zoning</h4>
               <div data-hook="zoning"></div>
             </div>
           </div>
           <div class="row">
-            <div class="columns">
-              <h4>Trash &amp; Recycling</h4>
+            <div class="small-24 columns">
+              <h4 class="alternate">Trash &amp; Recycling</h4>
               <div data-hook="rubbish-day"></div>
             </div>
           </div>
@@ -144,32 +144,28 @@
       <div data-hook="property-main" class="medium-14 medium-pull-10 columns">
         <div class="row"> <!-- Begin owners -->
           <div class="columns">
-            <div class="row">
-              <div class="columns">
-                <h2>Owner(s)</h2>
-              </div>
-            </div>
-            <div class="row">
-              <div data-hook="property-owners" class="owner-name medium-14 columns"></div>
-              <div class="medium-10 columns">
-                <h4 data-hook="property-mailing-header">Mailing Address</h4>
-                <div data-hook="property-mailing"></div>
-              </div>
-            </div>
+            <h2 class="alternate divide">Owner(s)</h2>
           </div>
+        </div>
+        <div class="row">
+          <div class="owner-name medium-14 columns"><h2 data-hook="property-owners" class="xtra-lg"></h2></div>
+            <div class="medium-10 columns">
+              <h4 data-hook="property-mailing-header" class="alternate">Mailing Address</h4>
+              <div data-hook="property-mailing" class="bold"></div>
+        </div>
         </div> <!-- End owners -->
         <div class="row"> <!-- Begin taxes -->
           <div class="columns">
             <div class="row">
               <div class="columns">
-                <h2>Real Estate Taxes</h2>
+                <h2 class="alternate divide">Real Estate Taxes</h2>
               </div>
             </div>
             <div class="row">
               <div class="medium-12 columns">Real Estate Tax account balances have not been incorporated into this application.</div>
               <div class="medium-12 columns">
-                <button>Current Tax Balance</button>
-                <div>On Department of Revenue website</div>
+                <a class="button no-margin">Current Tax Balance</a>
+                <div class="small-text">On Department of Revenue website</div>
               </div>
             </div>
           </div>
@@ -178,7 +174,7 @@
           <div class="columns">
             <div class="row">
               <div class="columns">
-                <h2>Valuation History</h2>
+                <h2 class="alternate divide">Valuation History</h2>
               </div>
             </div>
             <div class="row">
@@ -205,50 +201,56 @@
           <div class="columns">
             <div class="row">
               <div class="columns">
-                <h2>Service Area</h2>
+                <h2 class="alternate divide">Service Area</h2>
               </div>
             </div>
             <div class="row">
               <div class="medium-12 columns">
-                <h3>School Catchment</h3>
-                <h4>Elementary School</h4>
-                <div data-hook="elementary-school"></div>
-                <h4>Middle School</h4>
-                <div data-hook="middle-school"></div>
-                <h4>High School</h4>
-                <div data-hook="high-school"></div>
+                <div class="panel">
+                  <h3>School Catchment</h3>
+                  <h4 class="alternate">Elementary School</h4>
+                  <div data-hook="elementary-school"></div>
+                  <h4 class="alternate">Middle School</h4>
+                  <div data-hook="middle-school"></div>
+                  <h4 class="alternate">High School</h4>
+                  <div data-hook="high-school"></div>
+                </div>
               </div>
               <div class="medium-12 columns">
-                <h3>Political</h3>
-                <h4>2016 Councilmanic District</h4>
-                <div data-hook="council-district"></div>
-                <h4>Ward</h4>
-                <div data-hook="ward"></div>
-                <h4>Ward Divisions</h4>
-                <div data-hook="ward-divisions"></div>
+                <div class="panel">
+                  <h3>Political</h3>
+                  <h4 class="alternate">2016 Councilmanic District</h4>
+                  <div data-hook="council-district"></div>
+                  <h4 class="alternate">Ward</h4>
+                  <div data-hook="ward"></div>
+                  <h4 class="alternate">Ward Divisions</h4>
+                  <div data-hook="ward-divisions"></div>
+                </div>
               </div>
             </div>
             <div class="row">
               <div class="columns">
-                <div class="row">
-                  <div class="columns">
-                    <h3>Public Safety</h3>
+                <div class="panel">
+                  <div class="row">
+                    <div class="columns">
+                      <h3>Public Safety</h3>
+                    </div>
                   </div>
-                </div>
-                <div class="row">
-                  <div class="medium-12 columns">
-                    <h4>Police Public Service Area</h4>
-                    <div data-hook="police-psa"></div>
-                    <h4>Police District</h4>
-                    <div data-hook="police-district"></div>
-                    <h4>Police Sector</h4>
-                    <div data-hook="police-sector"></div>
-                  </div>
-                  <div class="medium-12 columns">
-                    <h4>Police Division</h4>
-                    <div data-hook="police-division"></div>
-                    <h4>Fire District</h4>
-                    <div data-hook="fire-district"></div>
+                  <div class="row">
+                    <div class="medium-12 columns">
+                      <h4 class="alternate">Police Public Service Area</h4>
+                      <div data-hook="police-psa"></div>
+                      <h4 class="alternate">Police District</h4>
+                      <div data-hook="police-district"></div>
+                      <h4 class="alternate">Police Sector</h4>
+                      <div data-hook="police-sector"></div>
+                    </div>
+                    <div class="medium-12 columns">
+                      <h4 class="alternate">Police Division</h4>
+                      <div data-hook="police-division"></div>
+                      <h4 class="alternate">Fire District</h4>
+                      <div data-hook="fire-district"></div>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -261,7 +263,7 @@
 
     <script src="//code.jquery.com/jquery-2.1.3.min.js"></script>
     <script src="//cdnjs.cloudflare.com/ajax/libs/foundation/5.5.1/js/foundation.min.js"></script>
-    <script src="//cityofphiladelphia.github.io/patterns/dist/0.4.0/js/patterns.min.js"></script>
+    <script src="//cityofphiladelphia.github.io/patterns/dist/0.5.0/js/patterns.min.js"></script>
     <script src="//cdnjs.cloudflare.com/ajax/libs/fastclick/1.0.6/fastclick.min.js"></script>
     <script src="js/deparam.js"></script>
     <script src="js/app.js"></script>
