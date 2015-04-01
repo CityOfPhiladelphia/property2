@@ -93,9 +93,18 @@ app.views.property = function (p) {
       app.els.propertyOwners.append($('<div>').text(owner));
     });
 
+    // Render improvement stuff
+    app.els.improvementDescription.text(state.opa.characteristics.description);
+    app.els.landArea.text(state.opa.characteristics.land_area);
+    app.els.improvementArea.text(state.opa.characteristics.improvement_area);
+    app.els.zoning.text(state.opa.characteristics.zoning_description);
+
     // Empty mailing address in prep for details
     app.els.propertyMailingHeader.detach();
     app.els.propertyMailing.empty();
+
+    // Empty valuation history
+    app.els.valuation.empty();
 
     app.els.content.append(app.els.propertySide);
     app.els.content.append(app.els.propertyMain);
@@ -109,12 +118,22 @@ app.views.property = function (p) {
     // Render mailing address
     var pm = app.els.propertyMailing;
     var ma = state.opa.ownership.mailing_address;
-    if (ma) {
-      app.els.propertyMailingHeader.insertBefore(pm);
-      pm.append($('<div>').text(ma.street));
-      pm.append($('<div>').text(ma.city + ', ' + ma.state));
-      pm.append($('<div>').text(ma.zip));
-    }
+    app.els.propertyMailingHeader.insertBefore(pm);
+    pm.append($('<div>').text(ma.street));
+    pm.append($('<div>').text(ma.city + ', ' + ma.state));
+    pm.append($('<div>').text(ma.zip));
+
+    // Render valuation history
+    state.opa.valuation_history.forEach(function (vh) {
+      var row = $('<tr>');
+      row.append($('<td>').text(vh.certification_year));
+      row.append($('<td>').text(vh.market_value));
+      row.append($('<td>').text(vh.improvement_taxable));
+      row.append($('<td>').text(vh.land_taxable));
+      row.append($('<td>').text(vh.total_exempt));
+      row.append($('<td>').text(vh.taxes));
+      app.els.valuation.append(row);
+    });
 
     opaDetailsRendered = true;
   }
@@ -129,6 +148,13 @@ app.views.property = function (p) {
     if (!opaRendered || !state.sa) return;
 
     // TODO Render service areas
+    state.sa.forEach(function (sa) {
+      if (sa.serviceAreaId === 'SA_STREETS_Rubbish_Recyc') {
+        app.els.rubbishDay.text(sa.value);
+      } else if (sa.serviceAreaId === 'SA_SCHOOLS_Elementary_School_Catchment') {
+        app.els.elementarySchool.text(sa.value);
+      }
+    });
   }
 
   function renderError () {
