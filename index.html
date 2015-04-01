@@ -139,175 +139,171 @@
           </div>
         </div>
         <div class="row">
-          <div class="owner-name medium-14 columns"><h2 data-hook="property-owners" class="xtra-lg"></h2></div>
-            <div class="medium-10 columns">
-              <h4 data-hook="property-mailing-header" class="alternate">Mailing Address</h4>
-              <div data-hook="property-mailing" class="bold"></div>
-        </div>
+          <div class="owner-name medium-14 columns">
+            <h2 data-hook="property-owners" class="xtra-lg"></h2>
+          </div>
+          <div class="medium-10 columns">
+            <h4 data-hook="property-mailing-header" class="alternate">Mailing Address</h4>
+            <div data-hook="property-mailing" class="bold"></div>
+          </div>
         </div> <!-- End owners -->
         <div class="row"> <!-- Begin taxes -->
           <div class="columns">
-            <div class="row">
-              <div class="columns">
-                <h2 class="alternate divide">Real Estate Taxes</h2>
-              </div>
-            </div>
-            <div class="row">
-              <div class="medium-12 columns"><p class="no-margin">Real Estate Tax account balances have not been incorporated into this application.</p></div>
-              <div class="medium-12 columns align-right">
-                <a class="button no-margin">Current Tax Balance</a>
-                <div class="small-text">On Department of Revenue website</div>
-              </div>
-            </div>
+            <h2 class="alternate divide">Real Estate Taxes</h2>
+          </div>
+        </div>
+        <div class="row">
+          <div class="medium-12 columns"><p class="no-margin">Real Estate Tax account balances have not been incorporated into this application.</p></div>
+          <div class="medium-12 columns align-right">
+            <a class="button no-margin">Current Tax Balance</a>
+            <div class="small-text">On Department of Revenue website</div>
           </div>
         </div> <!-- End taxes -->
         <div class="row"> <!-- Begin valuation -->
           <div class="columns">
-            <div class="row">
-              <div class="columns">
-                <h2 class="alternate divide">Valuation History</h2>
-              </div>
-            </div>
-            <div class="row">
-              <div class="columns">
-                <table role="grid" summary="Valuation History">
-                  <thead>
-                    <tr>
-                      <th>Year</th>
-                      <th>Market Value</th>
-                      <th>Improvement</th>
-                      <th>Land Value</th>
-                      <th>Exemption</th>
-                      <th>Total</th>
-                    </tr>
-                  </thead>
-                  <tbody data-hook="valuation">
-                  </tbody>
-                </table>
-              </div>
-            </div>
+            <h2 class="alternate divide">Valuation History</h2>
+          </div>
+        </div>
+        <div class="row">
+          <div class="columns">
+            <table role="grid" summary="Valuation History">
+              <thead>
+                <tr>
+                  <th>Year</th>
+                  <th>Market Value</th>
+                  <th>Improvement</th>
+                  <th>Land Value</th>
+                  <th>Exemption</th>
+                  <th>Total</th>
+                </tr>
+              </thead>
+              <tbody data-hook="valuation">
+              </tbody>
+            </table>
           </div>
         </div> <!-- End valuation -->
         <div class="row"> <!-- Begin service area -->
           <div class="columns">
-            <div class="row">
-              <div class="columns">
-                <h2 class="alternate divide">Service Area</h2>
-              </div>
+            <h2 class="alternate divide">Service Area</h2>
+          </div>
+        </div>
+        <div class="row">
+          <div class="medium-12 columns">
+            <div class="panel">
+              <h3>School Catchment</h3>
+              <h4 class="alternate">Elementary School</h4>
+              <div data-hook="elementary-school"></div>
+              <h4 class="alternate">Middle School</h4>
+              <div data-hook="middle-school"></div>
+              <h4 class="alternate">High School</h4>
+              <div data-hook="high-school"></div>
             </div>
-            <div class="row">
-              <div class="medium-12 columns">
-                <div class="panel">
-                  <h3>School Catchment</h3>
-                  <h4 class="alternate">Elementary School</h4>
-                  <div data-hook="elementary-school"></div>
-                  <h4 class="alternate">Middle School</h4>
-                  <div data-hook="middle-school"></div>
-                  <h4 class="alternate">High School</h4>
-                  <div data-hook="high-school"></div>
+          </div>
+          <div class="medium-12 columns">
+            <div class="panel">
+              <h3>Political</h3>
+              <h4 class="alternate">2016 Councilmanic District</h4>
+              <div data-hook="council-district"></div>
+              <h4 class="alternate">Ward</h4>
+              <div data-hook="ward"></div>
+              <h4 class="alternate">Ward Divisions</h4>
+              <div data-hook="ward-divisions"></div>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="columns">
+            <div class="panel">
+              <div class="row">
+                <div class="columns">
+                  <h3>Public Safety</h3>
                 </div>
               </div>
-              <div class="medium-12 columns">
-                <div class="panel">
-                  <h3>Political</h3>
-                  <h4 class="alternate">2016 Councilmanic District</h4>
-                  <div data-hook="council-district"></div>
-                  <h4 class="alternate">Ward</h4>
-                  <div data-hook="ward"></div>
-                  <h4 class="alternate">Ward Divisions</h4>
-                  <div data-hook="ward-divisions"></div>
+              <div class="row">
+                <div class="medium-12 columns">
+                  <h4 class="alternate">Police Public Service Area</h4>
+                  <div data-hook="police-psa"></div>
+                  <h4 class="alternate">Police District</h4>
+                  <div data-hook="police-district"></div>
+                  <h4 class="alternate">Police Sector</h4>
+                  <div data-hook="police-sector"></div>
                 </div>
-              </div>
-            </div>
-            <div class="row">
-              <div class="columns">
-                <div class="panel">
-                  <div class="row">
-                    <div class="columns">
-                      <h3>Public Safety</h3>
-                    </div>
-                  </div>
-                  <div class="row">
-                    <div class="medium-12 columns">
-                      <h4 class="alternate">Police Public Service Area</h4>
-                      <div data-hook="police-psa"></div>
-                      <h4 class="alternate">Police District</h4>
-                      <div data-hook="police-district"></div>
-                      <h4 class="alternate">Police Sector</h4>
-                      <div data-hook="police-sector"></div>
-                    </div>
-                    <div class="medium-12 columns">
-                      <h4 class="alternate">Police Division</h4>
-                      <div data-hook="police-division"></div>
-                      <h4 class="alternate">Fire District</h4>
-                      <div data-hook="fire-district"></div>
-                    </div>
-                  </div>
+                <div class="medium-12 columns">
+                  <h4 class="alternate">Police Division</h4>
+                  <div data-hook="police-division"></div>
+                  <h4 class="alternate">Fire District</h4>
+                  <div data-hook="fire-district"></div>
                 </div>
               </div>
             </div>
-            <div class="row">
-              <div class="columns">
-                <div class="row">
-                  <div class="columns">
-                    <h3>Streets</h3>
-                  </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="columns">
+            <div class="panel">
+              <div class="row">
+                <div class="columns">
+                  <h3>Streets</h3>
                 </div>
-                <div class="row">
-                  <div class="medium-12 columns">
-                    <h4>Highway District</h4>
-                    <div data-hook="highway-district"></div>
-                    <h4>Highway Section</h4>
-                    <div data-hook="highway-section"></div>
-                    <h4>Highway Subsection</h4>
-                    <div data-hook="highway-subsection"></div>
-                    <h4>Streetlight Routes</h4>
-                    <div data-hook="streetlight-routes"></div>
-                    <h4>Traffic District</h4>
-                    <div data-hook="traffic-district"></div>
-                  </div>
-                  <div class="medium-12 columns">
-                    <h4>Recycling Diversion Rate</h4>
-                    <div data-hook="recycling-diversion"></div>
-                    <h4>Sanitation Area</h4>
-                    <div data-hook="sanitation-area"></div>
-                    <h4>Sanitation District</h4>
-                    <div data-hook="sanitation-district"></div>
-                    <h4>Leaf Collection Day</h4>
-                    <div data-hook="leaf-collection"></div>
-                    <h4>Traffic PM District</h4>
-                    <div data-hook="traffic-pm-district"></div>
-                  </div>
+              </div>
+              <div class="row">
+                <div class="medium-12 columns">
+                  <h4 class="alternate">Highway District</h4>
+                  <div data-hook="highway-district"></div>
+                  <h4 class="alternate">Highway Section</h4>
+                  <div data-hook="highway-section"></div>
+                  <h4 class="alternate">Highway Subsection</h4>
+                  <div data-hook="highway-subsection"></div>
+                  <h4 class="alternate">Streetlight Routes</h4>
+                  <div data-hook="streetlight-routes"></div>
+                  <h4 class="alternate">Traffic District</h4>
+                  <div data-hook="traffic-district"></div>
+                </div>
+                <div class="medium-12 columns">
+                  <h4 class="alternate">Recycling Diversion Rate</h4>
+                  <div data-hook="recycling-diversion"></div>
+                  <h4 class="alternate">Sanitation Area</h4>
+                  <div data-hook="sanitation-area"></div>
+                  <h4 class="alternate">Sanitation District</h4>
+                  <div data-hook="sanitation-district"></div>
+                  <h4 class="alternate">Leaf Collection Day</h4>
+                  <div data-hook="leaf-collection"></div>
+                  <h4 class="alternate">Traffic PM District</h4>
+                  <div data-hook="traffic-pm-district"></div>
                 </div>
               </div>
             </div>
-            <div class="row">
-              <div class="medium-12 columns">
-                <h3>Districts</h3>
-                <h4>Planning</h4>
-                <div data-hook="planning"></div>
-                <h4>PWD Center City</h4>
-                <div data-hook="pwd-center-city"></div>
-                <h4>Center City</h4>
-                <div data-hook="center-city"></div>
-                <h4>Historic</h4>
-                <div data-hook="historic"></div>
-                <h4>Recreation</h4>
-                <div data-hook="recreation"></div>
-                <h4>Philly Rising Boundaries</h4>
-                <div data-hook="philly-rising"></div>
-              </div>
-              <div class="medium-12 columns">
-                <h3>Water</h3>
-                <h4>PWD Maintenance Districts</h4>
-                <div data-hook="pwd-maintenance"></div>
-                <h4>PWD Pressure Districts</h4>
-                <div data-hook="pwd-pressure"></div>
-                <h4>Water Treatment Plant</h4>
-                <div data-hook="water-treatment"></div>
-                <h4>Water Plate Index</h4>
-                <div data-hook="water-plate"></div>
-              </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="medium-12 columns">
+            <div class="panel">
+              <h3>Districts</h3>
+              <h4 class="alternate">Planning</h4>
+              <div data-hook="planning"></div>
+              <h4 class="alternate">PWD Center City</h4>
+              <div data-hook="pwd-center-city"></div>
+              <h4 class="alternate">Center City</h4>
+              <div data-hook="center-city"></div>
+              <h4 class="alternate">Historic</h4>
+              <div data-hook="historic"></div>
+              <h4 class="alternate">Recreation</h4>
+              <div data-hook="recreation"></div>
+              <h4 class="alternate">Philly Rising Boundaries</h4>
+              <div data-hook="philly-rising"></div>
+            </div>
+          </div>
+          <div class="medium-12 columns">
+            <div class="panel">
+              <h3>Water</h3>
+              <h4 class="alternate">PWD Maintenance Districts</h4>
+              <div data-hook="pwd-maintenance"></div>
+              <h4 class="alternate">PWD Pressure Districts</h4>
+              <div data-hook="pwd-pressure"></div>
+              <h4 class="alternate">Water Treatment Plant</h4>
+              <div data-hook="water-treatment"></div>
+              <h4 class="alternate">Water Plate Index</h4>
+              <div data-hook="water-plate"></div>
             </div>
           </div>
         </div> <!-- End service area -->
