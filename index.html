@@ -78,18 +78,48 @@
     <div id="templates" style="display:none">
       <li data-hook="resultsCrumb">Results for <b></b></li>
       <li data-hook="propertyCrumb"></li>
+      <div data-hook="property-title">
+        <h1></h1><div class="small-text"></div>
+      </div>
+      <div data-hook="front" class="medium-24 columns">
+        <p class="intro">Welcome to the property app.</p>
+      </div>
       <div data-hook="results" class="medium-18 columns search-results-list"></div>
       <div data-hook="count" class="medium-6 columns"><span id="total"></span> properties returned</div>
       <article data-hook="result">
         <h1><a><!-- property link --></a></h1>
         <p><!-- more info can go here --></p>
       </article>
-      <div data-hook="property"><h2></h2></div>
-      <div data-hook="front" class="medium-24 columns">
-        <p class="intro">Welcome to the property app.</p>
+      <div data-hook="property-side" class="medium-10 medium-push-14 columns">
+        <div class="story s-box">
+          <div class="row">
+            <div data-hook="street-view" class="columns">[street view]</div>
+          </div>
+          <div class="row">
+            <div class="columns">
+              <h4>Improvement Description</h4>
+              <div data-hook="property-description"></div>
+            </div>
+          </div>
+        </div>
       </div>
-      <div data-hook="property-title">
-        <h1></h1><div class="small-text"></div>
+      <div data-hook="property-main" class="medium-14 medium-pull-10 columns">
+        <div class="row">
+          <div class="columns">
+            <div class="row">
+              <div class="columns">
+                <h2>Owner(s)</h2>
+              </div>
+            </div>
+            <div class="row">
+              <div data-hook="property-owners" class="owner-name small-14 columns"></div>
+              <div class="medium-10 columns">
+                <h4 data-hook="property-mailing-header">Mailing Address</h4>
+                <div data-hook="property-mailing"></div>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
     <script src="//code.jquery.com/jquery-2.1.3.min.js"></script>

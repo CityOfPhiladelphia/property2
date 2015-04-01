@@ -87,13 +87,34 @@ app.views.property = function (p) {
     // Clear loading...
     app.els.content.empty();
 
-    // TODO Render OPA content
+    // Render owners
+    app.els.propertyOwners.empty();
+    state.opa.ownership.owners.forEach(function (owner) {
+      app.els.propertyOwners.append($('<div>').text(owner));
+    });
+
+    // Empty mailing address in prep for details
+    app.els.propertyMailingHeader.detach();
+    app.els.propertyMailing.empty();
+
+    app.els.content.append(app.els.propertySide);
+    app.els.content.append(app.els.propertyMain);
 
     opaRendered = true;
   }
 
   function renderOpaDetails () {
-    // TODO Render valuation history
+    var state = history.state;
+
+    // Render mailing address
+    var pm = app.els.propertyMailing;
+    var ma = state.opa.ownership.mailing_address;
+    if (ma) {
+      app.els.propertyMailingHeader.insertBefore(pm);
+      pm.append($('<div>').text(ma.street));
+      pm.append($('<div>').text(ma.city + ', ' + ma.state));
+      pm.append($('<div>').text(ma.zip));
+    }
 
     opaDetailsRendered = true;
   }
