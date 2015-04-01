@@ -9,9 +9,7 @@ app.views.property = function (p) {
   app.els.search.val('');
   app.els.search.attr('placeholder', 'Search for another property');
   app.els.searchLeft.removeClass('medium-4').addClass('medium-14')
-    .on('transitionend', function (e) {
-      $(e.target).empty().append(app.els.propertyTitle);
-    });
+    .empty().append(app.els.propertyTitle);
   app.els.searchBox.removeClass('medium-16').addClass('medium-10');
 
   // Empty content area

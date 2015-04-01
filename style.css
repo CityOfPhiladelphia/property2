@@ -1,5 +1,6 @@
 .smooth {
   transition: width 1s;
+  white-space: nowrap;
 }
 .search-head {
   height: 120px;

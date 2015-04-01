@@ -7,8 +7,7 @@ app.views.results = function (q) {
 
   // Search
   app.els.search.val(q);
-  app.els.searchLeft.off('transitionend').removeClass('medium-14')
-    .addClass('medium-4').html('&nbsp;');
+  app.els.searchLeft.removeClass('medium-14').addClass('medium-4').html('&nbsp;');
   app.els.searchBox.removeClass('medium-10').addClass('medium-16');
 
   // Empty content area
