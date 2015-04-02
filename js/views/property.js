@@ -149,10 +149,84 @@ app.views.property = function (p) {
 
     // TODO Render service areas
     state.sa.forEach(function (sa) {
-      if (sa.serviceAreaId === 'SA_STREETS_Rubbish_Recyc') {
-        app.hooks.rubbishDay.text(sa.value);
-      } else if (sa.serviceAreaId === 'SA_SCHOOLS_Elementary_School_Catchment') {
-        app.hooks.elementarySchool.text(sa.value);
+      switch (sa.serviceAreaId) {
+        // Sidebox
+        case 'SA_STREETS_Rubbish_Recyc':
+          return app.hooks.rubbishDay.text(sa.value);
+
+        // School catchment
+        case 'SA_SCHOOLS_Elementary_School_Catchment':
+          return app.hooks.elementarySchool.text(sa.value);
+        case 'SA_SCHOOLS_Middle_School_Catchment':
+          return app.hooks.middleSchool.text(sa.value);
+        case 'SA_SCHOOLS_High_School_Catchment':
+          return app.hooks.highSchool.text(sa.value);
+
+        // Political
+        case 'SA_PLANNING_2016Councilmanic':
+          return app.hooks.councilDistrict.text(sa.value);
+        case 'SA_PLANNING_Ward':
+          return app.hooks.ward.text(sa.value);
+        case 'SA_PLANNING_Ward_Divisions':
+          return app.hooks.wardDivisions.text(sa.value);
+
+        // Public safety
+        case 'SA_POLICE_PSA':
+          return app.hooks.policePsa.text(sa.value);
+        case 'SA_POLICE_District':
+          return app.hooks.policeDistrict.text(sa.value);
+        case 'SA_POLICE_Sector':
+          return app.hooks.policeSector.text(sa.value);
+        case 'SA_POLICE_Division':
+          return app.hooks.policeDivision.text(sa.value);
+        case 'SA_POLICE_FireDistricts':
+          return app.hooks.fireDistrict.text(sa.value);
+
+        // Streets
+        case 'SA_STREETS_Highway_District':
+          return app.hooks.highwayDistrict.text(sa.value);
+        case 'SA_STREETS_Highway_Section':
+          return app.hooks.highwaySection.text(sa.value);
+        case 'SA_STREETS_Highway_Subsection':
+          return app.hooks.highwaySubsection.text(sa.value);
+        case 'SA_STREETS_Street_Lights_Routes':
+          return app.hooks.streetLightRoutes.text(sa.value);
+        case 'SA_Streets_Traffic_District':
+          return app.hooks.trafficDistrict.text(sa.value);
+        case 'SA_STREETS_Recycling_Diversion_Rate':
+          return app.hooks.recyclingDiversion.text(sa.value);
+        case 'SA_STREETS_Sanitation_Area':
+          return app.hooks.sanitationArea.text(sa.value);
+        case 'SA_STREETS_Sanitation_Districts':
+          return app.hooks.sanitationDistrict.text(sa.value);
+        case 'SA_STREETS_Leaf':
+          return app.hooks.leafCollection.text(sa.value);
+        case 'SA_Streets_Traffic_PM_District':
+          return app.hooks.trafficPmDistrict.text(sa.value);
+
+        // Districts
+        case 'SA_PLANNING_Planning_Districts':
+          return app.hooks.planning.text(sa.value);
+        case 'SA_PWD_CenterCityDistrict':
+          return app.hooks.pwdCenterCity.text(sa.value);
+        case 'SA_CENTER_CITY_DISTRICT':
+          return app.hooks.centerCity.text(sa.value);
+        case 'SA_STREETS_HISTORIC':
+          return app.hooks.historic.text(sa.value);
+        case 'SA_RECREATION_Recreation_District':
+          return app.hooks.recreation.text(sa.value);
+        case 'SA_PHILLYRISING':
+          return app.hooks.phillyRising.text(sa.value);
+
+        // Water
+        case 'PWD_MAINT_DIST':
+          return app.hooks.pwdMaintenance.text(sa.value);
+        case 'PWD_PRES_DIST':
+          return app.hooks.pwdPressure.text(sa.value);
+        case 'PWD_WTPSA':
+          return app.hooks.waterTreatment.text(sa.value);
+        case 'SA_WATER_Water_Plate_Index':
+          return app.hooks.waterPlate.text(sa.value);
       }
     });
   }
