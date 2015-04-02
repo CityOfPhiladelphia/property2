@@ -4,16 +4,16 @@ app.views.property = function (p) {
   var alreadyGettingOpaData, opaRendered, opaDetailsRendered;
 
   // Search area prep
-  app.els.propertyTitle.find('h1').html('&nbsp;');
-  app.els.propertyTitle.find('.small-text').empty();
-  app.els.search.val('');
-  app.els.search.attr('placeholder', 'Search for another property');
-  app.els.searchLeft.removeClass('medium-4').addClass('medium-14')
-    .empty().append(app.els.propertyTitle);
-  app.els.searchBox.removeClass('medium-16').addClass('medium-10');
+  app.hooks.propertyTitle.find('h1').html('&nbsp;');
+  app.hooks.propertyTitle.find('.small-text').empty();
+  app.hooks.search.val('');
+  app.hooks.search.attr('placeholder', 'Search for another property');
+  app.hooks.searchLeft.removeClass('medium-4').addClass('medium-14')
+    .empty().append(app.hooks.propertyTitle);
+  app.hooks.searchBox.removeClass('medium-16').addClass('medium-10');
 
   // Empty content area
-  app.els.content.children().detach();
+  app.hooks.content.children().detach();
 
   if (!history.state) history.replaceState({}, '');
 
@@ -22,7 +22,7 @@ app.views.property = function (p) {
   if (history.state.opa) {
     renderOpa();
   } else {
-    app.els.content.text('Loading...');
+    app.hooks.content.text('Loading...');
     getOpaData();
   }
 
@@ -77,37 +77,37 @@ app.views.property = function (p) {
     var state = history.state;
 
     // Breadcrumbs
-    app.els.propertyCrumb.text(state.address);
-    app.els.crumbs.update(app.els.propertyCrumb);
+    app.hooks.propertyCrumb.text(state.address);
+    app.hooks.crumbs.update(app.hooks.propertyCrumb);
 
     // Search area
-    app.els.propertyTitle.find('h1').text(state.address);
-    app.els.propertyTitle.find('.small-text').text('#' + state.opa.account_number);
+    app.hooks.propertyTitle.find('h1').text(state.address);
+    app.hooks.propertyTitle.find('.small-text').text('#' + state.opa.account_number);
 
     // Clear loading...
-    app.els.content.empty();
+    app.hooks.content.empty();
 
     // Render owners
-    app.els.propertyOwners.empty();
+    app.hooks.propertyOwners.empty();
     state.opa.ownership.owners.forEach(function (owner) {
-      app.els.propertyOwners.append($('<div>').text(owner));
+      app.hooks.propertyOwners.append($('<div>').text(owner));
     });
 
     // Render improvement stuff
-    app.els.improvementDescription.text(state.opa.characteristics.description);
-    app.els.landArea.text(state.opa.characteristics.land_area);
-    app.els.improvementArea.text(state.opa.characteristics.improvement_area);
-    app.els.zoning.text(state.opa.characteristics.zoning_description);
+    app.hooks.improvementDescription.text(state.opa.characteristics.description);
+    app.hooks.landArea.text(state.opa.characteristics.land_area);
+    app.hooks.improvementArea.text(state.opa.characteristics.improvement_area);
+    app.hooks.zoning.text(state.opa.characteristics.zoning_description);
 
     // Empty mailing address in prep for details
-    app.els.propertyMailingHeader.detach();
-    app.els.propertyMailing.empty();
+    app.hooks.propertyMailingHeader.detach();
+    app.hooks.propertyMailing.empty();
 
     // Empty valuation history
-    app.els.valuation.empty();
+    app.hooks.valuation.empty();
 
-    app.els.content.append(app.els.propertySide);
-    app.els.content.append(app.els.propertyMain);
+    app.hooks.content.append(app.hooks.propertySide);
+    app.hooks.content.append(app.hooks.propertyMain);
 
     opaRendered = true;
   }
@@ -116,9 +116,9 @@ app.views.property = function (p) {
     var state = history.state;
 
     // Render mailing address
-    var pm = app.els.propertyMailing;
+    var pm = app.hooks.propertyMailing;
     var ma = state.opa.ownership.mailing_address;
-    app.els.propertyMailingHeader.insertBefore(pm);
+    app.hooks.propertyMailingHeader.insertBefore(pm);
     pm.append($('<div>').text(ma.street));
     pm.append($('<div>').text(ma.city + ', ' + ma.state));
     pm.append($('<div>').text(ma.zip));
@@ -132,7 +132,7 @@ app.views.property = function (p) {
       row.append($('<td>').text(vh.land_taxable));
       row.append($('<td>').text(vh.total_exempt));
       row.append($('<td>').text(vh.taxes));
-      app.els.valuation.append(row);
+      app.hooks.valuation.append(row);
     });
 
     opaDetailsRendered = true;
@@ -150,9 +150,9 @@ app.views.property = function (p) {
     // TODO Render service areas
     state.sa.forEach(function (sa) {
       if (sa.serviceAreaId === 'SA_STREETS_Rubbish_Recyc') {
-        app.els.rubbishDay.text(sa.value);
+        app.hooks.rubbishDay.text(sa.value);
       } else if (sa.serviceAreaId === 'SA_SCHOOLS_Elementary_School_Catchment') {
-        app.els.elementarySchool.text(sa.value);
+        app.hooks.elementarySchool.text(sa.value);
       }
     });
   }

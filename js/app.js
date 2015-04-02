@@ -7,7 +7,7 @@ var app = {};
 window.app = app;
 
 // Set up pointers to useful elements
-app.els = {};
+app.hooks = {};
 
 $('[data-hook]').each(function (i, el) {
   var $el = $(el);
@@ -15,14 +15,14 @@ $('[data-hook]').each(function (i, el) {
   var hook = $el.data('hook').replace(/-([a-z])/g, function (m) {
     return m[1].toUpperCase();
   });
-  app.els[hook] = $el;
+  app.hooks[hook] = $el;
 });
 
 // We have our pointers so we can take the templates container out of the DOM
 $('#templates').detach();
 
 // A smart link back to the front page for wrapping other elements
-app.els.frontLink = $('<a>').attr('href', window.location.pathname).on('click', function (e) {
+app.hooks.frontLink = $('<a>').attr('href', window.location.pathname).on('click', function (e) {
   if (e.ctrlKey || e.altKey || e.shiftKey) return;
   var a = $(e.target);
   var href = a.attr('href');
@@ -34,33 +34,33 @@ app.els.frontLink = $('<a>').attr('href', window.location.pathname).on('click', 
 });
 
 // Clever breadcrumbs
-app.els.crumbs.update = function (crumb) {
+app.hooks.crumbs.update = function (crumb) {
   var self = this;
 
   // Cached related element references
-  self.els = self.els || {};
-  self.els.app = self.els.app || self.find('li').last();
-  self.els.appText = self.els.appText || self.els.app.contents();
-  self.els.appLink = self.els.appLink || app.els.frontLink.clone(true).text(self.els.app.text());
+  self.hooks = self.hooks || {};
+  self.hooks.app = self.hooks.app || self.find('li').last();
+  self.hooks.appText = self.hooks.appText || self.hooks.app.contents();
+  self.hooks.appLink = self.hooks.appLink || app.hooks.frontLink.clone(true).text(self.hooks.app.text());
 
-  if (self.els.crumb) self.els.crumb.detach();
+  if (self.hooks.crumb) self.hooks.crumb.detach();
 
   if (crumb) {
-    self.els.appText.detach();
-    self.els.app.append(self.els.appLink);
-    self.els.crumb = crumb;
-    self.append(self.els.crumb);
+    self.hooks.appText.detach();
+    self.hooks.app.append(self.hooks.appLink);
+    self.hooks.crumb = crumb;
+    self.append(self.hooks.crumb);
   } else {
-    self.els.appLink.detach();
-    self.els.app.append(self.els.appText);
+    self.hooks.appLink.detach();
+    self.hooks.app.append(self.hooks.appText);
   }
 };
 
 // App title should link to front
-app.els.appTitle.contents().wrap(app.els.frontLink);
+app.hooks.appTitle.contents().wrap(app.hooks.frontLink);
 
 // pushState on search submit
-app.els.search.parent().on('submit', function (e) {
+app.hooks.search.parent().on('submit', function (e) {
   if (e.ctrlKey || e.altKey || e.shiftKey) return;
   e.preventDefault();
   var q = e.target.elements.q;

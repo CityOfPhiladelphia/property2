@@ -2,21 +2,21 @@
 
 app.views.results = function (q) {
   // Breadcrumbs
-  app.els.resultsCrumb.find('b').text(q);
-  app.els.crumbs.update(app.els.resultsCrumb);
+  app.hooks.resultsCrumb.find('b').text(q);
+  app.hooks.crumbs.update(app.hooks.resultsCrumb);
 
   // Search
-  app.els.search.val(q);
-  app.els.searchLeft.removeClass('medium-14').addClass('medium-4').html('&nbsp;');
-  app.els.searchBox.removeClass('medium-10').addClass('medium-16');
+  app.hooks.search.val(q);
+  app.hooks.searchLeft.removeClass('medium-14').addClass('medium-4').html('&nbsp;');
+  app.hooks.searchBox.removeClass('medium-10').addClass('medium-16');
 
   // Empty content area
-  app.els.content.children().detach();
+  app.hooks.content.children().detach();
 
   if (history.state) {
     render();
   } else {
-    app.els.content.text('Loading...');
+    app.hooks.content.text('Loading...');
     $.ajax('http://api.phila.gov/opa/v1.1/address/' + encodeURIComponent(opaAddress(q)) + '?format=json')
       .done(function (data) {
         history.replaceState(data, ''); // Second param not optional in IE10
@@ -30,13 +30,13 @@ app.views.results = function (q) {
 
   function render () {
     var state = history.state;
-    if (state.error) return app.els.content.text(state.error);
-    app.els.content.empty(); // Remove loading message
-    app.els.count.find('#total').text(state.total);
-    app.els.content.append(app.els.count);
-    app.els.results.empty(); // TODO reuse existing result nodes
+    if (state.error) return app.hooks.content.text(state.error);
+    app.hooks.content.empty(); // Remove loading message
+    app.hooks.count.find('#total').text(state.total);
+    app.hooks.content.append(app.hooks.count);
+    app.hooks.results.empty(); // TODO reuse existing result nodes
     state.data.properties.forEach(function (p) {
-      var result = app.els.result.clone();
+      var result = app.hooks.result.clone();
       var key = p.property_id;
       var withUnit = app.util.addressWithUnit(p);
       var href = '?' + $.param({p: key});
@@ -47,9 +47,9 @@ app.views.results = function (q) {
           history.pushState({opa: p, address: withUnit}, withUnit, href);
           app.views.property(key);
         });
-      result.appendTo(app.els.results);
+      result.appendTo(app.hooks.results);
     });
-    app.els.content.append(app.els.results);
+    app.hooks.content.append(app.hooks.results);
   }
 
   // OPA address needs to either separate unit by slash or end in slash
