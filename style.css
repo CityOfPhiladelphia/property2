@@ -8,14 +8,39 @@
 .search-head .small-text {
   margin-top: -20px;
 }
-
-.bold {
-  font-weight:bold;
-}
 .xtra-lg {
-    font-size:2.5rem;
+    font-size:2.1rem;
+    line-height:1;
 }
-
 .align-right{
   text-align:right;
+}
+h4.alternate{
+  margin-bottom:0;
+}
+.normal{
+  text-transform:none;
+}
+p {
+  font-size:.9rem;
+}
+.small-text{
+  font-family:"Open Sans","Arial",sans-serif;
+  font-weight:normal;
+  text-transform:none;
+}
+[data-hook="content"] {
+  font-family: 'Montserrat', 'Tahoma', sans-serif;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+[data-hook="property-owners"]{
+    line-height:1;
+}
+[data-hook="property-owners"] div {
+  margin-bottom:1rem;
+}
+[data-hook="street-view"]{
+  max-height:200px;
+  width:100%;
 }
