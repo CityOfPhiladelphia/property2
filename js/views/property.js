@@ -95,8 +95,8 @@ app.views.property = function (p) {
 
     // Render improvement stuff
     app.hooks.improvementDescription.text(state.opa.characteristics.description);
-    app.hooks.landArea.text(state.opa.characteristics.land_area);
-    app.hooks.improvementArea.text(state.opa.characteristics.improvement_area);
+    app.hooks.landArea.text(accounting.formatNumber(state.opa.characteristics.land_area));
+    app.hooks.improvementArea.text(accounting.formatNumber(state.opa.characteristics.improvement_area));
     app.hooks.zoning.text(state.opa.characteristics.zoning_description);
 
     // Empty mailing address in prep for details
@@ -127,11 +127,11 @@ app.views.property = function (p) {
     state.opa.valuation_history.forEach(function (vh) {
       var row = $('<tr>');
       row.append($('<td>').text(vh.certification_year));
-      row.append($('<td>').text(vh.market_value));
-      row.append($('<td>').text(vh.improvement_taxable));
-      row.append($('<td>').text(vh.land_taxable));
-      row.append($('<td>').text(vh.total_exempt));
-      row.append($('<td>').text(vh.taxes));
+      row.append($('<td>').text(accounting.formatMoney(vh.market_value)));
+      row.append($('<td>').text(accounting.formatMoney(vh.improvement_taxable)));
+      row.append($('<td>').text(accounting.formatMoney(vh.land_taxable)));
+      row.append($('<td>').text(accounting.formatMoney(vh.total_exempt)));
+      row.append($('<td>').text(accounting.formatMoney(vh.taxes)));
       app.hooks.valuation.append(row);
     });
 
