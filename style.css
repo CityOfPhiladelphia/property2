@@ -29,7 +29,10 @@ p {
   font-weight:normal;
   text-transform:none;
 }
-[data-hook="content"] {
+table thead tr th, table thead tr td{
+    font-size:.7rem;
+}
+.panel, .bold {
   font-family: 'Montserrat', 'Tahoma', sans-serif;
   font-weight: 700;
   text-transform: uppercase;
