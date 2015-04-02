@@ -17,12 +17,16 @@
 }
 h4.alternate{
   margin-bottom:0;
+  font-weight:normal;
 }
 .normal{
   text-transform:none;
 }
 p {
   font-size:.9rem;
+}
+.button{
+  width:100%;
 }
 .small-text{
   font-family:"Open Sans","Arial",sans-serif;
@@ -46,4 +50,7 @@ table thead tr th, table thead tr td{
 [data-hook="street-view"]{
   max-height:200px;
   width:100%;
+}
+[data-hook="property-mailing"]{
+    font-size:.8rem;
 }
