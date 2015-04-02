@@ -54,3 +54,19 @@ table thead tr th, table thead tr td{
 [data-hook="property-mailing"]{
     font-size:.8rem;
 }
+
+.street-view {
+  height: 200px;
+}
+
+[data-hook="street-view-toggle"]{
+  position: absolute;
+  margin: 0;
+  right: 15px;
+  top: 5px;
+}
+
+/* Fix images in google maps*/
+.gmnoprint img {
+    max-width: none;
+}
