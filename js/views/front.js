@@ -3,7 +3,7 @@
 app.views.front = function () {
   app.hooks.crumbs.update();
 
-  app.hooks.search.val('').attr('placeholder', 'Enter address, account number, intersection, or city block');
+  app.hooks.search.val('').attr('placeholder', 'Enter address, account number, or intersection');
   app.hooks.searchForm.addClass('hint');
   app.hooks.searchForm.find('p').removeClass('hide');
   app.hooks.searchLeft.removeClass('medium-14').addClass('medium-4').html('&nbsp;');
