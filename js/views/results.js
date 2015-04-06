@@ -20,10 +20,33 @@ app.views.results = function (q) {
     render();
   } else {
     app.hooks.content.text('Loading...');
-    $.ajax('http://api.phila.gov/opa/v1.1/address/' + encodeURIComponent(opaAddress(q)) + '?format=json')
+    var q = q.trim();
+
+    // Determine if q is an account number, intersection, or address
+    var m, opaEndpoint;
+    if (m = /#?(\d{9})/.exec(q)) opaEndpoint = 'account/' + m[1];
+    else if (m = /(.+) +(&|and) +(.+)/.exec(q)) {
+      opaEndpoint = 'intersection/' + encodeURI(m[1] + '/' + m[3])
+    } else opaEndpoint = 'address/' + encodeURIComponent(opaAddress(q));
+
+    $.ajax('http://api.phila.gov/opa/v1.1/' + opaEndpoint + '?format=json')
       .done(function (data) {
-        history.replaceState(data, ''); // Second param not optional in IE10
-        render();
+        var property, p, href, withUnit;
+        if (data.data.property || data.data.properties.length == 1) {
+          // If only one property go straight to property view
+          property = data.data.property || data.data.properties[0];
+          p = property.property_id;
+          href = '?' + $.param({p: p});
+          withUnit = app.util.addressWithUnit(property);
+          history.replaceState({
+            opa: property,
+            address: withUnit
+          }, withUnit, href);
+          app.views.property(p);
+        } else {
+          history.replaceState(data, ''); // Second param not optional in IE10
+          render();
+        }
       })
       .fail(function () {
         history.replaceState({error: 'Failed to retrieve results. Please try another search.'}, '');
@@ -38,18 +61,18 @@ app.views.results = function (q) {
     app.hooks.count.find('#total').text(state.total);
     app.hooks.content.append(app.hooks.count);
     app.hooks.results.empty(); // TODO reuse existing result nodes
-    state.data.properties.forEach(function (p) {
+    state.data.properties.forEach(function (property) {
       var result = app.hooks.result.clone();
-      var key = p.property_id;
-      var withUnit = app.util.addressWithUnit(p);
-      var href = '?' + $.param({p: key});
+      var p = property.property_id;
+      var withUnit = app.util.addressWithUnit(property);
+      var href = '?' + $.param({p: p});
       result.find('a').attr('href', href)
         .text(withUnit).on('click', function (e) {
           if (e.ctrlKey || e.altKey || e.shiftKey) return;
           e.preventDefault();
-          history.pushState({opa: p, address: withUnit}, withUnit, href);
+          history.pushState({opa: property, address: withUnit}, withUnit, href);
           window.scroll(0, 0);
-          app.views.property(key);
+          app.views.property(p);
         });
       result.appendTo(app.hooks.results);
     });

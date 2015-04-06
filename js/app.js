@@ -93,7 +93,10 @@ window.onpopstate = app.route;
 // Shims to gracefully degrade pushState and replaceState for IE9
 if (!history.pushState) {
   history.pushState = function (s, t, l) {window.location = l};
-  history.replaceState = function (s) {history.state = s};
+  history.replaceState = function (s, t, l) {
+    if (l) window.location = l;
+    else history.state = s;
+  };
 }
 
 // App utilties
