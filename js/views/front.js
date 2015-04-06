@@ -10,5 +10,6 @@ app.views.front = function () {
   app.hooks.searchBox.removeClass('medium-10').addClass('medium-16');
 
   app.hooks.content.children().detach();
+  app.hooks.content.empty();
   app.hooks.content.append(app.hooks.front);
 };
