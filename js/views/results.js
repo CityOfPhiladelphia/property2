@@ -7,6 +7,8 @@ app.views.results = function (q) {
 
   // Search
   app.hooks.search.val(q);
+  app.hooks.searchForm.addClass('hint');
+  app.hooks.searchForm.find('p').removeClass('hide');
   app.hooks.searchLeft.removeClass('medium-14').addClass('medium-4').html('&nbsp;');
   app.hooks.searchBox.removeClass('medium-10').addClass('medium-16');
 

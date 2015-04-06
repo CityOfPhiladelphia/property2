@@ -49,8 +49,9 @@
         <div class="row">
           <div data-hook="search-left" class="medium-4 columns smooth">&nbsp;</div>
           <div data-hook="search-box" class="medium-16 columns smooth">
-            <form class="search">
+            <form data-hook="search-form" class="search hint">
               <input type="text" data-hook="search" name="q">
+              <p>1420 Locust Street, 888080322, Broad and Locust, 1400 Locust</p>
               <input type="submit">
             </form>
           </div>
@@ -108,7 +109,7 @@
       <div data-hook="property-side" class="medium-10 medium-push-14 columns">
         <div class="panel">
           <div class="row">
-            <div data-hook="street-view" class="columns">[street view]</div>
+            <div data-hook="street-view" class="columns street-view">[street view]</div>
           </div>
           <div class="row">
             <div class="small-24 columns">
@@ -149,11 +150,11 @@
         </div>
         <div class="row">
           <div class="owner-name medium-15 columns">
-            <h2 data-hook="property-owners" class="xtra-lg no-margin"></h2>
+            <h2 data-hook="property-owners" class="xtra-lg no-margin owners"></h2>
           </div>
           <div class="medium-9 columns">
             <h4 data-hook="property-mailing-header" class="alternate no-margin">Mailing Address</h4>
-            <div data-hook="property-mailing" class="bold"></div>
+            <div data-hook="property-mailing" class="bold mailing"></div>
           </div>
         </div> <!-- End owners -->
         <div class="row"> <!-- Begin taxes -->

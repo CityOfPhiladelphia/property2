@@ -8,6 +8,8 @@ app.views.property = function (p) {
   app.hooks.propertyTitle.find('.small-text').empty();
   app.hooks.search.val('');
   app.hooks.search.attr('placeholder', 'Search for another property');
+  app.hooks.searchForm.removeClass('hint');
+  app.hooks.searchForm.find('p').addClass('hide');
   app.hooks.searchLeft.removeClass('medium-4').addClass('medium-14')
     .empty().append(app.hooks.propertyTitle);
   app.hooks.searchBox.removeClass('medium-16').addClass('medium-10');
