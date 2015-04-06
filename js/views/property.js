@@ -12,7 +12,8 @@ app.views.property = function (p) {
   app.hooks.searchForm.find('p').addClass('hide');
   app.hooks.searchLeft.removeClass('medium-4').addClass('medium-14')
     .empty().append(app.hooks.propertyTitle);
-  app.hooks.searchBox.removeClass('medium-16').addClass('medium-10');
+    app.hooks.searchRight.html('');
+  app.hooks.searchBox.removeClass('medium-16').addClass('medium-10 float-right');
 
   // Clear existing elements out of the way
   app.hooks.content.children().detach();

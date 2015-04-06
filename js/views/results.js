@@ -9,8 +9,9 @@ app.views.results = function (q) {
   app.hooks.search.val(q);
   app.hooks.searchForm.addClass('hint');
   app.hooks.searchForm.find('p').removeClass('hide');
+  app.hooks.searchRight.html('&nbsp;');
   app.hooks.searchLeft.removeClass('medium-14').addClass('medium-4').html('&nbsp;');
-  app.hooks.searchBox.removeClass('medium-10').addClass('medium-16');
+  app.hooks.searchBox.removeClass('medium-10 float-right').addClass('medium-16');
 
   // Empty content area
   app.hooks.content.children().detach();

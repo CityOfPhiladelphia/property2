@@ -8,6 +8,13 @@
 .search-head .small-text {
   margin-top: -20px;
 }
+.search-box-wide {
+  margin: 0 auto;
+  float:none;
+}
+.float-right {
+  float:right;
+}
 .xtra-lg {
     font-size:2.1rem;
     line-height:1;

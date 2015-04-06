@@ -6,8 +6,9 @@ app.views.front = function () {
   app.hooks.search.val('').attr('placeholder', 'Enter address, account number, or intersection');
   app.hooks.searchForm.addClass('hint');
   app.hooks.searchForm.find('p').removeClass('hide');
+  app.hooks.searchRight.html('&nbsp;');
   app.hooks.searchLeft.removeClass('medium-14').addClass('medium-4').html('&nbsp;');
-  app.hooks.searchBox.removeClass('medium-10').addClass('medium-16');
+  app.hooks.searchBox.removeClass('medium-10 float-right').addClass('medium-16');
 
   app.hooks.content.children().detach();
   app.hooks.content.empty();
