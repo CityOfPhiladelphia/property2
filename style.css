@@ -15,6 +15,15 @@
 .float-right {
   float:right;
 }
+.intro {
+  font-size:1.3rem;
+  font-weight:bold;
+  text-align:center;
+}
+.intro i {
+  margin:0 20px 0 0;
+  color:#027EA4;
+}
 .xtra-lg {
     font-size:2.1rem;
     line-height:1;
