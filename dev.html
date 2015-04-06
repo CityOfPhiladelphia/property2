@@ -127,7 +127,15 @@
       <div data-hook="property-side" class="medium-10 medium-push-14 columns">
         <div class="panel">
           <div class="row">
-            <div data-hook="street-view" class="columns street-view">[street view]</div>
+            <div class="columns street-view">
+              <div data-hook="street-view-map" class="map"></div>
+              <a href="#" data-hook="street-view-toggle" class="hide street-view-toggle">
+                <span class="fa-stack fa-lg">
+                  <i class="fa fa-stop fa-stack-2x"></i>
+                  <i class="fa fa-stack-1x fa-inverse"></i>
+                </span>
+              </a>
+            </div>
           </div>
           <div class="row">
             <div class="small-24 columns">
@@ -340,6 +348,7 @@
 
     </div> <!-- End templates -->
 
+    <script src="//maps.googleapis.com/maps/api/js?v=3.19&sensor=false&libraries=geometry"></script>
     <script src="//code.jquery.com/jquery-2.1.3.min.js"></script>
     <script src="//cdnjs.cloudflare.com/ajax/libs/foundation/5.5.1/js/foundation.min.js"></script>
     <script src="//cityofphiladelphia.github.io/patterns/dist/0.5.0/js/patterns.min.js"></script>

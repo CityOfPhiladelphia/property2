@@ -76,5 +76,18 @@ table thead tr th, table thead tr td{
   width:100%;
 }
 .mailing {
-    font-size:.8rem;
+  font-size:.8rem;
+}
+.map {
+  height: 200px;
+}
+.street-view-toggle{
+  position: absolute;
+  margin: 0;
+  right: 15px;
+  top: 5px;
+}
+/* Fix images in google maps*/
+.gmnoprint img {
+    max-width: none;
 }

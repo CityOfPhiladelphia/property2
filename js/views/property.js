@@ -1,4 +1,4 @@
-/*global $,app*/
+/*global $,app,google*/
 
 app.views.property = function (p) {
   var alreadyGettingOpaData, opaRendered, opaDetailsRendered;
@@ -112,7 +112,84 @@ app.views.property = function (p) {
     app.hooks.content.append(app.hooks.propertySide);
     app.hooks.content.append(app.hooks.propertyMain);
 
+    // Render Street View
+    renderStreetView();
+
     opaRendered = true;
+  }
+
+  function renderStreetView() {
+    var state = history.state;
+    var addressLatLng = new google.maps.LatLng(
+          state.opa.geometry.y, state.opa.geometry.x);
+
+    // Init the map
+    var map = new google.maps.Map(app.hooks.streetViewMap[0], {
+      center: addressLatLng,
+      zoom: 14,
+      scrollwheel: false,
+      mapTypeControl: false,
+      minZoom: 10,
+      maxZoom: 19,
+      panControl: false,
+      streetViewControl: false,
+      zoomControlOptions: {
+        style: google.maps.ZoomControlStyle.SMALL
+      }
+    });
+
+    // Add the address marker
+    var marker = new google.maps.Marker({
+      position: addressLatLng,
+      map: map,
+      title: state.address
+    });
+
+    // Fetch StreetView data
+    var sv = new google.maps.StreetViewService();
+    sv.getPanoramaByLocation(addressLatLng, 50, function(panoData, status) {
+      var markerIconClass = 'fa-map-marker',
+          svIconClass = 'fa-street-view',
+          $icon = app.hooks.streetViewToggle.find('i').next(),
+          svPano, heading;
+
+      if (status === google.maps.StreetViewStatus.OK) {
+        // Init street view
+        svPano = map.getStreetView();
+        heading = google.maps.geometry.spherical.computeHeading(
+                    panoData.location.latLng, addressLatLng);
+
+        svPano.setOptions({
+          position: panoData.location.latLng,
+          panControl: false,
+          addressControl: false,
+          enableCloseButton: false,
+          zoomControlOptions: {
+            style: google.maps.ZoomControlStyle.SMALL
+          },
+          pov: {
+            heading: heading,
+            pitch: 0,
+            zoom: 1
+          }
+        });
+
+        $icon.addClass(svIconClass);
+        app.hooks.streetViewToggle
+          .removeClass('hide')
+          .on('click', function(evt) {
+            evt.preventDefault();
+
+            if (svPano.getVisible()) {
+              $icon.removeClass(markerIconClass).addClass(svIconClass);
+              svPano.setVisible(false);
+            } else {
+              $icon.removeClass(svIconClass).addClass(markerIconClass);
+              svPano.setVisible(true);
+            }
+          });
+      }
+    });
   }
 
   function renderOpaDetails () {
@@ -151,7 +228,7 @@ app.views.property = function (p) {
     // Wait for both OPA render and SA data
     if (!opaRendered || !state.sa) return;
 
-    // TODO Render service areas
+    // Render service areas
     state.sa.forEach(function (sa) {
       switch (sa.serviceAreaId) {
         // Sidebox
