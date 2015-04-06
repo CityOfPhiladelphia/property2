@@ -47,6 +47,7 @@ app.views.results = function (q) {
           if (e.ctrlKey || e.altKey || e.shiftKey) return;
           e.preventDefault();
           history.pushState({opa: p, address: withUnit}, withUnit, href);
+          window.scroll(0, 0);
           app.views.property(key);
         });
       result.appendTo(app.hooks.results);

@@ -14,7 +14,7 @@ app.views.property = function (p) {
     .empty().append(app.hooks.propertyTitle);
   app.hooks.searchBox.removeClass('medium-16').addClass('medium-10');
 
-  // Empty content area
+  // Clear existing elements out of the way
   app.hooks.content.children().detach();
 
   if (!history.state) history.replaceState({}, '');
