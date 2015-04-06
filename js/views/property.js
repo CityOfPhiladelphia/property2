@@ -150,7 +150,7 @@ app.views.property = function (p) {
     sv.getPanoramaByLocation(addressLatLng, 50, function(panoData, status) {
       var markerIconClass = 'fa-map-marker',
           svIconClass = 'fa-street-view',
-          $icon = app.hooks.streetViewToggle.find('i'),
+          $icon = app.hooks.streetViewToggle.find('i').next(),
           svPano, heading;
 
       if (status === google.maps.StreetViewStatus.OK) {

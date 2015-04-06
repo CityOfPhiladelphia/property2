@@ -47,10 +47,7 @@ table thead tr th, table thead tr td{
 [data-hook="property-owners"] div {
   margin-bottom:1rem;
 }
-[data-hook="street-view"]{
-  max-height:200px;
-  width:100%;
-}
+
 [data-hook="property-mailing"]{
     font-size:.8rem;
 }
@@ -59,7 +56,7 @@ table thead tr th, table thead tr td{
   height: 200px;
 }
 
-[data-hook="street-view-toggle"]{
+.street-view-toggle{
   position: absolute;
   margin: 0;
   right: 15px;
