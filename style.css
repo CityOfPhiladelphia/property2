@@ -11,6 +11,7 @@
 .xtra-lg {
     font-size:2.1rem;
     line-height:1;
+    word-wrap:break-word;
 }
 .align-right{
   text-align:right;
