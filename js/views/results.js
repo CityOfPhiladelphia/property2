@@ -32,18 +32,18 @@ app.views.results = function (q) {
 
     $.ajax('https://api.phila.gov/opa/v1.1/' + opaEndpoint + '?format=json')
       .done(function (data) {
-        var property, p, href, withUnit;
+        var property, accountNumber, href, withUnit;
         if (data.data.property || data.data.properties.length == 1) {
           // If only one property go straight to property view
           property = data.data.property || data.data.properties[0];
-          p = property.property_id;
-          href = '?' + $.param({p: p});
+          accountNumber = property.account_number;
+          href = '?' + $.param({p: accountNumber});
           withUnit = app.util.addressWithUnit(property);
           history.replaceState({
             opa: property,
             address: withUnit
           }, withUnit, href);
-          app.views.property(p);
+          app.views.property(accountNumber);
         } else {
           history.replaceState(data, ''); // Second param not optional in IE10
           render();
@@ -68,9 +68,9 @@ app.views.results = function (q) {
     app.hooks.resultRows.empty(); // TODO reuse existing result nodes
     state.data.properties.forEach(function (property) {
       var row = app.hooks.resultRow.clone();
-      var p = property.property_id;
+      var accountNumber = property.account_number;
       var withUnit = app.util.addressWithUnit(property);
-      var href = '?' + $.param({p: p});
+      var href = '?' + $.param({p: accountNumber});
       row.append($('<td>').text(withUnit));
       row.append($('<td>').text(property.ownership.owners.join(', ')));
       row.append($('<td>').text(app.util.formatSalesDate(property.sales_information.sales_date)
@@ -81,7 +81,7 @@ app.views.results = function (q) {
           e.preventDefault();
           history.pushState({opa: property, address: withUnit}, withUnit, href);
           window.scroll(0, 0);
-          app.views.property(p);
+          app.views.property(accountNumber);
         });
       app.hooks.resultRows.append(row);
     });

@@ -1,6 +1,6 @@
 /*global $,app,google*/
 
-app.views.property = function (p) {
+app.views.property = function (accountNumber) {
   var alreadyGettingOpaData, opaRendered, opaDetailsRendered;
 
   // Search area prep
@@ -44,7 +44,7 @@ app.views.property = function (p) {
 
   function getOpaData () {
     alreadyGettingOpaData = true;
-    $.ajax('https://api.phila.gov/opa/v1.1/property/' + p + '?format=json')
+    $.ajax('https://api.phila.gov/opa/v1.1/account/' + accountNumber + '?format=json')
       .done(function (data) {
         var state = $.extend({}, history.state);
         var property = data.data.property;
