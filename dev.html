@@ -132,8 +132,8 @@
     <!-- Site template collection -->
     <div id="templates" style="display:none">
       <!-- Breadcrumbs -->
-      <li data-hook="resultsCrumb">Results for <b></b></li>
-      <li data-hook="propertyCrumb"></li>
+      <li data-hook="results-crumb">Results for <b></b></li>
+      <li data-hook="property-crumb"></li>
 
       <!-- Added to search area in property view-->
       <div data-hook="property-title">
@@ -155,12 +155,22 @@
       </div>
 
       <!-- Results content -->
-      <div data-hook="results" class="medium-18 columns search-results-list"></div>
-      <div data-hook="count" class="medium-6 columns"><span id="total"></span> properties returned</div>
-      <article data-hook="result">
-        <h1><a><!-- property link --></a></h1>
-        <p><!-- more info can go here --></p>
-      </article>
+      <div data-hook="results" class="columns">
+        <div data-hook="count" class="medium-6 columns" style="display:none"><span id="total"></span> properties returned</div>
+        <table role="grid" summary="Property search results">
+          <thead>
+            <tr>
+              <th>Address</th>
+              <th>Owner(s)</th>
+              <th>Sale Details</th>
+              <th>Market Value</th>
+            </tr>
+          </thead>
+          <tbody data-hook="result-rows">
+            <tr data-hook="result-row" class="result-row"></tr>
+          </tbody>
+        </table>
+      </div>
 
       <!-- Property view side panel -->
       <div data-hook="property-side" class="large-10 columns">

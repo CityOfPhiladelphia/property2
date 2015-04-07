@@ -108,3 +108,15 @@ app.util.addressWithUnit = function (property) {
   if (unit) unit = ' #' + unit.replace(/^0+/, '');
   return property.full_address + unit;
 };
+
+// Pull a human-readable sales date from what the OPA API gives us
+app.util.formatSalesDate = function (salesDate) {
+  var d, m;
+  if (m = /(\d+)-/.exec(salesDate)) {
+    d = new Date(+m[1]);
+    return (d.getMonth() + 1) + '/' + d.getDate() + '/' +  d.getFullYear();
+  } else return '';
+};
+
+// We only handle whole dollar amounts here
+accounting.settings.currency.precision = 0;

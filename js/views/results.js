@@ -59,23 +59,28 @@ app.views.results = function (q) {
     var state = history.state;
     if (state.error) return app.hooks.content.text(state.error);
     app.hooks.content.empty(); // Remove loading message
-    app.hooks.count.find('#total').text(state.total);
-    app.hooks.content.append(app.hooks.count);
-    app.hooks.results.empty(); // TODO reuse existing result nodes
+    // TODO find a place for count
+    //app.hooks.count.find('#total').text(state.total);
+    //app.hooks.content.append(app.hooks.count);
+    app.hooks.resultRows.empty(); // TODO reuse existing result nodes
     state.data.properties.forEach(function (property) {
-      var result = app.hooks.result.clone();
+      var row = app.hooks.resultRow.clone();
       var p = property.property_id;
       var withUnit = app.util.addressWithUnit(property);
       var href = '?' + $.param({p: p});
-      result.find('a').attr('href', href)
-        .text(withUnit).on('click', function (e) {
+      row.append($('<td>').text(withUnit));
+      row.append($('<td>').text(property.ownership.owners.join(', ')));
+      row.append($('<td>').text(app.util.formatSalesDate(property.sales_information.sales_date)
+        + ', ' + accounting.formatMoney(property.sales_information.sales_price)));
+      row.append($('<td>').text(accounting.formatMoney(property.valuation_history[0].market_value)));
+      row.on('click', function (e) {
           if (e.ctrlKey || e.altKey || e.shiftKey) return;
           e.preventDefault();
           history.pushState({opa: property, address: withUnit}, withUnit, href);
           window.scroll(0, 0);
           app.views.property(p);
         });
-      result.appendTo(app.hooks.results);
+      app.hooks.resultRows.append(row);
     });
   //  app.hooks.belowContent.empty();
     app.hooks.content.append(app.hooks.results);

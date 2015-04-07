@@ -81,6 +81,9 @@ table thead tr th, table thead tr td{
 .map {
   height: 200px;
 }
+.result-row {
+  cursor: pointer;
+}
 .street-view-toggle{
   position: absolute;
   margin: 0;

@@ -206,14 +206,13 @@ app.views.property = function (p) {
 
     // Render valuation history
     state.opa.valuation_history.forEach(function (vh) {
-      var numberFormat = { precision : 0 };
       var row = $('<tr>');
       row.append($('<td>').text(vh.certification_year));
-      row.append($('<td>').text(accounting.formatMoney(vh.market_value, numberFormat)));
-      row.append($('<td>').text(accounting.formatMoney(vh.improvement_taxable, numberFormat)));
-      row.append($('<td>').text(accounting.formatMoney(vh.land_taxable, numberFormat)));
-      row.append($('<td>').text(accounting.formatMoney(vh.total_exempt, numberFormat)));
-      row.append($('<td>').text(accounting.formatMoney(vh.taxes, numberFormat)));
+      row.append($('<td>').text(accounting.formatMoney(vh.market_value)));
+      row.append($('<td>').text(accounting.formatMoney(vh.improvement_taxable)));
+      row.append($('<td>').text(accounting.formatMoney(vh.land_taxable)));
+      row.append($('<td>').text(accounting.formatMoney(vh.total_exempt)));
+      row.append($('<td>').text(accounting.formatMoney(vh.taxes)));
       app.hooks.valuation.append(row);
     });
 
