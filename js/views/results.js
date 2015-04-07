@@ -30,7 +30,7 @@ app.views.results = function (q) {
       opaEndpoint = 'intersection/' + encodeURI(m[1] + '/' + m[3])
     } else opaEndpoint = 'address/' + encodeURIComponent(opaAddress(q));
 
-    $.ajax('http://api.phila.gov/opa/v1.1/' + opaEndpoint + '?format=json')
+    $.ajax('https://api.phila.gov/opa/v1.1/' + opaEndpoint + '?format=json')
       .done(function (data) {
         var property, p, href, withUnit;
         if (data.data.property || data.data.properties.length == 1) {

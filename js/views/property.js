@@ -44,7 +44,7 @@ app.views.property = function (p) {
 
   function getOpaData () {
     alreadyGettingOpaData = true;
-    $.ajax('http://api.phila.gov/opa/v1.1/property/' + p + '?format=json')
+    $.ajax('https://api.phila.gov/opa/v1.1/property/' + p + '?format=json')
       .done(function (data) {
         var state = $.extend({}, history.state);
         var property = data.data.property;
