@@ -77,6 +77,7 @@ app.views.results = function (q) {
       result.appendTo(app.hooks.results);
     });
     app.hooks.content.append(app.hooks.results);
+    app.hooks.belowContent.empty();
   }
 
   // OPA address needs to either separate unit by slash or end in slash

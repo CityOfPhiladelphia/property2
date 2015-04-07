@@ -109,8 +109,9 @@ app.views.property = function (p) {
     // Empty valuation history
     app.hooks.valuation.empty();
 
-    app.hooks.content.append(app.hooks.propertySide);
     app.hooks.content.append(app.hooks.propertyMain);
+    app.hooks.content.append(app.hooks.propertySide);
+    app.hooks.belowContent.append(app.hooks.propertySecondary);
 
     // Render Street View
     renderStreetView();
