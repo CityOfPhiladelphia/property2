@@ -87,6 +87,9 @@ table thead tr th, table thead tr td{
   right: 15px;
   top: 5px;
 }
+.panel h3{
+  color:#666;
+}
 /* Fix images in google maps*/
 .gmnoprint img {
     max-width: none;
