@@ -20,7 +20,7 @@ app.views.results = function (q) {
   if (history.state) {
     render();
   } else {
-    app.hooks.content.text('Loading...');
+    app.hooks.content.append(app.hooks.loading);
     var q = q.trim();
 
     // Determine if q is an account number, intersection, or address

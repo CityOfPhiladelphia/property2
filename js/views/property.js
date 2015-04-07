@@ -25,7 +25,7 @@ app.views.property = function (p) {
   if (history.state.opa) {
     renderOpa();
   } else {
-    app.hooks.content.text('Loading...');
+    app.hooks.content.append(app.hooks.loading);
     getOpaData();
   }
 

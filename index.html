@@ -129,11 +129,9 @@
       <!-- Breadcrumbs -->
       <li data-hook="results-crumb">Results for <b></b></li>
       <li data-hook="property-crumb"></li>
-      <!-- Added to search area in property view-->
-      <div data-hook="property-title">
-        <h1></h1><div class="small-text"></div>
-      </div>
-      <!-- Content for the front view -->
+      <!-- Loading message for results and property views -->
+      <div data-hook="loading" class="columns">Loading...</div>
+      <!-- Front view content -->
       <div data-hook="front" class="medium-24 columns front">
         <p class="intro">
           <span class="fa-stack fa-lg">
@@ -163,6 +161,10 @@
             <tr data-hook="result-row" class="result-row"></tr>
           </tbody>
         </table>
+      </div>
+      <!-- Property view title in search area-->
+      <div data-hook="property-title">
+        <h1></h1><div class="small-text"></div>
       </div>
       <!-- Property view side panel -->
       <div data-hook="property-side" class="large-10 columns">
