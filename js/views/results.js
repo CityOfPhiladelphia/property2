@@ -59,6 +59,9 @@ app.views.results = function (q) {
     var state = history.state;
     if (state.error) return app.hooks.content.text(state.error);
     app.hooks.content.empty(); // Remove loading message
+    if (state.total === 0) {
+      return app.hooks.content.append(app.hooks.noResults);
+    }
     // TODO find a place for count
     //app.hooks.count.find('#total').text(state.total);
     //app.hooks.content.append(app.hooks.count);
