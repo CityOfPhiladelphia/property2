@@ -13,8 +13,9 @@ app.views.results = function (q) {
   app.hooks.searchLeft.removeClass('medium-14').addClass('medium-4').html('&nbsp;');
   app.hooks.searchBox.removeClass('medium-10 float-right').addClass('medium-16');
 
-  // Empty content area
+  // Empty both content areas
   app.hooks.content.children().detach();
+  app.hooks.belowContent.children().detach();
 
   if (history.state) {
     render();
@@ -76,8 +77,8 @@ app.views.results = function (q) {
         });
       result.appendTo(app.hooks.results);
     });
+  //  app.hooks.belowContent.empty();
     app.hooks.content.append(app.hooks.results);
-    app.hooks.belowContent.empty();
   }
 
   // OPA address needs to either separate unit by slash or end in slash
