@@ -3,10 +3,6 @@ body {
   investigate further */
   overflow-x:hidden;
 }
-.smooth {
-  transition: width 0.3s;
-  white-space: nowrap;
-}
 .search-head {
   height: 120px;
 }
