@@ -36,14 +36,9 @@ body {
   }
 }
 .xtra-lg {
-    font-size:2.1rem;
-    line-height:1;
-    word-wrap:break-word;
-}
-.reg-lg {
-    font-size:1.89rem;
-    line-height:1;
-    word-wrap:break-word;
+  font-size:1.89rem;
+  line-height:1;
+  word-wrap:break-word;
 }
 .align-right{
   text-align:right;
