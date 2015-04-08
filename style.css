@@ -3,11 +3,11 @@ body {
   investigate further */
   overflow-x:hidden;
 }
-.search-head {
-  height: 120px;
-}
 .search-head .small-text {
   margin-top: -20px;
+}
+.search-head h1 {
+  margin-top:.5rem;
 }
 .search-box-wide {
   margin: 0 auto;
@@ -41,11 +41,19 @@ body {
     word-wrap:break-word;
 }
 .reg-lg {
-    font-size:1.8rem;
+    font-size:1.89rem;
     line-height:1;
+    word-wrap:break-word;
 }
 .align-right{
   text-align:right;
+}
+.sales h3 {
+  margin-bottom:5px;
+  font-weight:normal;
+  color: #666;
+  font-size: 0.8125rem;
+  margin-top: 0;
 }
 h4.alternate{
   margin-bottom:0;
@@ -118,4 +126,7 @@ table thead tr th, table thead tr td{
 /* Fix images in google maps*/
 .gmnoprint img {
     max-width: none;
+}
+.hidden{
+  display:none !important;
 }
