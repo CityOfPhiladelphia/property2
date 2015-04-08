@@ -216,6 +216,10 @@ app.views.property = function (accountNumber) {
       app.hooks.valuation.append(row);
     });
 
+    // Render sales details
+    app.hooks.salesPrice.text(accounting.formatMoney(state.opa.sales_information.sales_price));
+    app.hooks.salesDate.text(app.util.formatSalesDate(state.opa.sales_information.sales_date));
+
     opaDetailsRendered = true;
   }
 
