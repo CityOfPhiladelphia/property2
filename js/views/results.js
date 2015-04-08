@@ -71,7 +71,7 @@ app.views.results = function (q) {
       var accountNumber = property.account_number;
       var withUnit = app.util.addressWithUnit(property);
       var href = '?' + $.param({p: accountNumber});
-      row.append($('<td>').text(withUnit));
+      row.append($('<td>').append($('<a href="' + href + '">').text(withUnit)));
       row.append($('<td>').text(property.ownership.owners.join(', ')));
       row.append($('<td>').text(app.util.formatSalesDate(property.sales_information.sales_date)
         + ', ' + accounting.formatMoney(property.sales_information.sales_price)));
