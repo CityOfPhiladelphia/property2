@@ -97,6 +97,20 @@ table thead tr th, table thead tr td{
 .panel h3{
   color:#666;
 }
+.results-view{
+  background: #dbe1e3;
+  margin-top: -16px;
+}
+.results i {
+  color:#027EA4;
+}
+.results tr td:first-child{
+  font-size:.8rem;
+}
+.results tr:hover, .results tr:hover a{
+  background:#dbe1e3;
+  color:#000;
+}
 /* Fix images in google maps*/
 .gmnoprint img {
     max-width: none;

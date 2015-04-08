@@ -120,3 +120,6 @@ app.util.formatSalesDate = function (salesDate) {
 
 // We only handle whole dollar amounts here
 accounting.settings.currency.precision = 0;
+
+//things to do on small screens
+var smallScreens = $( window ).width() >= '480';

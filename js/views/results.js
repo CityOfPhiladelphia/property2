@@ -72,10 +72,11 @@ app.views.results = function (q) {
       var withUnit = app.util.addressWithUnit(property);
       var href = '?' + $.param({p: accountNumber});
       row.append($('<td>').append($('<a href="' + href + '">').text(withUnit)));
-      row.append($('<td>').text(property.ownership.owners.join(', ')));
-      row.append($('<td>').text(app.util.formatSalesDate(property.sales_information.sales_date)
-        + ', ' + accounting.formatMoney(property.sales_information.sales_price)));
       row.append($('<td>').text(accounting.formatMoney(property.valuation_history[0].market_value)));
+      row.append($('<td class="hide-for-small">').text(app.util.formatSalesDate(property.sales_information.sales_date)
+        + ', ' + accounting.formatMoney(property.sales_information.sales_price)));
+      row.append($('<td class="hide-for-small">').text(property.ownership.owners.join(', ')));
+      row.append($('<td>').html('<i class="fa fa-arrow-circle-right"></i>'));
       row.on('click', function (e) {
           if (e.ctrlKey || e.altKey || e.shiftKey) return;
           e.preventDefault();
