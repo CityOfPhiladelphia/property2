@@ -4,6 +4,12 @@ app.views.front = function () {
   app.hooks.crumbs.update();
 
   app.hooks.search.val('').attr('placeholder', 'Enter address, account number, intersection, or city block');
+  console.log($( window ).width());
+  if($( window ).width() <= '480'){
+    app.hooks.search.val('').attr('placeholder','Enter address, account number, etc.');
+  }
+
+
   app.hooks.searchForm.addClass('hint');
   app.hooks.searchForm.find('p').removeClass('hide');
   app.hooks.searchRight.html('&nbsp;');
