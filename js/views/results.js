@@ -18,7 +18,7 @@ app.views.results = function (q) {
   app.hooks.belowContent.children().detach();
 
   // Determine if q is an account number, intersection, or address
-  q = q.trim();
+  q = q.trim().replace(/\./g, ''); // API can't handle dots
   var m, opaEndpoint;
   if (m = /#?(\d{9})/.exec(q)) opaEndpoint = 'account/' + m[1];
   else if (m = /(.+) +(&|and) +(.+)/.exec(q)) {
