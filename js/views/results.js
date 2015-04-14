@@ -23,7 +23,7 @@ app.views.results = function (q) {
   if (m = /#?(\d{9})/.exec(q)) opaEndpoint = 'account/' + m[1];
   else if (m = /(.+) +(&|and) +(.+)/.exec(q)) {
     opaEndpoint = 'intersection/' + encodeURI(m[1] + '/' + m[3])
-  } else opaEndpoint = 'address/' + encodeURIComponent(opaAddress(q));
+  } else opaEndpoint = 'address/' + encodeURI(opaAddress(q));
 
   if (history.state) {
     render();
