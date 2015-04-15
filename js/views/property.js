@@ -206,6 +206,7 @@ app.views.property = function (accountNumber) {
     var pm = app.hooks.propertyMailing;
     var ma = state.opa.ownership.mailing_address;
     app.hooks.propertyMailingHeader.insertBefore(pm);
+    pm.append($('<div>').text(state.opa.ownership.liaison));
     pm.append($('<div>').text(ma.street));
     pm.append($('<div>').text(ma.city + ', ' + ma.state));
     pm.append($('<div>').text(ma.zip));
