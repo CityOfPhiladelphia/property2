@@ -100,7 +100,13 @@ app.views.property = function (accountNumber) {
     app.hooks.improvementDescription.text(state.opa.characteristics.description);
     app.hooks.landArea.text(accounting.formatNumber(state.opa.characteristics.land_area));
     app.hooks.improvementArea.text(accounting.formatNumber(state.opa.characteristics.improvement_area));
-    app.hooks.zoning.text(state.opa.characteristics.zoning_description);
+
+    // Empty zoning in prep for details
+    app.hooks.zoning.empty();
+
+    // Render sales details
+    app.hooks.salesPrice.text(accounting.formatMoney(state.opa.sales_information.sales_price));
+    app.hooks.salesDate.text(app.util.formatSalesDate(state.opa.sales_information.sales_date));
 
     // Empty mailing address in prep for details
     app.hooks.propertyMailingHeader.detach();
@@ -204,6 +210,9 @@ app.views.property = function (accountNumber) {
     pm.append($('<div>').text(ma.city + ', ' + ma.state));
     pm.append($('<div>').text(ma.zip));
 
+    // Render zoning
+    app.hooks.zoning.text(state.opa.characteristics.zoning_description);
+
     // Render valuation history
     state.opa.valuation_history.forEach(function (vh) {
       var row = $('<tr>');
@@ -215,10 +224,6 @@ app.views.property = function (accountNumber) {
       row.append($('<td>').text(accounting.formatMoney(vh.improvement_exempt)));
       app.hooks.valuation.append(row);
     });
-
-    // Render sales details
-    app.hooks.salesPrice.text(accounting.formatMoney(state.opa.sales_information.sales_price));
-    app.hooks.salesDate.text(app.util.formatSalesDate(state.opa.sales_information.sales_date));
 
     opaDetailsRendered = true;
   }
