@@ -1,4 +1,4 @@
-/*global $,app,google*/
+/*global $,app,google,accounting*/
 
 app.views.property = function (accountNumber) {
   var alreadyGettingOpaData, opaRendered, opaDetailsRendered;
