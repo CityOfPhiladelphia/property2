@@ -42,6 +42,12 @@ app.views.property = function (accountNumber) {
     getSaData();
   }
 
+  if (history.state.realestatetax) {
+    renderRealEstateTax();
+  } else if (history.state.opa) {
+    getRealEstateTaxData();
+  }
+
   function getOpaData () {
     alreadyGettingOpaData = true;
     $.ajax('https://api.phila.gov/opa/v1.1/account/' + accountNumber + '?format=json')
@@ -68,6 +74,49 @@ app.views.property = function (accountNumber) {
         state.sa = data.serviceAreaValues;
         history.replaceState(state, '');
         renderSa();
+      })
+      .fail(function () {
+        var state = $.extend({}, history.state);
+        state.sa = {error: true};
+        history.replaceState(state, '');
+      });
+  }
+
+  function getRealEstateTaxData () {
+    var state = history.state;
+
+    // Totals do not come back from the API. Calculate them once when the data
+    // is fetched.
+    function addTaxBalanceTotals(data) {
+      var balanceTotals = {
+        year: 'Total', principal: 0, interest: 0, penalty: 0, other: 0, total: 0
+      };
+
+      data.balances.forEach(function (b) {
+        // Totals for each year
+        b.total = b.principal + b.interest + b.penalty + b.other;
+
+        // Total for all attributes for all years
+        balanceTotals.total += b.total;
+        balanceTotals.principal += b.principal;
+        balanceTotals.interest += b.interest;
+        balanceTotals.penalty += b.penalty;
+        balanceTotals.other += b.other;
+      });
+
+      data.balance_totals = balanceTotals;
+      return data;
+    }
+
+    $.ajax('https://api.phila.gov/realestatetax/v1.0/'+state.opa.account_number+'?format=json')
+      .done(function (data) {
+        var state = $.extend({}, history.state),
+            taxData = addTaxBalanceTotals(data.data);
+
+        state.realestatetax = taxData;
+        history.replaceState(state, '');
+        console.log(state);
+        renderRealEstateTax();
       })
       .fail(function () {
         var state = $.extend({}, history.state);
@@ -319,6 +368,37 @@ app.views.property = function (accountNumber) {
         case 'SA_WATER_Water_Plate_Index':
           return app.hooks.waterPlate.text(sa.value);
       }
+    });
+  }
+
+  function renderRealEstateTax () {
+    var state = history.state;
+
+    // No use rendering if there's been a data error
+    if (state.error || state.realestatetax.error) return;
+
+    // Wait for both OPA render and RET data
+    if (!opaRendered || !state.realestatetax) return;
+
+    // Helper function to append a row
+    function appendTaxBalanceRow(b) {
+      var row = $('<tr>');
+      row.append($('<td>').text(b.year));
+      row.append($('<td>').text(accounting.formatMoney(b.principal)));
+      row.append($('<td>').text(accounting.formatMoney(b.interest)));
+      row.append($('<td>').text(accounting.formatMoney(b.penalty)));
+      row.append($('<td>').text(accounting.formatMoney(b.other)));
+      row.append($('<td>').text(accounting.formatMoney(b.total)));
+      app.hooks.taxBalanceHistory.append(row);
+    }
+
+    // Render total balance
+    app.hooks.totalTaxBalance.text(accounting.formatMoney(state.realestatetax.balance_totals.total));
+
+    // Render tax balance history
+    appendTaxBalanceRow(state.realestatetax.balance_totals);
+    state.realestatetax.balances.forEach(function (b) {
+      appendTaxBalanceRow(b);
     });
   }
 
