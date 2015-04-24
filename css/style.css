@@ -68,8 +68,18 @@ p {
   font-weight:normal;
   text-transform:none;
 }
+table {
+  /*required for borders on trs */
+    border-collapse: collapse;
+}
 table thead tr th, table thead tr td{
     font-size:.7rem;
+}
+table tr.highlight-fill {
+  background:#f2ba13;
+}
+table tr.highlight-border {
+  border:2px solid #f2ba13;
 }
 .panel, .bold {
   font-family: 'Montserrat', 'Tahoma', sans-serif;
