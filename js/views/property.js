@@ -376,6 +376,14 @@ app.views.property = function (accountNumber) {
 
   function renderRealEstateTax () {
     var state = history.state,
+        taxStatuses = {
+          'LBR': 'Collections being pursued by Linebarger Collection Agency. Please call (215) 790-1117.',
+          'GRB': 'Collections being pursued by GRB Collection Agency. Please call (866) 677-5970.',
+          'AGRE': 'Active payment agreement plan in effect for delinquent taxes.',
+          'INST': 'Active installment payment plan in effect for current taxes.',
+          'PIO': 'Collections being pursued by Pioneer Collection Agency. Please call (866) 439-1318.',
+          'BRT': 'Under appeal with the Board of Revision of Taxes.'
+        },
         i;
 
     // No use rendering if there's been a data error
@@ -383,6 +391,28 @@ app.views.property = function (accountNumber) {
 
     // Wait for both OPA render and RET data
     if (!opaRendered || !state.realestatetax) return;
+
+
+    function getTaxBalanceDetail(b) {
+      var details = '';
+
+      if (b.lien) {
+        details += '<dl><dt>Lien</dt><dd>'+b.lien+'</dd></dl>';
+      }
+      if (b.solicitor) {
+        details += '<dl><dt>City Solicitor</dt><dd>'+b.solicitor+'</dd></dl>';
+      }
+      if (b.status) {
+        details += '<dl><dt>Status</dt><dd>' + taxStatuses[b.status] + '</dd></dl>';
+      }
+
+      if (details) {
+        details = '<i data-tooltip aria-haspopup="true" title="'+
+                  details+'" class="fa fa-info-circle has-tip"></i>' + details;
+      }
+
+      return details;
+    }
 
     // Helper function to append a row
     function appendTaxBalanceRow(b, rowClass) {
@@ -393,6 +423,7 @@ app.views.property = function (accountNumber) {
       row.append($('<td>').text(accounting.formatMoney(b.penalty)));
       row.append($('<td>').text(accounting.formatMoney(b.other)));
       row.append($('<td>').text(accounting.formatMoney(b.total)));
+      row.append($('<td class=""></td>').html(getTaxBalanceDetail(b)));
 
       if (rowClass) {
         row.addClass(rowClass);
@@ -423,7 +454,6 @@ app.views.property = function (accountNumber) {
       if (i >= HISTORY_PAGE_SIZE) { rowClass = 'hidden'; }
       if (b.lien || b.solicitor || b.status) { rowClass += ' highlight-border'; }
 
-
       appendTaxBalanceRow(b, rowClass);
       i++;
     });
@@ -432,6 +462,9 @@ app.views.property = function (accountNumber) {
     if(app.hooks.taxBalanceHistory.find('tr.hidden').length > 0) {
       app.hooks.moreTaxBalanceHistoryLink.removeClass('hidden');
     }
+
+    // Rebind the tooltips that we just rendered
+    $(document).foundation('tooltip', 'reflow');
   }
 
   function renderError () {
