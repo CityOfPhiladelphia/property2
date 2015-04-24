@@ -1,5 +1,7 @@
 /*global $,app,google,accounting*/
 
+var HISTORY_PAGE_SIZE = 5;
+
 app.views.property = function (accountNumber) {
   var alreadyGettingOpaData, opaRendered, opaDetailsRendered;
 
@@ -373,7 +375,6 @@ app.views.property = function (accountNumber) {
 
   function renderRealEstateTax () {
     var state = history.state,
-        historyPageSize = 5,
         i;
 
     // No use rendering if there's been a data error
@@ -399,6 +400,14 @@ app.views.property = function (accountNumber) {
       app.hooks.taxBalanceHistoryTbody.append(row);
     }
 
+    // Reset tax balance history
+    app.hooks.taxBalanceHistoryLink.text('More Details');
+    app.hooks.taxBalanceHistory.addClass('hidden');
+    app.hooks.taxBalanceHistoryTbody.empty();
+
+    // Empty the total tax balance
+    app.hooks.totalTaxBalance.empty();
+
     // Sort tax balances in place by year, descending
     state.realestatetax.balances.sort(function(a, b) { return b.year - a.year; });
 
@@ -410,7 +419,7 @@ app.views.property = function (accountNumber) {
     i = 0;
     state.realestatetax.balances.forEach(function (b) {
       var rowClass = '';
-      if (i >= historyPageSize) { rowClass = 'hidden'; }
+      if (i >= HISTORY_PAGE_SIZE) { rowClass = 'hidden'; }
       if (b.lien || b.solicitor || b.status) { rowClass += ' highlight-border'; }
 
 
@@ -422,35 +431,13 @@ app.views.property = function (accountNumber) {
     if(app.hooks.taxBalanceHistory.find('tr.hidden').length > 0) {
       app.hooks.moreTaxBalanceHistoryLink.removeClass('hidden');
     }
-
-    // Show another page of results when the "more" button is clicked
-    app.hooks.moreTaxBalanceHistoryLink.on('click', function(evt) {
-      evt.preventDefault();
-      app.hooks.taxBalanceHistory.find('tr.hidden:lt('+historyPageSize+')')
-        .removeClass('hidden');
-
-      // If there are hidden history rows, show the "more" button
-      if(app.hooks.taxBalanceHistory.find('tr.hidden').length === 0) {
-        app.hooks.moreTaxBalanceHistoryLink.addClass('hidden');
-      }
-    });
-
-    // Bind the click event on the details link for tax balances
-    app.hooks.taxBalanceHistoryLink.on('click', function(evt) {
-      evt.preventDefault();
-      app.hooks.taxBalanceHistory.toggleClass('hidden');
-
-      if (app.hooks.taxBalanceHistory.hasClass('hidden')) {
-        app.hooks.taxBalanceHistoryLink.text('More Details');
-      } else {
-        app.hooks.taxBalanceHistoryLink.text('Hide Details');
-      }
-    });
   }
 
   function renderError () {
     // TODO Display an error message that looks nice
   }
+
+
 
   // // TODO Get L&I data
   // // Tim also pointed at http://api.phila.gov/ULRS311/Data/LIAddressKey/340%20n%2012th%20st
@@ -490,3 +477,30 @@ app.views.property = function (accountNumber) {
   // function renderLi () {
   // }
 };
+
+// Self calling function
+(function bindGlobalPropertyEvents() {
+  // Bind the click event on the details link for tax balances
+  app.hooks.taxBalanceHistoryLink.on('click', function(evt) {
+    evt.preventDefault();
+    app.hooks.taxBalanceHistory.toggleClass('hidden');
+
+    if (app.hooks.taxBalanceHistory.hasClass('hidden')) {
+      app.hooks.taxBalanceHistoryLink.text('More Details');
+    } else {
+      app.hooks.taxBalanceHistoryLink.text('Hide Details');
+    }
+  });
+
+  // Show another page of results when the "more" button is clicked
+  app.hooks.moreTaxBalanceHistoryLink.on('click', function(evt) {
+    evt.preventDefault();
+    app.hooks.taxBalanceHistory.find('tr.hidden:lt('+HISTORY_PAGE_SIZE+')')
+      .removeClass('hidden');
+
+    // If there are hidden history rows, show the "more" button
+    if(app.hooks.taxBalanceHistory.find('tr.hidden').length === 0) {
+      app.hooks.moreTaxBalanceHistoryLink.addClass('hidden');
+    }
+  });
+}());
