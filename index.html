@@ -288,10 +288,10 @@
             <h2 data-hook="total-tax-balance" class="xtra-lg no-margin"></h2>
           </div>
           <div class="medium-12 columns align-right">
-            <a class="button no-margin" href="#">More Details</a>
+            <a data-hook="tax-balance-history-link" class="button no-margin" href="#">More Details</a>
           </div>
         </div>
-        <div class="row">
+        <div data-hook="tax-balance-history" class="row hidden">
           <div class="columns">
             <table role="grid" summary="Valuation History" class="responsive">
               <thead>
@@ -304,9 +304,11 @@
                   <th>Total</th>
                 </tr>
               </thead>
-              <tbody data-hook="tax-balance-history">
+              <tbody data-hook="tax-balance-history-tbody">
               </tbody>
             </table>
+
+            <a data-hook="more-tax-balance-history-link" href="#" class="button expand hidden">See More History</a>
           </div>
         </div> <!-- End taxes -->
         <div class="row"> <!-- Begin valuation -->

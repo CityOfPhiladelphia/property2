@@ -373,7 +373,9 @@ app.views.property = function (accountNumber) {
   }
 
   function renderRealEstateTax () {
-    var state = history.state;
+    var state = history.state,
+        historyPageSize = 5,
+        i;
 
     // No use rendering if there's been a data error
     if (state.error || state.realestatetax.error) return;
@@ -382,7 +384,7 @@ app.views.property = function (accountNumber) {
     if (!opaRendered || !state.realestatetax) return;
 
     // Helper function to append a row
-    function appendTaxBalanceRow(b) {
+    function appendTaxBalanceRow(b, rowClass) {
       var row = $('<tr>');
       row.append($('<td>').text(b.year));
       row.append($('<td>').text(accounting.formatMoney(b.principal)));
@@ -390,16 +392,60 @@ app.views.property = function (accountNumber) {
       row.append($('<td>').text(accounting.formatMoney(b.penalty)));
       row.append($('<td>').text(accounting.formatMoney(b.other)));
       row.append($('<td>').text(accounting.formatMoney(b.total)));
-      app.hooks.taxBalanceHistory.append(row);
+
+      if (rowClass) {
+        row.addClass(rowClass);
+      }
+
+      app.hooks.taxBalanceHistoryTbody.append(row);
     }
+
+    // Sort tax balances in place by year, descending
+    state.realestatetax.balances.sort(function(a, b) { return b.year - a.year; });
 
     // Render total balance
     app.hooks.totalTaxBalance.text(accounting.formatMoney(state.realestatetax.balance_totals.total));
 
     // Render tax balance history
-    appendTaxBalanceRow(state.realestatetax.balance_totals);
+    appendTaxBalanceRow(state.realestatetax.balance_totals, 'highlight-fill');
+    i = 0;
     state.realestatetax.balances.forEach(function (b) {
-      appendTaxBalanceRow(b);
+      var rowClass = '';
+      if (i >= historyPageSize) { rowClass = 'hidden'; }
+      if (b.lien || b.solicitor || b.status) { rowClass += ' highlight-border'; }
+
+
+      appendTaxBalanceRow(b, rowClass);
+      i++;
+    });
+
+    // If there are hidden history rows, show the "more" button
+    if(app.hooks.taxBalanceHistory.find('tr.hidden').length > 0) {
+      app.hooks.moreTaxBalanceHistoryLink.removeClass('hidden');
+    }
+
+    // Show another page of results when the "more" button is clicked
+    app.hooks.moreTaxBalanceHistoryLink.on('click', function(evt) {
+      evt.preventDefault();
+      app.hooks.taxBalanceHistory.find('tr.hidden:lt('+historyPageSize+')')
+        .removeClass('hidden');
+
+      // If there are hidden history rows, show the "more" button
+      if(app.hooks.taxBalanceHistory.find('tr.hidden').length === 0) {
+        app.hooks.moreTaxBalanceHistoryLink.addClass('hidden');
+      }
+    });
+
+    // Bind the click event on the details link for tax balances
+    app.hooks.taxBalanceHistoryLink.on('click', function(evt) {
+      evt.preventDefault();
+      app.hooks.taxBalanceHistory.toggleClass('hidden');
+
+      if (app.hooks.taxBalanceHistory.hasClass('hidden')) {
+        app.hooks.taxBalanceHistoryLink.text('More Details');
+      } else {
+        app.hooks.taxBalanceHistoryLink.text('Hide Details');
+      }
     });
   }
 
