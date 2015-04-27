@@ -135,7 +135,12 @@ table tr.highlight-border {
 .hidden{
   display:none !important;
 }
-
+.has-tip{
+  color:#027EA4;
+}
+.has-tip:hover, .has-tip:focus{
+  color: #333;
+}
 /* set our special print classes */
 .show-for-print{
   display:none;

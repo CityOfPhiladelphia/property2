@@ -409,18 +409,18 @@ app.views.property = function (accountNumber) {
       var details = '';
 
       if (b.lien) {
-        details += '<dl><dt>Lien</dt><dd>'+b.lien+'</dd></dl>';
+        details += '<dt>Lien</dt><dd>'+b.lien+'</dd>';
       }
       if (b.solicitor) {
-        details += '<dl><dt>City Solicitor</dt><dd>'+b.solicitor+'</dd></dl>';
+        details += '<dt>City Solicitor</dt><dd>'+b.solicitor+'</dd>';
       }
       if (b.status) {
-        details += '<dl><dt>Status</dt><dd>' + taxStatuses[b.status] + '</dd></dl>';
+        details += '<dt>Status</dt><dd>' + taxStatuses[b.status] + '</dd>';
       }
 
       if (details) {
         details = '<i data-tooltip aria-haspopup="true" title="'+
-                  details+'" class="fa fa-info-circle has-tip"></i>' + '<div class="show-for-print">' + details + '</div>';
+                '<dl>'+details+'</dl>' + '" class="fa fa-lg fa-info-circle has-tip"></i>' + '<div class="show-for-print">' + details + '</div>';
       }
 
       return details;
