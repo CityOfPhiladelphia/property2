@@ -128,6 +128,12 @@ table tr.highlight-border {
   background:#dbe1e3;
   color:#000;
 }
+.has-tip{
+  color:#027EA4;
+}
+.has-tip:hover, .has-tip:focus{
+  color: #333;
+}
 /* Fix images in google maps*/
 .gmnoprint img {
     max-width: none;
