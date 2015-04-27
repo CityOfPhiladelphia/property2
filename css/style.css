@@ -189,3 +189,28 @@ dt, dd {
     content: none !important;
   }
 }
+
+/* print-specific */
+@media print {
+  body {
+   font-size: 80%;
+  }
+  /*stop blank page at end */
+
+  .show-for-print{
+    display:block;
+  }
+  #alpha-alert, footer, .button, .search, .map, #breadcrumbs, .search-box {
+    display:none;
+  }
+  /*to fit more on the page*/
+  .medium-12, .large-10, .property-main, .search-head{
+    width:50%;
+  }
+  .property-side {
+    margin-top:-100px;
+  }
+  .xtra-lg {
+    font-size:1;
+  }
+}
