@@ -135,3 +135,8 @@ table tr.highlight-border {
 .hidden{
   display:none !important;
 }
+
+/* set our special print classes */
+.show-for-print{
+  display:none;
+}
