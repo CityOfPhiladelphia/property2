@@ -128,11 +128,16 @@ table tr.highlight-border {
   background:#dbe1e3;
   color:#000;
 }
+/*tooltips*/
 .has-tip{
   color:#027EA4;
 }
 .has-tip:hover, .has-tip:focus{
   color: #333;
+}
+dt, dd {
+  width:50%;
+  float:left;
 }
 /* Fix images in google maps*/
 .gmnoprint img {
