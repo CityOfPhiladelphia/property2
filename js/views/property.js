@@ -167,6 +167,13 @@ app.views.property = function (accountNumber) {
     // Empty valuation history
     app.hooks.valuation.empty();
 
+    // Reset tax balance history
+    app.hooks.taxBalanceHistoryLink.addClass('hidden').text('Show Details');
+    app.hooks.taxBalancePaymentLink.addClass('hidden');
+    app.hooks.taxBalanceHistory.addClass('hidden');
+    app.hooks.taxBalanceHistoryTbody.empty();
+
+
     app.hooks.content.append(app.hooks.propertyMain);
     app.hooks.content.append(app.hooks.propertySide);
     app.hooks.belowContent.append(app.hooks.propertySecondary);
@@ -390,11 +397,6 @@ app.views.property = function (accountNumber) {
     if (state.error) return;
 
     if (state.realestatetax.error) {
-      // Reset tax balance history
-      app.hooks.taxBalanceHistoryLink.addClass('hidden').text('Show Details');
-      app.hooks.taxBalanceHistory.addClass('hidden');
-      app.hooks.taxBalanceHistoryTbody.empty();
-
       // Empty the total tax balance
       app.hooks.totalTaxBalance.text('Not found');
 
@@ -444,19 +446,17 @@ app.views.property = function (accountNumber) {
       app.hooks.taxBalanceHistoryTbody.append(row);
     }
 
-    // Reset tax balance history
-    app.hooks.taxBalanceHistoryLink.removeClass('hidden').text('Show Details');
-    app.hooks.taxBalanceHistory.addClass('hidden');
-    app.hooks.taxBalanceHistoryTbody.empty();
-
-    // Empty the total tax balance
-    app.hooks.totalTaxBalance.empty();
-
     // Sort tax balances in place by year, descending
     state.realestatetax.balances.sort(function(a, b) { return b.year - a.year; });
 
+    // Show history link
+    app.hooks.taxBalanceHistoryLink.removeClass('hidden');
+
     // Render total balance
     app.hooks.totalTaxBalance.text(accounting.formatMoney(state.realestatetax.balance_totals.total));
+    if (state.realestatetax.balance_totals.total) {
+      app.hooks.taxBalancePaymentLink.removeClass('hidden');
+    }
 
     // Render tax balance history
     appendTaxBalanceRow(state.realestatetax.balance_totals, 'highlight-fill');
