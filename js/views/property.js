@@ -113,17 +113,18 @@ app.views.property = function (accountNumber) {
     $.ajax('https://api.phila.gov/realestatetax/v1.0/'+state.opa.account_number+'?format=json')
       .done(function (data) {
         var state = $.extend({}, history.state),
-            taxData = addTaxBalanceTotals(data.data);
+            // Hack to support funky API result - 200 code that's actually a 400.
+            taxData = data.status !== 'error' ? addTaxBalanceTotals(data.data) : {error: true};
 
         state.realestatetax = taxData;
         history.replaceState(state, '');
-        console.log(state);
         renderRealEstateTax();
       })
       .fail(function () {
         var state = $.extend({}, history.state);
-        state.sa = {error: true};
+        state.realestatetax = {error: true};
         history.replaceState(state, '');
+        renderRealEstateTax();
       });
   }
 
@@ -386,7 +387,19 @@ app.views.property = function (accountNumber) {
         i;
 
     // No use rendering if there's been a data error
-    if (state.error || state.realestatetax.error) return;
+    if (state.error) return;
+
+    if (state.realestatetax.error) {
+      // Reset tax balance history
+      app.hooks.taxBalanceHistoryLink.addClass('hidden').text('Show Details');
+      app.hooks.taxBalanceHistory.addClass('hidden');
+      app.hooks.taxBalanceHistoryTbody.empty();
+
+      // Empty the total tax balance
+      app.hooks.totalTaxBalance.text('Not found');
+
+      return;
+    }
 
     // Wait for both OPA render and RET data
     if (!opaRendered || !state.realestatetax) return;
@@ -432,7 +445,7 @@ app.views.property = function (accountNumber) {
     }
 
     // Reset tax balance history
-    app.hooks.taxBalanceHistoryLink.text('More Details');
+    app.hooks.taxBalanceHistoryLink.removeClass('hidden').text('Show Details');
     app.hooks.taxBalanceHistory.addClass('hidden');
     app.hooks.taxBalanceHistoryTbody.empty();
 
@@ -519,7 +532,7 @@ app.views.property = function (accountNumber) {
     app.hooks.taxBalanceHistory.toggleClass('hidden');
 
     if (app.hooks.taxBalanceHistory.hasClass('hidden')) {
-      app.hooks.taxBalanceHistoryLink.text('More Details');
+      app.hooks.taxBalanceHistoryLink.text('Show Details');
     } else {
       app.hooks.taxBalanceHistoryLink.text('Hide Details');
     }
