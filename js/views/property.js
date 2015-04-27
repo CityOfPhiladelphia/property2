@@ -408,7 +408,7 @@ app.views.property = function (accountNumber) {
 
       if (details) {
         details = '<i data-tooltip aria-haspopup="true" title="'+
-                  details+'" class="fa fa-info-circle has-tip"></i>' + details;
+                  details+'" class="fa fa-info-circle has-tip"></i>' + '<div class="show-for-print">' + details + '</div>';
       }
 
       return details;
@@ -423,7 +423,7 @@ app.views.property = function (accountNumber) {
       row.append($('<td>').text(accounting.formatMoney(b.penalty)));
       row.append($('<td>').text(accounting.formatMoney(b.other)));
       row.append($('<td>').text(accounting.formatMoney(b.total)));
-      row.append($('<td class=""></td>').html(getTaxBalanceDetail(b)));
+      row.append($('<td></td>').html(getTaxBalanceDetail(b)));
 
       if (rowClass) {
         row.addClass(rowClass);
