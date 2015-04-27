@@ -171,6 +171,7 @@ app.views.property = function (accountNumber) {
     app.hooks.taxBalanceHistoryLink.addClass('hidden').text('Show Details');
     app.hooks.taxBalancePaymentLink.addClass('hidden');
     app.hooks.taxBalanceHistory.addClass('hidden');
+    app.hooks.totalTaxBalance.empty();
     app.hooks.taxBalanceHistoryTbody.empty();
 
 
