@@ -125,3 +125,53 @@ table thead tr th, table thead tr td{
 .hidden{
   display:none !important;
 }
+
+/* set our special print classes */
+.show-for-print{
+  display:none;
+}
+
+/* print-specific */
+@media print {
+  body {
+   font-size: 80%;
+  }
+  /*stop blank page at end */
+  body, html, #application { height: 100%; }
+
+  .show-for-print{
+    display:block;
+  }
+  #alpha-alert, footer, .button, .button + .small-text, .search, .map, #breadcrumbs, .search-box, .divider, .street-view-toggle {
+    display:none;
+  }
+  /*to fit more on the page*/
+  .medium-12, .large-10, .property-main, .search-head{
+    width:50%;
+  }
+  .property-side {
+    margin-top:-100px;
+  }
+  .xtra-lg{
+    font-size:1em;
+  }.
+  .search-head h1 {
+    margin-top: 0rem;
+  }
+  header {
+    height:25px;
+  }
+  .panel {
+    padding:10px;
+  }
+  .panel h4, .panel h4 + div, .sales h3, .sales h3 + div {
+    display:inline;
+  }
+  .panel h4:after, .sales h3:after{
+    content: ": ";
+  }
+  .panel h4 + div::after, .sales h3 + div::after{
+    content:"";
+    display:block;
+  }
+}
