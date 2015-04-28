@@ -126,11 +126,6 @@ table thead tr th, table thead tr td{
   display:none !important;
 }
 
-/* set our special print classes */
-.show-for-print{
-  display:none;
-}
-
 /* print-specific */
 @media print {
   body {
@@ -139,10 +134,7 @@ table thead tr th, table thead tr td{
   /*stop blank page at end */
   body, html, #application { height: 100%; }
 
-  .show-for-print{
-    display:block;
-  }
-  #alpha-alert, footer, .button, .button + .small-text, .search, .map, #breadcrumbs, .search-box, .divider, .street-view-toggle {
+  #alpha-alert, footer, .button, .button + .small-text, .search, .map, #breadcrumbs, .search-box, .divider, .street-view-toggle, .real-estate-taxes {
     display:none;
   }
   /*to fit more on the page*/
@@ -173,5 +165,8 @@ table thead tr th, table thead tr td{
   .panel h4 + div::after, .sales h3 + div::after{
     content:"";
     display:block;
+  }
+  a[href]:after {
+    content: none !important;
   }
 }
