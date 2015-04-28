@@ -76,7 +76,7 @@
       <div class="search-head">
         <div class="row">
           <div data-hook="search-right" class="medium-4 columns">&nbsp;</div>
-          <div data-hook="search-box" class="medium-16 columns">
+          <div data-hook="search-box" class="search-box medium-16 columns">
             <form data-hook="search-form" class="search hint">
               <input type="text" data-hook="search" name="q">
               <p class="show-for-medium-up">e.g. 1234 Market Street, 883309000, 12th and Market, 1200-1299 Market</p>
@@ -216,7 +216,7 @@
       </div>
 
       <!-- Property view side panel -->
-      <div data-hook="property-side" class="large-10 columns">
+      <div data-hook="property-side" class="property-side large-10 columns">
         <div class="hide-for-large-up"><h3 class="alternate divide">Property Details</h4></div>
         <div class="panel">
           <div class="row">
@@ -262,7 +262,7 @@
       </div>
 
       <!-- Property view main content area -->
-      <div data-hook="property-main" class="large-14 columns">
+      <div data-hook="property-main" class="property-main large-14 columns">
         <div class="row"> <!-- Begin owners -->
           <div class="columns">
             <h2 class="alternate divide">Owner(s)</h2>
@@ -278,12 +278,12 @@
           </div>
         </div> <!-- End owners -->
         <div class="row"> <!-- Begin taxes -->
-          <div class="columns">
+          <div class="hide-for-print columns">
             <h2 class="alternate divide">Real Estate Taxes</h2>
           </div>
         </div>
         <div class="row">
-          <div class="medium-14 columns"><p class="no-margin normal">Real Estate Tax account balances have not been incorporated into this application.</p></div>
+          <div class="hide-for-print medium-14 columns"><p class="no-margin normal">Real Estate Tax account balances have not been incorporated into this application.</p></div>
           <div class="medium-10 columns align-right">
             <a class="button no-margin" href="http://www.phila.gov/revenue/realestatetax">Current Tax Balance</a>
             <div class="small-text">On Department of Revenue website</div>

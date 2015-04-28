@@ -125,3 +125,46 @@ table thead tr th, table thead tr td{
 .hidden{
   display:none !important;
 }
+
+/* print-specific*/
+@media print {
+  body {
+   font-size: 80%;
+  }
+  /*stop blank page at end */
+  body, html, #application { height: 100%; }
+
+  #alpha-alert, footer, .button, .button + .small-text, .search, .map, #breadcrumbs, .search-box, .divider, .street-view-toggle, .real-estate-taxes, .search-right {
+    display:none;
+  }
+  /*to fit more on the page*/
+  .medium-12, .large-10, .property-main{
+    width:50%;
+  }
+  .property-side {
+    margin-top:-45px;
+  }
+  .xtra-lg, .h3{
+    font-size:1em;
+  }
+  .search-head {
+    padding: 0px !important;
+    margin: 0px !important;
+  }
+  .panel {
+    padding:10px;
+  }
+  .panel h4, .panel h4 + div, .sales h3, .sales h3 + div {
+    display:inline;
+  }
+  .panel h4:after, .sales h3:after{
+    content: ": ";
+  }
+  .panel h4 + div::after, .sales h3 + div::after{
+    content:"";
+    display:block;
+  }
+  a[href]:after {
+    content: none !important;
+  }
+}
