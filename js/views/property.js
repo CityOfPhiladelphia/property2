@@ -212,7 +212,8 @@ app.views.property = function (accountNumber) {
     pm.append($('<div>').text(ma.zip));
 
     // Render zoning
-    app.hooks.zoning.text(state.opa.characteristics.zoning_description);
+    app.hooks.zoning.html(state.opa.characteristics.zoning + '<br>' +
+      state.opa.characteristics.zoning_description);
 
     // Render valuation history
     state.opa.valuation_history.forEach(function (vh) {
