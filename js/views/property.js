@@ -169,7 +169,6 @@ app.views.property = function (accountNumber) {
 
     // Reset tax balance history
     app.hooks.taxBalanceHistoryLink.addClass('hidden').text('Show Details');
-    app.hooks.taxBalancePaymentLink.addClass('hidden');
     app.hooks.taxBalanceHistory.addClass('hidden');
     app.hooks.totalTaxBalance.empty();
     app.hooks.taxBalanceHistoryTbody.empty();
@@ -423,7 +422,8 @@ app.views.property = function (accountNumber) {
 
       if (details) {
         details = '<i data-tooltip aria-haspopup="true" title="'+
-                '<dl>'+details+'</dl>' + '" class="fa fa-lg fa-info-circle has-tip"></i>' + '<div class="show-for-print">' + details + '</div>';
+                '<dl>'+details+'</dl>' + '" class="fa fa-lg fa-info-circle has-tip"></i>' +
+                '<div class="show-for-print">' + details + '</div>';
       }
 
       return details;
@@ -438,7 +438,7 @@ app.views.property = function (accountNumber) {
       row.append($('<td>').text(accounting.formatMoney(b.penalty)));
       row.append($('<td>').text(accounting.formatMoney(b.other)));
       row.append($('<td>').text(accounting.formatMoney(b.total)));
-      row.append($('<td></td>').html(getTaxBalanceDetail(b)));
+      row.append($('<td>').html(getTaxBalanceDetail(b)));
 
       if (rowClass) {
         row.addClass(rowClass);
@@ -455,9 +455,6 @@ app.views.property = function (accountNumber) {
 
     // Render total balance
     app.hooks.totalTaxBalance.text(accounting.formatMoney(state.realestatetax.balance_totals.total));
-    if (state.realestatetax.balance_totals.total) {
-      app.hooks.taxBalancePaymentLink.removeClass('hidden');
-    }
 
     // Render tax balance history
     appendTaxBalanceRow(state.realestatetax.balance_totals, 'highlight-fill');
