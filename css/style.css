@@ -126,7 +126,7 @@ table thead tr th, table thead tr td{
   display:none !important;
 }
 
-/* print-specific */
+/* print-specific*/
 @media print {
   body {
    font-size: 80%;
@@ -134,24 +134,22 @@ table thead tr th, table thead tr td{
   /*stop blank page at end */
   body, html, #application { height: 100%; }
 
-  #alpha-alert, footer, .button, .button + .small-text, .search, .map, #breadcrumbs, .search-box, .divider, .street-view-toggle, .real-estate-taxes {
+  #alpha-alert, footer, .button, .button + .small-text, .search, .map, #breadcrumbs, .search-box, .divider, .street-view-toggle, .real-estate-taxes, .search-right {
     display:none;
   }
   /*to fit more on the page*/
-  .medium-12, .large-10, .property-main, .search-head{
+  .medium-12, .large-10, .property-main{
     width:50%;
   }
   .property-side {
-    margin-top:-100px;
+    margin-top:-45px;
   }
-  .xtra-lg{
+  .xtra-lg, .h3{
     font-size:1em;
-  }.
-  .search-head h1 {
-    margin-top: 0rem;
   }
-  header {
-    height:25px;
+  .search-head {
+    padding: 0px !important;
+    margin: 0px !important;
   }
   .panel {
     padding:10px;
