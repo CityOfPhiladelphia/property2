@@ -70,6 +70,11 @@ app.hooks.search.parent().on('submit', function (e) {
   app.views.results(q.value);
 });
 
+// global settings
+app.settings = {
+  ajaxType: 'json'
+};
+
 // A place for views to populate
 app.views = {};
 
