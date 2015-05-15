@@ -285,8 +285,16 @@
         <div class="row">
           <div class="medium-12 columns">
             <h2 data-hook="total-tax-balance" class="xtra-lg"></h2>
+            <p data-hook="tax-balance-status" class="hidden"></p>
           </div>
-          <div class="medium-12 columns align-right">
+          <div class="medium-12 columns">
+
+            <!-- Tooltip for non-mobile -->
+            <a data-hook="pay-tax-balance-link" data-tooltip data-options="disable_for_touch:true" aria-haspopup="true" title="Tax balances cannot currently be paid directly from this site. You will be taken to the Department of Revenue for payment." class="button hidden no-margin" target="_blank" href="http://www.phila.gov/revenue/realestatetax">Pay Tax Balance</a>
+
+            <!-- Show on mobile view -->
+            <p class="pay-tax-balance-tip">Tax balances cannot currently be paid directly from this site. You will be taken to the Department of Revenue for payment.</p>
+
             <a data-hook="tax-balance-history-link" class="button hidden" href="#">Show Details</a>
           </div>
         </div>
