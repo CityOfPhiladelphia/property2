@@ -27,6 +27,10 @@ body {
 .front .callout {
   margin:-15px 0 1rem 5rem;
 }
+.button.active {
+  background: #00455A;
+  border-color: #00455A;
+}
 @media only screen and (max-width: 40em) {
   .front .callout {
     margin:0.625rem 0 1rem 0;
@@ -149,6 +153,17 @@ dt, dd {
 /* set our special print classes */
 .show-for-print{
   display:none;
+}
+
+.pay-tax-balance-tip {
+  font-size: 0.6em;
+}
+
+/* Large screens */
+@media only screen and (min-width: 64.063em) {
+  .pay-tax-balance-tip {
+    display: none;
+  }
 }
 
 /* print-specific */

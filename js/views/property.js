@@ -168,7 +168,9 @@ app.views.property = function (accountNumber) {
     app.hooks.valuation.empty();
 
     // Reset tax balance history
+    app.hooks.taxBalanceStatus.removeClass('hidden').text('Loading...');
     app.hooks.taxBalanceHistoryLink.addClass('hidden').text('Show Details');
+    app.hooks.payTaxBalanceLink.addClass('hidden');
     app.hooks.taxBalanceHistory.addClass('hidden');
     app.hooks.totalTaxBalance.empty();
     app.hooks.taxBalanceHistoryTbody.empty();
@@ -398,7 +400,7 @@ app.views.property = function (accountNumber) {
 
     if (state.realestatetax.error) {
       // Empty the total tax balance
-      app.hooks.totalTaxBalance.text('Not found');
+      app.hooks.taxBalanceStatus.removeClass('hidden').text('Not found.');
 
       return;
     }
@@ -451,7 +453,9 @@ app.views.property = function (accountNumber) {
     state.realestatetax.balances.sort(function(a, b) { return b.year - a.year; });
 
     // Show history link
+    app.hooks.taxBalanceStatus.addClass('hidden');
     app.hooks.taxBalanceHistoryLink.removeClass('hidden');
+    app.hooks.payTaxBalanceLink.removeClass('hidden');
 
     // Render total balance
     app.hooks.totalTaxBalance.text(accounting.formatMoney(state.realestatetax.balance_totals.total));
@@ -530,9 +534,13 @@ app.views.property = function (accountNumber) {
     app.hooks.taxBalanceHistory.toggleClass('hidden');
 
     if (app.hooks.taxBalanceHistory.hasClass('hidden')) {
-      app.hooks.taxBalanceHistoryLink.text('Show Details');
+      app.hooks.taxBalanceHistoryLink
+        .text('Show Details')
+        .removeClass('active');
     } else {
-      app.hooks.taxBalanceHistoryLink.text('Hide Details');
+      app.hooks.taxBalanceHistoryLink
+        .text('Hide Details')
+        .addClass('active');
     }
   });
 
