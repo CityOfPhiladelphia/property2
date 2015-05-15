@@ -72,7 +72,7 @@ app.hooks.search.parent().on('submit', function (e) {
 
 // global settings
 app.settings = {
-  ajaxType: 'json'
+  ajaxType: $.support.cors ? 'json' : 'jsonp'
 };
 
 // A place for views to populate
