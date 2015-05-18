@@ -165,7 +165,7 @@ dt, dd {
   }
 }
 
-/* print-specific*/
+/* print-specific */
 @media print {
   body {
    font-size: 80%;
