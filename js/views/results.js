@@ -30,7 +30,8 @@ app.views.results = function (q) {
   } else {
     app.hooks.content.append(app.hooks.loading);
 
-    $.ajax('https://api.phila.gov/opa/v1.1/' + opaEndpoint + '?format=json')
+    $.ajax('https://api.phila.gov/opa/v1.1/' + opaEndpoint + '?format=json',
+      {dataType: app.settings.ajaxType})
       .done(function (data) {
         var property, accountNumber, href, withUnit;
         if (data.data.property || data.data.properties.length == 1) {
@@ -71,7 +72,8 @@ app.views.results = function (q) {
       var seeMoreA = app.hooks.seeMore.find('a');
       seeMoreA.off('click'); // Drop previously created click events
       seeMoreA.on('click', function (e) {
-        $.ajax('https://api.phila.gov/opa/v1.1/' + opaEndpoint + '?format=json&skip=' + state.data.properties.length)
+        $.ajax('https://api.phila.gov/opa/v1.1/' + opaEndpoint + '?format=json'+
+          '&skip=' + state.data.properties.length, {dataType: app.settings.ajaxType})
           .done(function (data) {
             state.data.properties = state.data.properties.concat(data.data.properties);
             history.replaceState(state, ''); // Second param not optional in IE10
