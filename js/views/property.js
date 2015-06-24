@@ -303,10 +303,6 @@ app.views.property = function (accountNumber) {
           return app.hooks.planning.text(sa.value);
         case 'SA_LNI_DISTRICT':
           return app.hooks.liDistrict.text(sa.value);
-        case 'SA_PWD_CenterCityDistrict':
-          return app.hooks.pwdCenterCity.text(sa.value);
-        case 'SA_CENTER_CITY_DISTRICT':
-          return app.hooks.centerCity.text(sa.value);
         case 'SA_STREETS_HISTORIC':
           return app.hooks.historic.text(sa.value);
         case 'SA_RECREATION_Recreation_District':
