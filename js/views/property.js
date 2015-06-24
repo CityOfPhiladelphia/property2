@@ -304,11 +304,11 @@ app.views.property = function (accountNumber) {
         case 'SA_LNI_DISTRICT':
           return app.hooks.liDistrict.text(sa.value);
         case 'SA_STREETS_HISTORIC':
-          return app.hooks.historic.text(sa.value);
+          return app.hooks.historic.text(app.util.default(sa.value, 'No'));
         case 'SA_RECREATION_Recreation_District':
           return app.hooks.recreation.text(sa.value);
         case 'SA_PHILLYRISING':
-          return app.hooks.phillyRising.text(sa.value);
+          return app.hooks.phillyRising.text(app.util.default(sa.value, 'No'));
 
         // Water
         case 'PWD_MAINT_DIST':
