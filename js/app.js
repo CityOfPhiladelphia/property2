@@ -123,6 +123,12 @@ app.util.formatSalesDate = function (salesDate) {
   } else return '';
 };
 
+// Get a full address with unit included from OPA property
+app.util.default = function (val, def) {
+  return val || def;
+};
+
+
 // We only handle whole dollar amounts here
 accounting.settings.currency.precision = 0;
 
