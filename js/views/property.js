@@ -148,6 +148,11 @@ app.views.property = function (accountNumber) {
 
     // Add a marker to highlight the property
     L.marker([state.opa.geometry.y, state.opa.geometry.x]).addTo(map);
+
+    // Set the street view url
+    app.hooks.streetViewUrl.attr('href', 'http://maps.google.com/maps?q=loc:'+
+      state.opa.geometry.y + ',' + state.opa.geometry.x + '&layer=c&cbll='+
+      state.opa.geometry.y + ',' + state.opa.geometry.x);
   }
 
   function renderOpaDetails () {
