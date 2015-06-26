@@ -133,9 +133,9 @@ app.views.property = function (accountNumber) {
     // Init the map
     var map = L.map(app.hooks.map[0], {
       center: [state.opa.geometry.y, state.opa.geometry.x],
-      zoom: 15,
+      zoom: 17,
       minZoom: 11,
-      maxZoom: 15,
+      maxZoom: 18,
       scrollWheelZoom: false
     });
 
@@ -143,8 +143,7 @@ app.views.property = function (accountNumber) {
     // L.esri.tiledMapLayer("http://tiles.arcgis.com/tiles/fLeGjb7u4uXqeF9q/arcgis/rest/services/CityMap_20150515/MapServer", {
     // }).addTo(map);
 
-    // Test layer
-    L.esri.tiledMapLayer("http://services.arcgisonline.com/ArcGIS/rest/services/USA_Topo_Maps/MapServer", {
+    L.esri.tiledMapLayer("http://gis.phila.gov/arcgis/rest/services/BaseMaps/GrayBase_WM/MapServer", {
     }).addTo(map);
 
     // Add a marker to highlight the property
