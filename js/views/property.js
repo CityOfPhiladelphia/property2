@@ -1,4 +1,4 @@
-/*global $,app,google*/
+/*global $,app,L,accounting*/
 
 app.views.property = function (accountNumber) {
   var alreadyGettingOpaData, opaRendered, opaDetailsRendered;
@@ -121,84 +121,34 @@ app.views.property = function (accountNumber) {
     app.hooks.content.append(app.hooks.propertySide);
     app.hooks.belowContent.append(app.hooks.propertySecondary);
 
-    // Render Street View
-    renderStreetView();
+    // Render Map
+    renderMap();
 
     opaRendered = true;
   }
 
-  function renderStreetView() {
+  function renderMap() {
     var state = history.state;
-    var addressLatLng = new google.maps.LatLng(
-          state.opa.geometry.y, state.opa.geometry.x);
 
     // Init the map
-    var map = new google.maps.Map(app.hooks.streetViewMap[0], {
-      center: addressLatLng,
-      zoom: 14,
-      scrollwheel: false,
-      mapTypeControl: false,
-      minZoom: 10,
-      maxZoom: 19,
-      panControl: false,
-      streetViewControl: false,
-      zoomControlOptions: {
-        style: google.maps.ZoomControlStyle.SMALL
-      }
+    var map = L.map(app.hooks.map[0], {
+      center: [state.opa.geometry.y, state.opa.geometry.x],
+      zoom: 15,
+      minZoom: 11,
+      maxZoom: 15,
+      scrollWheelZoom: false
     });
 
-    // Add the address marker
-    var marker = new google.maps.Marker({
-      position: addressLatLng,
-      map: map,
-      title: state.address
-    });
+    // This is the map layer we want to use, but there's something not working about the config
+    // L.esri.tiledMapLayer("http://tiles.arcgis.com/tiles/fLeGjb7u4uXqeF9q/arcgis/rest/services/CityMap_20150515/MapServer", {
+    // }).addTo(map);
 
-    // Fetch StreetView data
-    var sv = new google.maps.StreetViewService();
-    sv.getPanoramaByLocation(addressLatLng, 50, function(panoData, status) {
-      var markerIconClass = 'fa-map-marker',
-          svIconClass = 'fa-street-view',
-          $icon = app.hooks.streetViewToggle.find('i').next(),
-          svPano, heading;
+    // Test layer
+    L.esri.tiledMapLayer("http://services.arcgisonline.com/ArcGIS/rest/services/USA_Topo_Maps/MapServer", {
+    }).addTo(map);
 
-      if (status === google.maps.StreetViewStatus.OK) {
-        // Init street view
-        svPano = map.getStreetView();
-        heading = google.maps.geometry.spherical.computeHeading(
-                    panoData.location.latLng, addressLatLng);
-
-        svPano.setOptions({
-          position: panoData.location.latLng,
-          panControl: false,
-          addressControl: false,
-          enableCloseButton: false,
-          zoomControlOptions: {
-            style: google.maps.ZoomControlStyle.SMALL
-          },
-          pov: {
-            heading: heading,
-            pitch: 0,
-            zoom: 1
-          }
-        });
-
-        $icon.addClass(svIconClass);
-        app.hooks.streetViewToggle
-          .removeClass('hide')
-          .on('click', function(evt) {
-            evt.preventDefault();
-
-            if (svPano.getVisible()) {
-              $icon.removeClass(markerIconClass).addClass(svIconClass);
-              svPano.setVisible(false);
-            } else {
-              $icon.removeClass(svIconClass).addClass(markerIconClass);
-              svPano.setVisible(true);
-            }
-          });
-      }
-    });
+    // Add a marker to highlight the property
+    L.marker([state.opa.geometry.y, state.opa.geometry.x]).addTo(map);
   }
 
   function renderOpaDetails () {

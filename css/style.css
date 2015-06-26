@@ -85,24 +85,18 @@ table thead tr th, table thead tr td{
 .owners div {
   margin-bottom:1rem;
 }
-.street-view {
-  max-height:200px;
+.map-container {
+  /*max-height:200px;*/
   width:100%;
-}
-.mailing {
-  font-size:.8rem;
 }
 .map {
   height: 200px;
 }
+.mailing {
+  font-size:.8rem;
+}
 .result-row {
   cursor: pointer;
-}
-.street-view-toggle{
-  position: absolute;
-  margin: 0;
-  right: 15px;
-  top: 5px;
 }
 .panel h3{
   color:#666;
@@ -137,7 +131,7 @@ table thead tr th, table thead tr td{
   /*stop blank page at end */
   body, html, #application { height: 100%; }
 
-  #alpha-alert, footer, .button, .button + .small-text, .search, .map, #breadcrumbs, .search-box, .divider, .street-view-toggle, .real-estate-taxes, .search-right {
+  #alpha-alert, footer, .button, .button + .small-text, .search, .map, #breadcrumbs, .search-box, .divider, .real-estate-taxes, .search-right {
     display:none;
   }
   /*to fit more on the page*/
