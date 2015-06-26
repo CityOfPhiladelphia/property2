@@ -139,11 +139,15 @@ app.views.property = function (accountNumber) {
       scrollWheelZoom: false
     });
 
+    // Remove Leaflet link
+    map.attributionControl.setPrefix('');
+
     // This is the map layer we want to use, but there's something not working about the config
     // L.esri.tiledMapLayer("http://tiles.arcgis.com/tiles/fLeGjb7u4uXqeF9q/arcgis/rest/services/CityMap_20150515/MapServer", {
     // }).addTo(map);
 
     L.esri.tiledMapLayer("http://gis.phila.gov/arcgis/rest/services/BaseMaps/GrayBase_WM/MapServer", {
+      attribution: '&copy; City of Philadelphia'
     }).addTo(map);
 
     // Add a marker to highlight the property
