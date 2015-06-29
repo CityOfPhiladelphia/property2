@@ -75,6 +75,9 @@ app.settings = {
   ajaxType: $.support.cors ? 'json' : 'jsonp'
 };
 
+// global variables
+app.globals = {};
+
 // A place for views to populate
 app.views = {};
 
@@ -89,7 +92,7 @@ app.route = function () {
   } else {
     app.views.front();
   }
-}
+};
 
 // Route on page load and back button
 $(app.route);

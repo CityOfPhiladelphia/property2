@@ -1,4 +1,4 @@
-/*global $,app,L,accounting*/
+/*global $,app,L,accounting,google*/
 
 app.views.property = function (accountNumber) {
   var alreadyGettingOpaData, opaRendered, opaDetailsRendered;
@@ -128,35 +128,61 @@ app.views.property = function (accountNumber) {
   }
 
   function renderMap() {
-    var state = history.state;
+    var state = history.state,
+        sv, addressLatLng;
 
-    // Init the map
-    var map = L.map(app.hooks.map[0], {
-      center: [state.opa.geometry.y, state.opa.geometry.x],
-      zoom: 17,
-      minZoom: 11,
-      maxZoom: 18,
-      scrollWheelZoom: false
-    });
+    if (!app.globals.map) {
+      // Init the map
+      app.globals.map = L.map(app.hooks.map[0], {
+        center: [state.opa.geometry.y, state.opa.geometry.x],
+        zoom: 18,
+        minZoom: 11,
+        maxZoom: 18,
+        scrollWheelZoom: false
+      });
 
-    // Remove Leaflet link
-    map.attributionControl.setPrefix('');
+      // Remove Leaflet link
+      app.globals.map.attributionControl.setPrefix('');
 
-    // This is the map layer we want to use, but there's something not working about the config
-    // L.esri.tiledMapLayer("http://tiles.arcgis.com/tiles/fLeGjb7u4uXqeF9q/arcgis/rest/services/CityMap_20150515/MapServer", {
-    // }).addTo(map);
+      // This is the map layer we want to use, but there's something not working about the config
+      // L.esri.tiledMapLayer("http://tiles.arcgis.com/tiles/fLeGjb7u4uXqeF9q/arcgis/rest/services/CityMap_20150515/MapServer", {
+      // }).addTo(map);
 
-    L.esri.tiledMapLayer("http://gis.phila.gov/arcgis/rest/services/BaseMaps/GrayBase_WM/MapServer", {
-      attribution: '&copy; City of Philadelphia'
-    }).addTo(map);
+      L.esri.tiledMapLayer("http://gis.phila.gov/arcgis/rest/services/BaseMaps/GrayBase_WM/MapServer", {
+        attribution: '&copy; City of Philadelphia'
+      }).addTo(app.globals.map);
+    }
+
+    if (app.globals.marker) {
+      app.globals.map.removeLayer(app.globals.marker);
+    }
+
+    app.globals.map.setView([state.opa.geometry.y, state.opa.geometry.x], 18);
 
     // Add a marker to highlight the property
-    L.marker([state.opa.geometry.y, state.opa.geometry.x]).addTo(map);
+    app.globals.marker = L.marker([state.opa.geometry.y, state.opa.geometry.x]).addTo(app.globals.map);
 
-    // Set the street view url
-    app.hooks.streetViewUrl.attr('href', 'http://maps.google.com/maps?q=loc:'+
-      state.opa.geometry.y + ',' + state.opa.geometry.x + '&layer=c&cbll='+
-      state.opa.geometry.y + ',' + state.opa.geometry.x);
+    // Fetch StreetView data
+    sv = new google.maps.StreetViewService();
+    addressLatLng = new google.maps.LatLng(
+      state.opa.geometry.y, state.opa.geometry.x);
+
+    sv.getPanoramaByLocation(addressLatLng, 50, function(panoData, status) {
+      var cbp = '',
+          heading;
+
+      if (status === google.maps.StreetViewStatus.OK) {
+        heading = google.maps.geometry.spherical.computeHeading(
+                    panoData.location.latLng, addressLatLng);
+
+        cbp = '&cbp=12,'+heading+',0,1,0';
+      }
+
+      // Set the street view url
+      app.hooks.streetViewUrl.attr('href', 'http://maps.google.com/maps?q=loc:'+
+        state.opa.geometry.y + ',' + state.opa.geometry.x + '&layer=c&cbll='+
+        state.opa.geometry.y + ',' + state.opa.geometry.x + cbp);
+    });
   }
 
   function renderOpaDetails () {
