@@ -27,6 +27,9 @@ body {
 .front .callout {
   margin:-15px 0 1rem 5rem;
 }
+.no-margin-bottom {
+  margin-bottom: 0;
+}
 @media only screen and (max-width: 40em) {
   .front .callout {
     margin:0.625rem 0 1rem 0;
