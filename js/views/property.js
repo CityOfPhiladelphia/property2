@@ -1,4 +1,4 @@
-/*global $,app,L,accounting,google*/
+/*global $,app,esri,accounting,google*/
 
 app.views.property = function (accountNumber) {
   var alreadyGettingOpaData, opaRendered, opaDetailsRendered;
@@ -131,36 +131,22 @@ app.views.property = function (accountNumber) {
     var state = history.state,
         sv, addressLatLng;
 
-    if (!app.globals.map) {
-      // Init the map
-      app.globals.map = L.map(app.hooks.map[0], {
-        center: [state.opa.geometry.y, state.opa.geometry.x],
-        zoom: 18,
-        minZoom: 11,
-        maxZoom: 18,
-        scrollWheelZoom: false
-      });
+    require(["esri/map", "esri/layers/ArcGISTiledMapServiceLayer", "dojo/domReady!"],
+      function(Map, Tiled) {
 
-      // Remove Leaflet link
-      app.globals.map.attributionControl.setPrefix('');
+        if (!app.globals.map) {
+          app.globals.map = new Map(app.hooks.map[0], {
+            center: [state.opa.geometry.x, state.opa.geometry.y],
+            zoom: 8
+          });
 
-      // This is the map layer we want to use, but there's something not working about the config
-      // L.esri.tiledMapLayer("http://tiles.arcgis.com/tiles/fLeGjb7u4uXqeF9q/arcgis/rest/services/CityMap_20150515/MapServer", {
-      // }).addTo(map);
+          app.globals.layer = new Tiled("http://tiles.arcgis.com/tiles/fLeGjb7u4uXqeF9q/arcgis/rest/services/CityMap_20150515/MapServer");
+          app.globals.map.addLayer(app.globals.layer);
+        }
 
-      L.esri.tiledMapLayer("http://gis.phila.gov/arcgis/rest/services/BaseMaps/GrayBase_WM/MapServer", {
-        attribution: '&copy; City of Philadelphia'
-      }).addTo(app.globals.map);
-    }
-
-    if (app.globals.marker) {
-      app.globals.map.removeLayer(app.globals.marker);
-    }
-
-    app.globals.map.setView([state.opa.geometry.y, state.opa.geometry.x], 18);
-
-    // Add a marker to highlight the property
-    app.globals.marker = L.marker([state.opa.geometry.y, state.opa.geometry.x]).addTo(app.globals.map);
+        app.globals.map.centerAndZoom([state.opa.geometry.x, state.opa.geometry.y], 8);
+      }
+    );
 
     // Fetch StreetView data
     sv = new google.maps.StreetViewService();

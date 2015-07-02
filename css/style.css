@@ -86,7 +86,6 @@ table thead tr th, table thead tr td{
   margin-bottom:1rem;
 }
 .map-container {
-  /*max-height:200px;*/
   width:100%;
 }
 .map {

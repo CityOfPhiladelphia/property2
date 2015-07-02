@@ -21,7 +21,7 @@
     <meta name="twitter:creator" content="@PhiladelphiaGov" />
     <link rel="image_src" href="img/property.jpg" />
 
-    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.3/leaflet.css" />
+    <link rel="stylesheet" href="//js.arcgis.com/3.13/esri/css/esri.css">
     <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="//code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
     <link rel="stylesheet" href="css/responsive-tables.css" />
@@ -221,9 +221,11 @@
         <div class="hide-for-large-up"><h3 class="alternate divide">Property Details</h4></div>
         <div class="panel">
           <div class="row">
-            <div class="columns map-container text-right">
+            <div class="columns map-container">
               <div data-hook="map" class="map"></div>
-              <a data-hook="street-view-url" href="#" class="small-text" target="_blank">See in Google Street View</a>
+              <div class="text-right">
+                <a data-hook="street-view-url" href="#" class="small-text" target="_blank">See in Google Street View</a>
+              </div>
             </div>
           </div>
           <div class="row">
@@ -463,15 +465,13 @@
       </div><!-- End secondary content area -->
     </div> <!-- End templates -->
 
-
     <script src="//maps.googleapis.com/maps/api/js?v=3.19&sensor=false&libraries=geometry"></script>
-    <script src="//cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.3/leaflet-src.js"></script>
-    <script src="//cdn.jsdelivr.net/leaflet.esri/1.0.0-rc.8/esri-leaflet.js"></script>
     <script src="//code.jquery.com/jquery-2.1.3.min.js"></script>
     <script src="//cdnjs.cloudflare.com/ajax/libs/foundation/5.5.1/js/foundation.min.js"></script>
     <script src="//cityofphiladelphia.github.io/patterns/dist/0.6.0/js/patterns.min.js"></script>
     <script src="//cdnjs.cloudflare.com/ajax/libs/fastclick/1.0.6/fastclick.min.js"></script>
     <script src="//cdnjs.cloudflare.com/ajax/libs/accounting.js/0.4.1/accounting.min.js"></script>
+    <script src="//js.arcgis.com/3.13/"></script>
     <script src="js/responsive-tables.js"></script>
     <script src="js/deparam.js"></script>
     <script src="js/app.js"></script>
