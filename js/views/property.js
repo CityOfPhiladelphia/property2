@@ -148,7 +148,7 @@ app.views.property = function (accountNumber) {
       // L.esri.tiledMapLayer("http://tiles.arcgis.com/tiles/fLeGjb7u4uXqeF9q/arcgis/rest/services/CityMap_20150515/MapServer", {
       // }).addTo(map);
 
-      L.esri.tiledMapLayer("http://gis.phila.gov/arcgis/rest/services/BaseMaps/GrayBase_WM/MapServer", {
+      L.esri.tiledMapLayer("http://arcgis-level-fixer.elasticbeanstalk.com/http://tiles.arcgis.com/tiles/fLeGjb7u4uXqeF9q/arcgis/rest/services/CityBasemap_2015/MapServer/arcgis/z/{z}/y/{y}/x/{x}", {
         attribution: '&copy; City of Philadelphia'
       }).addTo(app.globals.map);
     }
