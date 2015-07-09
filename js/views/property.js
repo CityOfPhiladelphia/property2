@@ -131,20 +131,56 @@ app.views.property = function (accountNumber) {
     var state = history.state,
         sv, addressLatLng;
 
-    require(["esri/map", "esri/layers/ArcGISTiledMapServiceLayer", "dojo/domReady!"],
-      function(Map, Tiled) {
+    require(['esri/map', 'esri/layers/ArcGISTiledMapServiceLayer',
+      'esri/graphic', 'esri/geometry/Point', 'esri/symbols/SimpleMarkerSymbol', 'dojo/domReady!'],
+      function(Map, Tiled, Graphic, Point, SimpleMarkerSymbol) {
 
-        if (!app.globals.map) {
+        function initMapView() {
+          var point, symbol, graphic;
+
+          // Set center
+          app.globals.map.centerAndZoom([state.opa.geometry.x, state.opa.geometry.y], 8);
+
+          // Clear any existing markers
+          app.globals.map.graphics.clear();
+
+          // Create a new marker
+          point = new Point(state.opa.geometry.x, state.opa.geometry.y);
+          symbol = new SimpleMarkerSymbol({
+            "color": [242, 186, 19, 190],
+            "size": 6,
+            "xoffset": 0,
+            "yoffset": 0,
+            "type": "esriSMS",
+            "style": "esriSMSCircle",
+            "outline": {
+              "color": [53, 53, 53, 255],
+              "width": 1.5,
+              "type": "esriSLS",
+              "style": "esriSLSSolid"
+            }
+          });
+          graphic = new Graphic(point, symbol);
+
+          // Add marker to the map
+          app.globals.map.graphics.add(graphic);
+        }
+
+        // If the map is already constructed
+        if (app.globals.map) {
+          initMapView();
+        } else {
+          // Construct the map
           app.globals.map = new Map(app.hooks.map[0], {
             center: [state.opa.geometry.x, state.opa.geometry.y],
             zoom: 8
           });
 
-          app.globals.layer = new Tiled("http://tiles.arcgis.com/tiles/fLeGjb7u4uXqeF9q/arcgis/rest/services/CityMap_20150515/MapServer");
+          app.globals.layer = new Tiled('http://tiles.arcgis.com/tiles/fLeGjb7u4uXqeF9q/arcgis/rest/services/CityMap_20150515/MapServer');
           app.globals.map.addLayer(app.globals.layer);
-        }
 
-        app.globals.map.centerAndZoom([state.opa.geometry.x, state.opa.geometry.y], 8);
+          app.globals.map.on('load', initMapView);
+        }
       }
     );
 
