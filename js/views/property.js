@@ -121,15 +121,15 @@ app.views.property = function (accountNumber) {
     app.hooks.content.append(app.hooks.propertySide);
     app.hooks.belowContent.append(app.hooks.propertySecondary);
 
-    // Render Map
+    // Render map stuff
     renderMap();
+    setStreetViewLink();
 
     opaRendered = true;
   }
 
   function renderMap() {
-    var state = history.state,
-        sv, addressLatLng;
+    var state = history.state;
 
     require(['esri/map', 'esri/layers/ArcGISTiledMapServiceLayer',
       'esri/graphic', 'esri/geometry/Point', 'esri/symbols/SimpleMarkerSymbol', 'dojo/domReady!'],
@@ -183,6 +183,11 @@ app.views.property = function (accountNumber) {
         }
       }
     );
+  }
+
+  function setStreetViewLink() {
+    var state = history.state,
+        sv, addressLatLng;
 
     // Fetch StreetView data
     sv = new google.maps.StreetViewService();
