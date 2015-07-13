@@ -136,7 +136,7 @@ app.views.property = function (accountNumber) {
       function(Map, Tiled, Graphic, Point, SimpleMarkerSymbol) {
 
         function initMapView() {
-          var point, symbol, graphic;
+          var point, markerSymbol, markerGraphic, fillSymbol, fillGraphic;
 
           // Set center
           app.globals.map.centerAndZoom([state.opa.geometry.x, state.opa.geometry.y], 8);
@@ -146,24 +146,41 @@ app.views.property = function (accountNumber) {
 
           // Create a new marker
           point = new Point(state.opa.geometry.x, state.opa.geometry.y);
-          symbol = new SimpleMarkerSymbol({
+
+          // Marker with a hole
+          markerSymbol = new SimpleMarkerSymbol({
             "color": [242, 186, 19, 190],
-            "size": 6,
+            "size": 20,
             "xoffset": 0,
-            "yoffset": 0,
+            "yoffset": 10,
             "type": "esriSMS",
-            "style": "esriSMSCircle",
+            "style": "esriSMSPath",
+            "path": "M16,3.5c-4.142,0-7.5,3.358-7.5,7.5c0,4.143,7.5,18.121,7.5,18.121S23.5,15.143,23.5,11C23.5,6.858,20.143,3.5,16,3.5z M16,14.584c-1.979,0-3.584-1.604-3.584-3.584S14.021,7.416,16,7.416S19.584,9.021,19.584,11S17.979,14.584,16,14.584z",
             "outline": {
               "color": [53, 53, 53, 255],
-              "width": 1.5,
+              "width": 0.5,
               "type": "esriSLS",
               "style": "esriSLSSolid"
             }
           });
-          graphic = new Graphic(point, symbol);
 
+          // Fill the hole
+          fillSymbol = new SimpleMarkerSymbol({
+            "color": [53, 53, 53, 255],
+            "size": 5,
+            "xoffset": 0,
+            "yoffset": 14,
+            "type": "esriSMS",
+            "style": "esriSMSCircle",
+            "outline": null
+          });
+
+          // Fill in the hole in the marker (there must be a better way)
+          fillGraphic = new Graphic(point, fillSymbol);
+          app.globals.map.graphics.add(fillGraphic);
           // Add marker to the map
-          app.globals.map.graphics.add(graphic);
+          markerGraphic = new Graphic(point, markerSymbol);
+          app.globals.map.graphics.add(markerGraphic);
         }
 
         // If the map is already constructed
