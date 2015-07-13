@@ -138,6 +138,9 @@ app.views.property = function (accountNumber) {
         function initMapView() {
           var point, markerSymbol, markerGraphic, fillSymbol, fillGraphic;
 
+          // Because you apparently can't do this through the setup properties.
+          app.globals.map.disableScrollWheelZoom();
+
           // Set center
           app.globals.map.centerAndZoom([state.opa.geometry.x, state.opa.geometry.y], 8);
 
@@ -190,8 +193,11 @@ app.views.property = function (accountNumber) {
           // Construct the map
           app.globals.map = new Map(app.hooks.map[0], {
             center: [state.opa.geometry.x, state.opa.geometry.y],
-            zoom: 8
+            zoom: 8,
+            smartNavigation: false
           });
+
+
 
           app.globals.layer = new Tiled('http://tiles.arcgis.com/tiles/fLeGjb7u4uXqeF9q/arcgis/rest/services/CityMap_20150515/MapServer');
           app.globals.map.addLayer(app.globals.layer);
