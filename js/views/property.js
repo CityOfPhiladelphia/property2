@@ -1,4 +1,4 @@
-/*global $,app,google*/
+/*global $,app,esri,accounting,google*/
 
 app.views.property = function (accountNumber) {
   var alreadyGettingOpaData, opaRendered, opaDetailsRendered;
@@ -121,83 +121,117 @@ app.views.property = function (accountNumber) {
     app.hooks.content.append(app.hooks.propertySide);
     app.hooks.belowContent.append(app.hooks.propertySecondary);
 
-    // Render Street View
-    renderStreetView();
+    // Render map stuff
+    renderMap();
+    setStreetViewLink();
 
     opaRendered = true;
   }
 
-  function renderStreetView() {
+  function renderMap() {
     var state = history.state;
-    var addressLatLng = new google.maps.LatLng(
-          state.opa.geometry.y, state.opa.geometry.x);
 
-    // Init the map
-    var map = new google.maps.Map(app.hooks.streetViewMap[0], {
-      center: addressLatLng,
-      zoom: 14,
-      scrollwheel: false,
-      mapTypeControl: false,
-      minZoom: 10,
-      maxZoom: 19,
-      panControl: false,
-      streetViewControl: false,
-      zoomControlOptions: {
-        style: google.maps.ZoomControlStyle.SMALL
+    require(['esri/map', 'esri/layers/ArcGISTiledMapServiceLayer',
+      'esri/graphic', 'esri/geometry/Point', 'esri/symbols/SimpleMarkerSymbol', 'dojo/domReady!'],
+      function(Map, Tiled, Graphic, Point, SimpleMarkerSymbol) {
+
+        function initMapView() {
+          var point, markerSymbol, markerGraphic, fillSymbol, fillGraphic;
+
+          // Because you apparently can't do this through the setup properties.
+          app.globals.map.disableScrollWheelZoom();
+
+          // Set center
+          app.globals.map.centerAndZoom([state.opa.geometry.x, state.opa.geometry.y], 8);
+
+          // Clear any existing markers
+          app.globals.map.graphics.clear();
+
+          // Create a new marker
+          point = new Point(state.opa.geometry.x, state.opa.geometry.y);
+
+          // Marker with a hole
+          markerSymbol = new SimpleMarkerSymbol({
+            "color": [242, 186, 19, 190],
+            "size": 20,
+            "xoffset": 0,
+            "yoffset": 10,
+            "type": "esriSMS",
+            "style": "esriSMSPath",
+            "path": "M16,3.5c-4.142,0-7.5,3.358-7.5,7.5c0,4.143,7.5,18.121,7.5,18.121S23.5,15.143,23.5,11C23.5,6.858,20.143,3.5,16,3.5z M16,14.584c-1.979,0-3.584-1.604-3.584-3.584S14.021,7.416,16,7.416S19.584,9.021,19.584,11S17.979,14.584,16,14.584z",
+            "outline": {
+              "color": [53, 53, 53, 255],
+              "width": 0.5,
+              "type": "esriSLS",
+              "style": "esriSLSSolid"
+            }
+          });
+
+          // Fill the hole
+          fillSymbol = new SimpleMarkerSymbol({
+            "color": [53, 53, 53, 255],
+            "size": 5,
+            "xoffset": 0,
+            "yoffset": 14,
+            "type": "esriSMS",
+            "style": "esriSMSCircle",
+            "outline": null
+          });
+
+          // Fill in the hole in the marker (there must be a better way)
+          fillGraphic = new Graphic(point, fillSymbol);
+          app.globals.map.graphics.add(fillGraphic);
+          // Add marker to the map
+          markerGraphic = new Graphic(point, markerSymbol);
+          app.globals.map.graphics.add(markerGraphic);
+        }
+
+        // If the map is already constructed
+        if (app.globals.map) {
+          initMapView();
+        } else {
+          // Construct the map
+          app.globals.map = new Map(app.hooks.map[0], {
+            center: [state.opa.geometry.x, state.opa.geometry.y],
+            zoom: 8,
+            smartNavigation: false
+          });
+
+
+
+          app.globals.layer = new Tiled('http://tiles.arcgis.com/tiles/fLeGjb7u4uXqeF9q/arcgis/rest/services/CityMap_20150515/MapServer');
+          app.globals.map.addLayer(app.globals.layer);
+
+          app.globals.map.on('load', initMapView);
+        }
       }
-    });
+    );
+  }
 
-    // Add the address marker
-    var marker = new google.maps.Marker({
-      position: addressLatLng,
-      map: map,
-      title: state.address
-    });
+  function setStreetViewLink() {
+    var state = history.state,
+        sv, addressLatLng;
 
     // Fetch StreetView data
-    var sv = new google.maps.StreetViewService();
+    sv = new google.maps.StreetViewService();
+    addressLatLng = new google.maps.LatLng(
+      state.opa.geometry.y, state.opa.geometry.x);
+
     sv.getPanoramaByLocation(addressLatLng, 50, function(panoData, status) {
-      var markerIconClass = 'fa-map-marker',
-          svIconClass = 'fa-street-view',
-          $icon = app.hooks.streetViewToggle.find('i').next(),
-          svPano, heading;
+      var cbp = '',
+          heading;
 
       if (status === google.maps.StreetViewStatus.OK) {
-        // Init street view
-        svPano = map.getStreetView();
         heading = google.maps.geometry.spherical.computeHeading(
                     panoData.location.latLng, addressLatLng);
 
-        svPano.setOptions({
-          position: panoData.location.latLng,
-          panControl: false,
-          addressControl: false,
-          enableCloseButton: false,
-          zoomControlOptions: {
-            style: google.maps.ZoomControlStyle.SMALL
-          },
-          pov: {
-            heading: heading,
-            pitch: 0,
-            zoom: 1
-          }
-        });
-
-        $icon.addClass(svIconClass);
-        app.hooks.streetViewToggle
-          .removeClass('hide')
-          .on('click', function(evt) {
-            evt.preventDefault();
-
-            if (svPano.getVisible()) {
-              $icon.removeClass(markerIconClass).addClass(svIconClass);
-              svPano.setVisible(false);
-            } else {
-              $icon.removeClass(svIconClass).addClass(markerIconClass);
-              svPano.setVisible(true);
-            }
-          });
+        cbp = '&cbp=12,'+heading+',0,1,0';
       }
+
+      // Set the street view url
+      app.hooks.streetViewUrl.attr('href', 'http://maps.google.com/maps?q=loc:'+
+        state.opa.geometry.y + ',' + state.opa.geometry.x + '&layer=c&cbll='+
+        state.opa.geometry.y + ',' + state.opa.geometry.x + cbp);
     });
   }
 
