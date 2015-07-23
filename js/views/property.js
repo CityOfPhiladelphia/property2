@@ -199,7 +199,7 @@ app.views.property = function (accountNumber) {
 
 
 
-          app.globals.layer = new Tiled('https://tiles.arcgis.com/tiles/fLeGjb7u4uXqeF9q/arcgis/rest/services/CityMap_20150515/MapServer');
+          app.globals.layer = new Tiled('https://tiles.arcgis.com/tiles/fLeGjb7u4uXqeF9q/arcgis/rest/services/CityBasemap/MapServer');
           app.globals.map.addLayer(app.globals.layer);
 
           app.globals.map.on('load', initMapView);
