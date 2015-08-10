@@ -120,7 +120,7 @@ app.util.addressWithUnit = function (property) {
 // Pull a human-readable sales date from what the OPA API gives us
 app.util.formatSalesDate = function (salesDate) {
   var d, m;
-  if (m = /(\d+)-/.exec(salesDate)) {
+  if (m = /(-?\d+)-/.exec(salesDate)) {
     d = new Date(+m[1]);
     return (d.getMonth() + 1) + '/' + d.getDate() + '/' +  d.getFullYear();
   } else return '';
