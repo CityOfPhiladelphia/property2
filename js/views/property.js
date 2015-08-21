@@ -87,7 +87,7 @@ app.views.property = function (accountNumber) {
 
     // Search area
     app.hooks.propertyTitle.find('h1').text(state.address);
-    app.hooks.propertyTitle.find('.small-text').text('#' + state.opa.account_number);
+    app.hooks.propertyTitle.find('.small-text').text('Philadelphia, PA ' + state.opa.zip);
 
     // Clear loading...
     app.hooks.content.empty();
