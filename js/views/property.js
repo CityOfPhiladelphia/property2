@@ -98,6 +98,8 @@ app.views.property = function (accountNumber) {
       app.hooks.propertyOwners.append($('<div>').text(owner));
     });
 
+    app.hooks.opaAccount.text(state.opa.account_number);
+
     // Render improvement stuff
     app.hooks.improvementDescription.text(state.opa.characteristics.description);
     app.hooks.landArea.text(accounting.formatNumber(state.opa.characteristics.land_area));
