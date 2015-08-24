@@ -3,12 +3,10 @@
 app.views.front = function () {
   app.hooks.crumbs.update();
 
-  app.hooks.search.val('').attr('placeholder', 'Enter address, account number, intersection, or city block');
+  app.hooks.search.val('').attr('placeholder', 'Enter address, address range, account number, or intersection');
   if($( window ).width() <= '480'){
     app.hooks.search.val('').attr('placeholder','Enter address, account number, etc.');
   }
-  app.hooks.searchForm.addClass('hint');
-  app.hooks.searchForm.find('p').removeClass('hidden');
   app.hooks.searchRight.html('&nbsp;');
   app.hooks.searchLeft.removeClass('medium-14').addClass('medium-4').html('&nbsp;');
   app.hooks.searchBox.removeClass('medium-10 float-right').addClass('medium-16');
