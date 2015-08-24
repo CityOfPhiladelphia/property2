@@ -10,9 +10,13 @@ window.app = app;
 app.hooks = {};
 
 $('[data-hook]').each(function (i, el) {
-  var $el = $(el);
+  var dataHook = $(el).data('hook'),
+      // Get _all_ elements for a data-hook value, not just the single element
+      // in the current iteration. Supports multiple elements with the same
+      // data-hook value.
+      $el = $('[data-hook="' + dataHook + '"]');
   // Convert hyphen-names to camelCase in hooks
-  var hook = $el.data('hook').replace(/-([a-z])/g, function (m) {
+  var hook = dataHook.replace(/-([a-z])/g, function (m) {
     return m[1].toUpperCase();
   });
   app.hooks[hook] = $el;
