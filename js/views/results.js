@@ -15,20 +15,35 @@ app.views.results = function (q) {
   app.hooks.content.children().detach();
   app.hooks.belowContent.children().detach();
 
-  // Determine if q is an account number, intersection, or address
-  q = q.trim().replace(/\./g, ''); // API can't handle dots
-  var m, opaEndpoint;
-  if (m = /#?(\d{9})/.exec(q)) opaEndpoint = 'account/' + m[1];
-  else if (m = /(.+) +(&|and) +(.+)/.exec(q)) {
-    opaEndpoint = 'intersection/' + encodeURI(m[1] + '/' + m[3])
-  } else opaEndpoint = 'address/' + encodeURI(opaAddress(q));
+
+  var parsedQuery = app.util.parsePropertyQuery(q),
+      opaEndpoint = parsedQuery.type + '/';
+
+  switch (parsedQuery.type) {
+    case 'account':
+      opaEndpoint += encodeURI(parsedQuery.account);
+      break;
+    case 'intersection':
+      opaEndpoint += encodeURI(parsedQuery.street1 + '/' + parsedQuery.street2);
+      break;
+    case 'block':
+      opaEndpoint += encodeURI(parsedQuery.address);
+      break;
+    case 'address':
+      opaEndpoint += encodeURI(opaAddress(parsedQuery.address));
+      break;
+    case 'owner':
+      opaEndpoint += encodeURI(parsedQuery.owner);
+      break;
+  }
+
 
   if (history.state) {
     render();
   } else {
     app.hooks.content.append(app.hooks.loading);
 
-    $.ajax('https://api.phila.gov/opa/v1.1/' + opaEndpoint + '?format=json',
+    $.ajax('https://api.phila.gov/opa/v1.1/' + opaEndpoint + '/?format=json',
       {dataType: app.settings.ajaxType})
       .done(function (data) {
         var property, accountNumber, href, withUnit;
