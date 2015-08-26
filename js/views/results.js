@@ -27,7 +27,7 @@ app.views.results = function (q) {
       opaEndpoint += encodeURI(parsedQuery.street1 + '/' + parsedQuery.street2);
       break;
     case 'block':
-      opaEndpoint += encodeURI(parsedQuery.address);
+      opaEndpoint += encodeURI(opaAddress(parsedQuery.address));
       break;
     case 'address':
       opaEndpoint += encodeURI(opaAddress(parsedQuery.address));
@@ -43,7 +43,7 @@ app.views.results = function (q) {
   } else {
     app.hooks.content.append(app.hooks.loading);
 
-    $.ajax('https://api.phila.gov/opa/v1.1/' + opaEndpoint + '/?format=json',
+    $.ajax('https://api.phila.gov/opa/v1.1/' + opaEndpoint + '?format=json',
       {dataType: app.settings.ajaxType})
       .done(function (data) {
         var property, accountNumber, href, withUnit;
