@@ -156,9 +156,8 @@ app.util.parsePropertyQuery = function(query) {
 
   } else if (m = /^(\d+) +(.+)/.exec(query)) {
     parsedQuery = { type: 'address', address: query };
-  }
 
-  if (!parsedQuery) {
+  } else {
     parsedQuery = { type: 'owner', owner: query };
   }
 
