@@ -121,6 +121,54 @@ app.util.addressWithUnit = function (property) {
   return property.full_address + unit;
 };
 
+// Get the string is an account number, intersection, address range, address,
+// block, or owner.
+app.util.parsePropertyQuery = function(query) {
+  var m, parsedQuery,
+      streetNum1, streetNum2, streetNumHundred1, streetNumHundred2,
+      streetNumRemainder1, streetNumRemainder2, street;
+
+  query = app.util.cleanPropertyQuery(query);
+
+  if (m = /#?(\d{9})/.exec(query)) {
+    parsedQuery = { type: 'account', account: m[1] };
+
+  } else if (m = /(.+) +(&|and|at) +(.+)/.exec(query)) {
+    parsedQuery = { type: 'intersection', street1: m[1], street2: m[3] };
+
+  } else if (m = /^(\d+) *(-|to) *(\d+) +([A-Za-z0-9 ]+)/.exec(query)) {
+    streetNum1 = parseInt(m[1], 10);
+    streetNum2 = parseInt(m[3], 10);
+    street = m[4];
+
+    streetNumHundred1 = Math.floor(streetNum1 / 100);
+    streetNumHundred2 = Math.floor(streetNum2 / 100);
+
+    streetNumRemainder1 = streetNum1 % 100;
+    streetNumRemainder2 = streetNum2 % 100;
+
+    if (streetNumHundred1 === streetNumHundred2 &&
+        streetNumRemainder1 === 0 && streetNumRemainder2 === 99) {
+      parsedQuery = { type: 'block', address: streetNum1 + ' ' + street };
+    } else{
+      parsedQuery = { type: 'address', address: query };
+    }
+
+  } else if (m = /^(\d+) +(.+)/.exec(query)) {
+    parsedQuery = { type: 'address', address: query };
+
+  } else {
+    parsedQuery = { type: 'owner', owner: query };
+  }
+
+  return parsedQuery;
+};
+
+app.util.cleanPropertyQuery = function(query) {
+  // Trim, remove extra speces, and replace dots -- API can't handle them
+  return query.trim().replace(/\./g, ' ').replace(/ {2,}/g, ' ');
+};
+
 // Pull a human-readable sales date from what the OPA API gives us
 app.util.formatSalesDate = function (salesDate) {
   var d, m;

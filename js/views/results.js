@@ -15,13 +15,32 @@ app.views.results = function (q) {
   app.hooks.content.children().detach();
   app.hooks.belowContent.children().detach();
 
-  // Determine if q is an account number, intersection, or address
-  q = q.trim().replace(/\./g, ''); // API can't handle dots
-  var m, opaEndpoint;
-  if (m = /#?(\d{9})/.exec(q)) opaEndpoint = 'account/' + m[1];
-  else if (m = /(.+) +(&|and) +(.+)/.exec(q)) {
-    opaEndpoint = 'intersection/' + encodeURI(m[1] + '/' + m[3])
-  } else opaEndpoint = 'address/' + encodeURI(opaAddress(q));
+
+  var parsedQuery = app.util.parsePropertyQuery(q),
+      opaEndpoint = parsedQuery.type + '/',
+      isOwnerSearch = false;
+
+  switch (parsedQuery.type) {
+    case 'account':
+      opaEndpoint += encodeURI(parsedQuery.account);
+      break;
+    case 'intersection':
+      opaEndpoint += encodeURI(parsedQuery.street1 + '/' + parsedQuery.street2);
+      break;
+    case 'block':
+      opaEndpoint += encodeURI(opaAddress(parsedQuery.address));
+      break;
+    case 'address':
+      opaEndpoint += encodeURI(opaAddress(parsedQuery.address));
+      break;
+    case 'owner':
+      isOwnerSearch = true;
+      opaEndpoint += encodeURI(parsedQuery.owner);
+      break;
+  }
+
+  app.hooks.content.empty(); // Remove loading message
+  app.hooks.ownerSearchDisclaimer.addClass('hide');
 
   if (history.state) {
     render();
@@ -32,18 +51,29 @@ app.views.results = function (q) {
       {dataType: app.settings.ajaxType})
       .done(function (data) {
         var property, accountNumber, href, withUnit;
-        if (data.data.property || data.data.properties.length == 1) {
+
+        // For business reasons, owner searches need to always show on the
+        // results page for the disclaimer.
+        if (!isOwnerSearch && (data.data.property || data.data.properties.length === 1)) {
+
           // If only one property go straight to property view
           property = data.data.property || data.data.properties[0];
           accountNumber = property.account_number;
           href = '?' + $.param({p: accountNumber});
           withUnit = app.util.addressWithUnit(property);
+
           history.replaceState({
             opa: property,
             address: withUnit
           }, withUnit, href);
+
           app.views.property(accountNumber);
         } else {
+          // Used for rendering a special owner search disclaimer
+          if (isOwnerSearch) {
+            data = $.extend({isOwnerSearch: true}, data);
+          }
+
           history.replaceState(data, ''); // Second param not optional in IE10
           render();
         }
@@ -57,10 +87,17 @@ app.views.results = function (q) {
   function render () {
     var state = history.state;
     if (state.error) return app.hooks.content.text(state.error);
+
     app.hooks.content.empty(); // Remove loading message
+
     if (state.total === 0) {
       return app.hooks.content.append(app.hooks.noResults);
     }
+
+    if (state.isOwnerSearch) {
+      renderOwnerSearchDisclaimer();
+    }
+
     // TODO find a place for count
     //app.hooks.count.find('#total').text(state.total);
     //app.hooks.content.append(app.hooks.count);
@@ -77,13 +114,36 @@ app.views.results = function (q) {
             history.replaceState(state, ''); // Second param not optional in IE10
             data.data.properties.forEach(addRow);
             if (state.total === state.data.properties.length) app.hooks.seeMore.hide();
-          })
+          });
       });
       app.hooks.seeMore.show();
     } else {
       app.hooks.seeMore.hide();
     }
     app.hooks.content.append(app.hooks.results);
+  }
+
+  function renderOwnerSearchDisclaimer() {
+    var now = new Date(),
+        mins = now.getMinutes(),
+        prettyMins = mins < 10 ? ('0' + mins) : mins,
+        prettyNow = (now.getMonth() + 1) + '/' + now.getDate() + '/' +  now.getFullYear() +
+                    ' ' + now.getHours() + ':' + prettyMins;
+
+    app.hooks.ownerSearchDisclaimer.removeClass('hide');
+    app.hooks.ownerSearchDisclaimerDatetime.text(prettyNow);
+    app.hooks.ownerSearchDisclaimerQuery.text(q);
+
+    // Fetch IP & show it
+    $.getJSON('https://api.ipify.org?format=json')
+      .done(function(response) {
+        if(response.ip) {
+          app.hooks.ownerSearchDisclaimerIp.text(response.ip);
+        }
+      })
+      .fail(function() {
+        app.hooks.ownerSearchDisclaimerIp.text(app.hooks.ownerSearchDisclaimerIp.attr('data-default'));
+      });
   }
 
   function addRow (property) {
