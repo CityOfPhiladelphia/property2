@@ -3,9 +3,9 @@
 app.views.front = function () {
   app.hooks.crumbs.update();
 
-  app.hooks.search.val('').attr('placeholder', 'Enter address, address range, account number, or intersection');
+  app.hooks.search.val('').attr('placeholder', 'Enter address, address range, owner, account, or intersection');
   if($( window ).width() <= '480'){
-    app.hooks.search.val('').attr('placeholder','Enter address, account number, etc.');
+    app.hooks.search.val('').attr('placeholder','Enter address, owner, account, etc.');
   }
   app.hooks.searchRight.html('&nbsp;');
   app.hooks.searchLeft.removeClass('medium-14').addClass('medium-4').html('&nbsp;');
