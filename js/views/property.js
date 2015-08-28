@@ -30,7 +30,7 @@ app.views.property = function (accountNumber) {
   }
 
   // The less-detailed search result contains address_match
-  if (history.state.opa && !history.state.opa.address_match) {
+  if (hasOpaDetails()) {
     renderOpaDetails();
   } else {
     if (!alreadyGettingOpaData) getOpaData();
@@ -40,6 +40,12 @@ app.views.property = function (accountNumber) {
     renderSa();
   } else if (history.state.address) {
     getSaData();
+  }
+
+  function hasOpaDetails() {
+    // ownership.mailing_address is only included in detailed results, not the
+    // basic stuff that comes back from the geocode.
+    return history.state.opa && history.state.opa.ownership.mailing_address;
   }
 
   function getOpaData () {
