@@ -3,6 +3,8 @@
 app.views.property = function (accountNumber) {
   var alreadyGettingOpaData, opaRendered, opaDetailsRendered;
 
+  app.hooks.ownerSearchDisclaimer.addClass('hide');
+
   // Search area prep
   app.hooks.propertyTitle.find('h1').html('&nbsp;');
   app.hooks.propertyTitle.find('.small-text').empty();
