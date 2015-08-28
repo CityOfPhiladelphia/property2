@@ -54,7 +54,7 @@ app.views.results = function (q) {
 
         // For business reasons, owner searches need to always show on the
         // results page for the disclaimer.
-        if (!isOwnerSearch && data.data.property || data.data.properties.length === 1) {
+        if (!isOwnerSearch && (data.data.property || data.data.properties.length === 1)) {
 
           // If only one property go straight to property view
           property = data.data.property || data.data.properties[0];
