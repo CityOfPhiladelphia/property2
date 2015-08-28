@@ -136,7 +136,7 @@ app.util.parsePropertyQuery = function(query) {
   } else if (m = /(.+) +(&|and|at) +(.+)/.exec(query)) {
     parsedQuery = { type: 'intersection', street1: m[1], street2: m[3] };
 
-  } else if (m = /^(\d+) *(-|to) *(\d+) +([A-Za-z ]+)/.exec(query)) {
+  } else if (m = /^(\d+) *(-|to) *(\d+) +([A-Za-z0-9 ]+)/.exec(query)) {
     streetNum1 = parseInt(m[1], 10);
     streetNum2 = parseInt(m[3], 10);
     street = m[4];
