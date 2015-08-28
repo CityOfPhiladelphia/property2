@@ -125,8 +125,10 @@ app.views.results = function (q) {
 
   function renderOwnerSearchDisclaimer() {
     var now = new Date(),
+        mins = now.getMinutes(),
+        prettyMins = mins < 10 ? ('0' + mins) : mins,
         prettyNow = (now.getMonth() + 1) + '/' + now.getDate() + '/' +  now.getFullYear() +
-                    ' ' + (now.getHours() + 1) + ':' + now.getMinutes();
+                    ' ' + now.getHours() + ':' + prettyMins;
 
     app.hooks.ownerSearchDisclaimer.removeClass('hide');
     app.hooks.ownerSearchDisclaimerDatetime.text(prettyNow);
