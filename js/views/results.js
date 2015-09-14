@@ -9,7 +9,7 @@ app.views.results = function (q) {
   app.hooks.search.val(q);
   app.hooks.searchRight.html('&nbsp;');
   app.hooks.searchLeft.removeClass('medium-14').addClass('medium-4').html('&nbsp;');
-  app.hooks.searchBox.removeClass('medium-10 float-right').addClass('medium-16');
+  app.hooks.searchBox.removeClass('medium-10 right').addClass('medium-16');
 
   // Empty both content areas
   app.hooks.content.children().detach();

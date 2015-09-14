@@ -13,9 +13,6 @@ body {
   margin: 0 auto;
   float:none;
 }
-.float-right {
-  float:right;
-}
 .intro {
   font-size:1.3rem;
   font-weight:bold;
