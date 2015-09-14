@@ -78,10 +78,43 @@
         <div class="row">
           <div data-hook="search-right" class="medium-4 columns">&nbsp;</div>
           <div data-hook="search-box" class="search-box medium-16 columns">
-            <form class="search">
-              <input type="text" data-hook="search" name="q">
-              <input type="submit">
-            </form>
+
+            <div class="search">
+              <div class="search-select left">Address <i class="fa fa-caret-down fa-pull-right fa-lg"></i></div>
+
+              <form data-hook="search-form" class="left">
+                <!-- Address -->
+                <div data-hook="search-address" class="">
+                  <input type="text" class="left field-lg" data-hook="search-address" name="a" placeholder="1234 Market St">
+                  <input type="text" class="left field-sm" data-hook="search-unit" name="u" placeholder="Unit #">
+                </div>
+
+                <!-- Block -->
+                <div data-hook="search-block" class="hide">
+                  <input type="text" class="left field-sm" data-hook="search-blocknum" name="bn" placeholder="1234">
+                  <input type="text" class="left field-lg" data-hook="search-blockstreet" name="bs" placeholder="Market St">
+                </div>
+
+                <!-- Owner -->
+                <div data-hook="search-owner" class="hide">
+                  <input type="text" class="left" name="o" placeholder="Doe John">
+                </div>
+
+                <!-- Account -->
+                <div data-hook="search-account" class="hide">
+                  <input type="text" class="left" name="an" placeholder="8497598247">
+                </div>
+
+                <!-- Intersection -->
+                <div data-hook="search-intersection" class="hide">
+                  <input type="text" class="left field-md" data-hook="search-int-street1" name="s1" placeholder="12th">
+                  <input type="text" class="left field-md" data-hook="search-int-street2" name="s2" placeholder="Market">
+                </div>
+
+                <input type="submit">
+              </form>
+            </div>
+
           </div>
           <div data-hook="search-left" class="medium-4 columns">&nbsp;</div>
         </div>

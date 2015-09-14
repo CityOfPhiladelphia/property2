@@ -6,7 +6,6 @@ app.views.results = function (q) {
   app.hooks.crumbs.update(app.hooks.resultsCrumb);
 
   // Search
-  app.hooks.search.val(q);
   app.hooks.searchRight.html('&nbsp;');
   app.hooks.searchLeft.removeClass('medium-14').addClass('medium-4').html('&nbsp;');
   app.hooks.searchBox.removeClass('medium-10 right').addClass('medium-16');

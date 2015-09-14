@@ -13,6 +13,39 @@ body {
   margin: 0 auto;
   float:none;
 }
+.search-select {
+  display: inline-block;
+
+  width: 25%;
+  height: 2.5rem;
+  padding: 0.5rem;
+  border: 1px solid #666666;
+  border-width: 1px 0px 1px 1px;
+  background: #f7f7f7;
+
+  font-size: 0.875rem;
+  font-weight: bold;
+
+  cursor: pointer;
+}
+.search-select .fa {
+  margin: 0.25rem;
+}
+.search form {
+  width: 75%;
+}
+.search .field-lg {
+  width: 65%;
+}
+.search .field-md {
+  width: 50%;
+}
+.search .field-sm {
+  width: 35%;
+}
+.search input[type="text"] {
+  border-width: 1px 0px 1px 1px;
+}
 .intro {
   font-size:1.3rem;
   font-weight:bold;

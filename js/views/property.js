@@ -8,8 +8,7 @@ app.views.property = function (accountNumber) {
   // Search area prep
   app.hooks.propertyTitle.find('h1').html('&nbsp;');
   app.hooks.propertyTitle.find('.small-text').empty();
-  app.hooks.search.val('');
-  app.hooks.search.attr('placeholder', 'Search for another property');
+  app.hooks.searchForm.get(0).reset();
   app.hooks.searchLeft.removeClass('medium-4').addClass('medium-14')
     .empty().append(app.hooks.propertyTitle);
     app.hooks.searchRight.html('');

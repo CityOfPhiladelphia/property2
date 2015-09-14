@@ -64,10 +64,12 @@ app.hooks.crumbs.update = function (crumb) {
 app.hooks.appTitle.contents().wrap(app.hooks.frontLink);
 
 // pushState on search submit
-app.hooks.search.parent().on('submit', function (e) {
+app.hooks.searchForm.on('submit', function (e) {
   if (e.ctrlKey || e.altKey || e.shiftKey) return;
   e.preventDefault();
-  var q = e.target.elements.q;
+
+  // Temporary until we support all search types
+  var q = e.target.elements.a;
   q.blur();
   history.pushState(null, q.value, '?' + $.param({q: q.value}));
   window.scroll(0, 0);
