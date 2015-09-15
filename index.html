@@ -92,37 +92,40 @@
                 </ul>
               </div>
 
-              <form data-hook="search-form" class="left">
+              <div data-hook="search-form-container" class="left search-form-container">
                 <!-- Address -->
-                <div data-hook="search-address" class="search-form-option">
+                <form data-hook="search-address" class="search-form-option">
                   <input type="text" class="left field-lg" data-hook="search-address" name="a" placeholder="1234 Market St">
                   <input type="text" class="left field-sm" data-hook="search-unit" name="u" placeholder="Unit #">
-                </div>
+                  <input type="submit">
+                </form>
 
                 <!-- Block -->
-                <div data-hook="search-block" class="search-form-option hide">
+                <form data-hook="search-block" class="search-form-option hide">
                   <input type="text" class="left field-sm" data-hook="search-blocknum" name="bn" placeholder="1200">
                   <input type="text" class="left field-lg" data-hook="search-blockstreet" name="bs" placeholder="Market St">
-                </div>
+                  <input type="submit">
+                </form>
 
                 <!-- Owner -->
-                <div data-hook="search-owner" class="search-form-option hide">
+                <form data-hook="search-owner" class="search-form-option hide">
                   <input type="text" class="left" name="o" placeholder="Doe John">
-                </div>
+                  <input type="submit">
+                </form>
 
                 <!-- Account -->
-                <div data-hook="search-account" class="search-form-option hide">
+                <form data-hook="search-account" class="search-form-option hide">
                   <input type="text" class="left" name="an" placeholder="8497598247">
-                </div>
+                  <input type="submit">
+                </form>
 
                 <!-- Intersection -->
-                <div data-hook="search-intersection" class="search-form-option hide">
+                <form data-hook="search-intersection" class="search-form-option hide">
                   <input type="text" class="left field-md" data-hook="search-int-street1" name="s1" placeholder="12th St">
                   <input type="text" class="left field-md" data-hook="search-int-street2" name="s2" placeholder="Market St">
-                </div>
-
-                <input type="submit">
-              </form>
+                  <input type="submit">
+                </form>
+              </div>
             </div>
 
           </div>
@@ -527,6 +530,7 @@
     <script src="//js.arcgis.com/3.13/"></script>
     <script src="js/responsive-tables.js"></script>
     <script src="js/deparam.js"></script>
+    <script src="js/jquery.serializeObject.js"></script>
     <script src="js/app.js"></script>
     <script src="js/views/front.js"></script>
     <script src="js/views/results.js"></script>

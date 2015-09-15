@@ -8,7 +8,10 @@ app.views.property = function (accountNumber) {
   // Search area prep
   app.hooks.propertyTitle.find('h1').html('&nbsp;');
   app.hooks.propertyTitle.find('.small-text').empty();
-  app.hooks.searchForm.get(0).reset();
+  // Reset the search forms when showing details
+  app.hooks.searchFormContainer.find('form').each(function(i, form) {
+    form.reset();
+  });
   app.hooks.searchLeft.removeClass('medium-4').addClass('medium-14')
     .empty().append(app.hooks.propertyTitle);
     app.hooks.searchRight.html('');

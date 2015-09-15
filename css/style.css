@@ -39,7 +39,7 @@ body {
   left: 0;
   top: 2.5rem;
   min-width: 250px;
-  z-index: 1;
+  z-index: 31;
 }
 .search-select-options li {
   height: 2.5rem;
@@ -67,7 +67,7 @@ body {
   color: #9299A5;
   font-style: italic;
 }
-.search form {
+.search-form-container {
   width: 75%;
 }
 .search .field-lg {

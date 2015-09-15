@@ -1,8 +1,8 @@
 /*global $,app*/
 
-app.views.results = function (q) {
+app.views.results = function (parsedQuery) {
   // Breadcrumbs
-  app.hooks.resultsCrumb.find('b').text(q);
+  app.hooks.resultsCrumb.find('b').text(parsedQuery.label);
   app.hooks.crumbs.update(app.hooks.resultsCrumb);
 
   // Search
@@ -15,8 +15,7 @@ app.views.results = function (q) {
   app.hooks.belowContent.children().detach();
 
 
-  var parsedQuery = app.util.parsePropertyQuery(q),
-      opaEndpoint = parsedQuery.type + '/',
+  var opaEndpoint = parsedQuery.type + '/',
       isOwnerSearch = false;
 
   switch (parsedQuery.type) {
@@ -27,10 +26,14 @@ app.views.results = function (q) {
       opaEndpoint += encodeURI(parsedQuery.street1 + '/' + parsedQuery.street2);
       break;
     case 'block':
-      opaEndpoint += encodeURI(opaAddress(parsedQuery.address));
+      opaEndpoint += encodeURI(parsedQuery.address + '/');
       break;
     case 'address':
-      opaEndpoint += encodeURI(opaAddress(parsedQuery.address));
+      opaEndpoint += encodeURI(parsedQuery.address + '/');
+
+      if (parsedQuery.unit) {
+        opaEndpoint += encodeURI(parsedQuery.unit);
+      }
       break;
     case 'owner':
       isOwnerSearch = true;
@@ -131,7 +134,7 @@ app.views.results = function (q) {
 
     app.hooks.ownerSearchDisclaimer.removeClass('hide');
     app.hooks.ownerSearchDisclaimerDatetime.text(prettyNow);
-    app.hooks.ownerSearchDisclaimerQuery.text(q);
+    app.hooks.ownerSearchDisclaimerQuery.text(parsedQuery.label);
 
     // Fetch IP & show it
     $.getJSON('https://api.ipify.org?format=json')
@@ -164,13 +167,5 @@ app.views.results = function (q) {
         app.views.property(accountNumber);
       });
     app.hooks.resultRows.append(row);
-  }
-
-  // OPA address needs to either separate unit by slash or end in slash
-  function opaAddress (address) {
-    if (address.indexOf(' #') !== -1) {
-      address = address.replace(' #', '/');
-    } else address = address + '/';
-    return address;
   }
 };
