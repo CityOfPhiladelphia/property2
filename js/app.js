@@ -63,6 +63,48 @@ app.hooks.crumbs.update = function (crumb) {
 // App title should link to front
 app.hooks.appTitle.contents().wrap(app.hooks.frontLink);
 
+app.hooks.searchSelect.on('click', function(e) {
+  e.preventDefault();
+  app.hooks.searchSelectOptions.toggleClass('hide');
+});
+
+app.hooks.searchSelectOptions.find('li').on('click', function(e) {
+  e.preventDefault();
+
+  var type = $(this).data('searchtype');
+  showSearchOption(type);
+});
+
+function showSearchOption(type) {
+  // Hide all search options
+  app.hooks.searchForm.find('.search-form-option').addClass('hide');
+  app.hooks.searchForm.get(0).reset();
+
+  // Show the search option selected
+  switch(type) {
+  case 'account':
+    app.hooks.searchSelectLabel.text('Account');
+    app.hooks.searchAccount.removeClass('hide');
+    break;
+  case 'intersection':
+    app.hooks.searchSelectLabel.text('Intersection');
+    app.hooks.searchIntersection.removeClass('hide');
+    break;
+  case 'block':
+    app.hooks.searchSelectLabel.text('Block');
+    app.hooks.searchBlock.removeClass('hide');
+    break;
+  case 'address':
+    app.hooks.searchSelectLabel.text('Address');
+    app.hooks.searchAddress.removeClass('hide');
+    break;
+  case 'owner':
+    app.hooks.searchSelectLabel.text('Owner');
+    app.hooks.searchOwner.removeClass('hide');
+    break;
+  }
+}
+
 // pushState on search submit
 app.hooks.searchForm.on('submit', function (e) {
   if (e.ctrlKey || e.altKey || e.shiftKey) return;

@@ -18,18 +18,54 @@ body {
 
   width: 25%;
   height: 2.5rem;
-  padding: 0.5rem;
+  padding: 0.5rem 0.5rem 0.5rem 1rem;
   border: 1px solid #666666;
   border-width: 1px 0px 1px 1px;
   background: #f7f7f7;
 
   font-size: 0.875rem;
-  font-weight: bold;
-
   cursor: pointer;
 }
 .search-select .fa {
   margin: 0.25rem;
+}
+.search-select-options {
+  border: 1px solid #666666;
+  border-width: 0px 1px 1px 1px;
+  background: #ffffff;
+  padding: 0;
+
+  position: absolute;
+  left: 0;
+  top: 2.5rem;
+  min-width: 250px;
+  z-index: 1;
+}
+.search-select-options li {
+  height: 2.5rem;
+  padding: 0.5rem 1rem;
+
+  border-bottom: 1px solid #f7f7f7;
+  cursor: pointer;
+}
+.search-select-options li:last-child {
+  border-bottom-width: 0;
+}
+.search-select-options li:hover {
+  background: #027ea4;
+}
+.search-select-options label {
+  color: #027ea4;
+  width: 125px;
+  display: inline-block;
+}
+.search-select-options li:hover label,
+.search-select-options li:hover small {
+  color: #ffffff;
+}
+.search-select-options small {
+  color: #9299A5;
+  font-style: italic;
 }
 .search form {
   width: 75%;

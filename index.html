@@ -80,35 +80,45 @@
           <div data-hook="search-box" class="search-box medium-16 columns">
 
             <div class="search">
-              <div class="search-select left">Address <i class="fa fa-caret-down fa-pull-right fa-lg"></i></div>
+              <div class="search-select left" data-hook="search-select">
+                <strong data-hook="search-select-label">Address</strong> <i class="fa fa-caret-down fa-pull-right fa-lg"></i>
+
+                <ul class="search-select-options no-bullet hide" data-hook="search-select-options">
+                  <li data-searchtype="address"><label>Address</label> <small>1234 Market St</small></li>
+                  <li data-searchtype="block"><label>Block</label> <small>1200 block of Market St</small></li>
+                  <li data-searchtype="owner"><label>Owner</label> <small>Doe John</small></li>
+                  <li data-searchtype="account"><label>Account</label> <small>8497598247</small></li>
+                  <li data-searchtype="intersection"><label>Intersection</label> <small>12th St and Market St</small></li>
+                </ul>
+              </div>
 
               <form data-hook="search-form" class="left">
                 <!-- Address -->
-                <div data-hook="search-address" class="">
+                <div data-hook="search-address" class="search-form-option">
                   <input type="text" class="left field-lg" data-hook="search-address" name="a" placeholder="1234 Market St">
                   <input type="text" class="left field-sm" data-hook="search-unit" name="u" placeholder="Unit #">
                 </div>
 
                 <!-- Block -->
-                <div data-hook="search-block" class="hide">
-                  <input type="text" class="left field-sm" data-hook="search-blocknum" name="bn" placeholder="1234">
+                <div data-hook="search-block" class="search-form-option hide">
+                  <input type="text" class="left field-sm" data-hook="search-blocknum" name="bn" placeholder="1200">
                   <input type="text" class="left field-lg" data-hook="search-blockstreet" name="bs" placeholder="Market St">
                 </div>
 
                 <!-- Owner -->
-                <div data-hook="search-owner" class="hide">
+                <div data-hook="search-owner" class="search-form-option hide">
                   <input type="text" class="left" name="o" placeholder="Doe John">
                 </div>
 
                 <!-- Account -->
-                <div data-hook="search-account" class="hide">
+                <div data-hook="search-account" class="search-form-option hide">
                   <input type="text" class="left" name="an" placeholder="8497598247">
                 </div>
 
                 <!-- Intersection -->
-                <div data-hook="search-intersection" class="hide">
-                  <input type="text" class="left field-md" data-hook="search-int-street1" name="s1" placeholder="12th">
-                  <input type="text" class="left field-md" data-hook="search-int-street2" name="s2" placeholder="Market">
+                <div data-hook="search-intersection" class="search-form-option hide">
+                  <input type="text" class="left field-md" data-hook="search-int-street1" name="s1" placeholder="12th St">
+                  <input type="text" class="left field-md" data-hook="search-int-street2" name="s2" placeholder="Market St">
                 </div>
 
                 <input type="submit">
