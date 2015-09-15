@@ -118,6 +118,7 @@ app.hooks.searchFormContainer.find('form').on('submit', function (e) {
   var data = app.util.parseSearchQueryForm(this),
       params = $(this).serialize();
 
+  $(this).find('input').blur();
   history.pushState(null, data, '?' + params);
   window.scroll(0, 0);
   app.views.results(data);
