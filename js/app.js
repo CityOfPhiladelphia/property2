@@ -63,15 +63,65 @@ app.hooks.crumbs.update = function (crumb) {
 // App title should link to front
 app.hooks.appTitle.contents().wrap(app.hooks.frontLink);
 
+app.hooks.searchSelect.on('click', function(e) {
+  e.preventDefault();
+  app.hooks.searchSelectOptions.toggleClass('hide');
+});
+
+app.hooks.searchSelectOptions.find('li').on('click', function(e) {
+  e.preventDefault();
+
+  var type = $(this).data('searchtype');
+
+  // Reset the forms when selecting a new one
+  app.hooks.searchFormContainer.find('form').each(function(i, form) {
+    form.reset();
+  });
+
+  showSearchOption(type);
+});
+
+function showSearchOption(type) {
+  // Hide all search options
+  app.hooks.searchFormContainer.find('.search-form-option').addClass('hide');
+
+  // Show the search option selected
+  switch(type) {
+  case 'account':
+    app.hooks.searchSelectLabel.text('Account');
+    app.hooks.searchAccount.removeClass('hide');
+    break;
+  case 'intersection':
+    app.hooks.searchSelectLabel.text('Intersection');
+    app.hooks.searchIntersection.removeClass('hide');
+    break;
+  case 'block':
+    app.hooks.searchSelectLabel.text('Block');
+    app.hooks.searchBlock.removeClass('hide');
+    break;
+  case 'address':
+    app.hooks.searchSelectLabel.text('Address');
+    app.hooks.searchAddress.removeClass('hide');
+    break;
+  case 'owner':
+    app.hooks.searchSelectLabel.text('Owner');
+    app.hooks.searchOwner.removeClass('hide');
+    break;
+  }
+}
+
 // pushState on search submit
-app.hooks.search.parent().on('submit', function (e) {
+app.hooks.searchFormContainer.find('form').on('submit', function (e) {
   if (e.ctrlKey || e.altKey || e.shiftKey) return;
   e.preventDefault();
-  var q = e.target.elements.q;
-  q.blur();
-  history.pushState(null, q.value, '?' + $.param({q: q.value}));
+
+  var data = app.util.parseSearchQueryForm(this),
+      params = $(this).serialize();
+
+  $(this).find('input').blur();
+  history.pushState(null, data, '?' + params);
   window.scroll(0, 0);
-  app.views.results(q.value);
+  app.views.results(data);
 });
 
 // global settings
@@ -89,10 +139,12 @@ app.views = {};
 app.route = function () {
   var params = $.deparam(window.location.search.substr(1));
 
-  if (params.q) {
-    app.views.results(params.q);
-  } else if (params.p) {
+  if (params.p) {
     app.views.property(params.p);
+  } else if (Object.keys(params).length) {
+    params = app.util.normalizeSearchQuery(params);
+    showSearchOption(params.type);
+    app.views.results(params);
   } else {
     app.views.front();
   }
@@ -121,52 +173,61 @@ app.util.addressWithUnit = function (property) {
   return property.full_address + unit;
 };
 
-// Get the string is an account number, intersection, address range, address,
-// block, or owner.
-app.util.parsePropertyQuery = function(query) {
-  var m, parsedQuery,
-      streetNum1, streetNum2, streetNumHundred1, streetNumHundred2,
-      streetNumRemainder1, streetNumRemainder2, street;
+app.util.parseSearchQueryForm = function(form) {
+  var data = $(form).serializeObject();
+  return app.util.normalizeSearchQuery(data);
+};
 
-  query = app.util.cleanPropertyQuery(query);
+app.util.normalizeSearchQuery = function(data) {
+  var parsedQuery, label;
 
-  if (m = /#?(\d{9})/.exec(query)) {
-    parsedQuery = { type: 'account', account: m[1] };
+  if (data.an) {
+    parsedQuery = {
+      type: 'account',
+      label: app.util.cleanPropertyQuery(data.an),
+      account: app.util.cleanPropertyQuery(data.an)
+    };
 
-  } else if (m = /(.+) +(&|and|at) +(.+)/.exec(query)) {
-    parsedQuery = { type: 'intersection', street1: m[1], street2: m[3] };
+  } else if (data.s1 && data.s2) {
+    parsedQuery = {
+      type: 'intersection',
+      label: app.util.cleanPropertyQuery(data.s1 + ' and ' + data.s2),
+      street1: app.util.cleanPropertyQuery(data.s1),
+      street2: app.util.cleanPropertyQuery(data.s2)
+    };
 
-  } else if (m = /^(\d+) *(-|to) *(\d+) +([A-Za-z0-9 ]+)/.exec(query)) {
-    streetNum1 = parseInt(m[1], 10);
-    streetNum2 = parseInt(m[3], 10);
-    street = m[4];
+  } else if (data.bn && data.bs) {
+    parsedQuery = {
+      type: 'block',
+      label: app.util.cleanPropertyQuery(data.bn + ' ' + data.bs),
+      address: app.util.cleanPropertyQuery(data.bn + ' ' + data.bs)
+    };
 
-    streetNumHundred1 = Math.floor(streetNum1 / 100);
-    streetNumHundred2 = Math.floor(streetNum2 / 100);
+  } else if (data.a) {
+    label = app.util.cleanPropertyQuery(data.a);
+    label += app.util.cleanPropertyQuery(data.u) ? ' ' + data.u : '';
 
-    streetNumRemainder1 = streetNum1 % 100;
-    streetNumRemainder2 = streetNum2 % 100;
+    parsedQuery = {
+      type: 'address',
+      label: label,
+      address: app.util.cleanPropertyQuery(data.a),
+      unit: app.util.cleanPropertyQuery(data.u)
+    };
 
-    if (streetNumHundred1 === streetNumHundred2 &&
-        streetNumRemainder1 === 0 && streetNumRemainder2 === 99) {
-      parsedQuery = { type: 'block', address: streetNum1 + ' ' + street };
-    } else{
-      parsedQuery = { type: 'address', address: query };
-    }
-
-  } else if (m = /^(\d+) +(.+)/.exec(query)) {
-    parsedQuery = { type: 'address', address: query };
-
-  } else {
-    parsedQuery = { type: 'owner', owner: query };
+  } else if (data.o) {
+    parsedQuery = {
+      type: 'owner',
+      label: app.util.cleanPropertyQuery(data.o),
+      owner: app.util.cleanPropertyQuery(data.o)
+    };
   }
 
   return parsedQuery;
 };
 
 app.util.cleanPropertyQuery = function(query) {
-  // Trim, remove extra speces, and replace dots -- API can't handle them
-  return query.trim().replace(/\./g, ' ').replace(/ {2,}/g, ' ');
+  // Trim, remove extra speces, and replace dots and hashes -- API can't handle them
+  return query.trim().replace(/\./g, ' ').replace(/ {2,}/g, ' ').replace(/#/g, '');
 };
 
 // Pull a human-readable sales date from what the OPA API gives us

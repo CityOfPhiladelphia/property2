@@ -22,7 +22,7 @@
     <link rel="image_src" href="img/property.jpg" />
 
     <link rel="stylesheet" href="//js.arcgis.com/3.13/esri/css/esri.css">
-    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="//code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
     <link rel="stylesheet" href="css/responsive-tables.css" />
     <link rel="stylesheet" href="//cityofphiladelphia.github.io/patterns/dist/0.10.0/css/patterns.css">
@@ -78,10 +78,56 @@
         <div class="row">
           <div data-hook="search-right" class="medium-4 columns">&nbsp;</div>
           <div data-hook="search-box" class="search-box medium-16 columns">
-            <form class="search">
-              <input type="text" data-hook="search" name="q">
-              <input type="submit">
-            </form>
+
+            <div class="search">
+              <div class="search-select left" data-hook="search-select">
+                <strong data-hook="search-select-label" class="left">Address</strong> <i class="fa fa-caret-down fa-lg"></i>
+
+                <ul class="search-select-options no-bullet hide" data-hook="search-select-options">
+                  <li data-searchtype="address"><label>Address</label> <small>1234 Market St</small></li>
+                  <li data-searchtype="block"><label>Block</label> <small>1200 Market St</small></li>
+                  <li data-searchtype="owner"><label>Owner</label> <small>Doe John</small></li>
+                  <li data-searchtype="account"><label>Account</label> <small>883309000</small></li>
+                  <li data-searchtype="intersection"><label>Intersection</label> <small>12th and Market</small></li>
+                </ul>
+              </div>
+
+              <div data-hook="search-form-container" class="left search-form-container">
+                <!-- Address -->
+                <form data-hook="search-address" class="search-form-option">
+                  <input type="text" class="left field-lg" data-hook="search-address" name="a" placeholder="1234 Market St">
+                  <input type="text" class="left field-sm" data-hook="search-unit" name="u" placeholder="Unit #">
+                  <input type="submit">
+                </form>
+
+                <!-- Block -->
+                <form data-hook="search-block" class="search-form-option hide">
+                  <input type="text" class="left field-sm" data-hook="search-blocknum" name="bn" placeholder="1200">
+                  <input type="text" class="left field-lg" data-hook="search-blockstreet" name="bs" placeholder="Market St">
+                  <input type="submit">
+                </form>
+
+                <!-- Owner -->
+                <form data-hook="search-owner" class="search-form-option hide">
+                  <input type="text" class="left" name="o" placeholder="Doe John">
+                  <input type="submit">
+                </form>
+
+                <!-- Account -->
+                <form data-hook="search-account" class="search-form-option hide">
+                  <input type="text" class="left" name="an" placeholder="883309000">
+                  <input type="submit">
+                </form>
+
+                <!-- Intersection -->
+                <form data-hook="search-intersection" class="search-form-option hide">
+                  <input type="text" class="left field-md" data-hook="search-int-street1" name="s1" placeholder="12th St">
+                  <input type="text" class="left field-md" data-hook="search-int-street2" name="s2" placeholder="Market St">
+                  <input type="submit">
+                </form>
+              </div>
+            </div>
+
           </div>
           <div data-hook="search-left" class="medium-4 columns">&nbsp;</div>
         </div>
@@ -186,7 +232,7 @@
         <p class="intro">
           <span class="fa-stack fa-lg">
           <i class="fa fa-circle fa-stack-2x"></i>
-          <i class="fa fa-map-marker fa-inverse"></i>
+          <i class="fa fa-map-marker fa-stack-1x fa-inverse"></i>
         </span>
         View valuation, tax, and physical details of properties within the City of Philadelphia.</p>
         <div class="callout">
@@ -484,6 +530,7 @@
     <script src="//js.arcgis.com/3.13/"></script>
     <script src="js/responsive-tables.js"></script>
     <script src="js/deparam.js"></script>
+    <script src="js/jquery.serializeObject.js"></script>
     <script src="js/app.js"></script>
     <script src="js/views/front.js"></script>
     <script src="js/views/results.js"></script>

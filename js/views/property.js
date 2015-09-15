@@ -8,12 +8,14 @@ app.views.property = function (accountNumber) {
   // Search area prep
   app.hooks.propertyTitle.find('h1').html('&nbsp;');
   app.hooks.propertyTitle.find('.small-text').empty();
-  app.hooks.search.val('');
-  app.hooks.search.attr('placeholder', 'Search for another property');
+  // Reset the search forms when showing details
+  app.hooks.searchFormContainer.find('form').each(function(i, form) {
+    form.reset();
+  });
   app.hooks.searchLeft.removeClass('medium-4').addClass('medium-14')
     .empty().append(app.hooks.propertyTitle);
     app.hooks.searchRight.html('');
-  app.hooks.searchBox.removeClass('medium-16').addClass('medium-10 float-right');
+  app.hooks.searchBox.removeClass('medium-16').addClass('medium-10 right');
 
   // Clear existing elements out of the way
   app.hooks.content.children().detach();
