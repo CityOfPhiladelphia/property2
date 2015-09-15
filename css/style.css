@@ -15,10 +15,11 @@ body {
 }
 .search-select {
   display: inline-block;
+  position: relative;
 
-  width: 25%;
+  width: 38%;
   height: 2.5rem;
-  padding: 0.5rem 0.5rem 0.5rem 1rem;
+  padding: 0.5rem 0 0.5rem 0.5rem;
   border: 1px solid #666666;
   border-width: 1px 0px 1px 1px;
   background: #f7f7f7;
@@ -26,7 +27,12 @@ body {
   font-size: 0.875rem;
   cursor: pointer;
 }
+.search-form-container {
+  width: 62%;
+}
 .search-select .fa {
+  position: absolute;
+  right: 0.25rem;
   margin: 0.25rem;
 }
 .search-select-options {
@@ -66,9 +72,6 @@ body {
 .search-select-options small {
   color: #9299A5;
   font-style: italic;
-}
-.search-form-container {
-  width: 75%;
 }
 .search .field-lg {
   width: 65%;
@@ -187,6 +190,45 @@ table thead tr th, table thead tr td{
 .hidden{
   display:none !important;
 }
+
+@media only screen and (min-width: 40.0625em) {
+  .search-select {
+    padding: 0.5rem 0.5rem 0.5rem 1rem;
+  }
+
+  .search-box.medium-16 .search-select {
+    width: 32%;
+  }
+  .search-box.medium-16 .search-form-container {
+    width: 68%;
+  }
+
+  .search-box.medium-10 .search-select {
+    width: 40%;
+    padding-left: 0.5rem;
+  }
+  .search-box.medium-10 .search-form-container {
+    width: 60%;
+  }
+}
+
+@media only screen and (min-width: 64.0625em) {
+  .search-box.medium-16 .search-select {
+    width: 22%;
+  }
+  .search-box.medium-16 .search-form-container {
+    width: 73%;
+  }
+
+  .search-box.medium-10 .search-select {
+    width: 30%;
+  }
+  .search-box.medium-10 .search-form-container {
+    width: 70%;
+  }
+
+}
+
 
 /* print-specific*/
 @media print {
