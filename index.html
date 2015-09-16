@@ -7,25 +7,31 @@
 
     <title>Property | phila.gov</title>
     <link rel="icon" type="image/x-icon" href="//cityofphiladelphia.github.io/patterns/images/favicon.ico">
-    <meta name="description" content="Search for real estate properties and gather information on taxes, districts, etc.">
+    <meta name="description" content="Find valuations, real estate taxes, physical details, trash and recycling days, school information, and city service areas for properties within the City of Philadelphia.">
+
+    <!-- Swiftype Meta Tags -->
+    <meta class="swiftype" name="title" data-type="string" content="Property" />
+    <meta class="swiftype" name="body" data-type="text" content="Find valuations, real estate taxes, physical details, trash and recycling days, and school information for properties within the City of Philadelphia." />
+
     <meta property="og:title" content="Property | phila.gov" />
     <meta property="og:url" content="http://alpha.phila.gov/property" />
     <meta property="og:site_name" content="Property" />
-    <meta property="og:image" content="img/property.jpg" />
-    <meta property="og:image:type" content="image/jpeg">
-    <meta property="og:image:width" content="1000">
-    <meta property="og:image:height" content="737">
-    <meta property="og:description" content="Search for real estate properties and gather information on taxes, districts, and city services" />
+    <meta property="og:image" content="img/property.png" />
+    <meta property="og:image:type" content="image/png">
+    <meta property="og:image:width" content="1003">
+    <meta property="og:image:height" content="734">
+    <meta property="og:description" content="Find valuations, real estate taxes, physical details, trash and recycling days, school information, and city service areas for properties within the City of Philadelphia." />
+
     <meta name="twitter:card" content="photo" />
     <meta name="twitter:site" content="@PhiladelphiaGov" />
     <meta name="twitter:creator" content="@PhiladelphiaGov" />
-    <link rel="image_src" href="img/property.jpg" />
+    <link rel="image_src" href="img/property.png" />
 
     <link rel="stylesheet" href="//js.arcgis.com/3.13/esri/css/esri.css">
     <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="//code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
     <link rel="stylesheet" href="css/responsive-tables.css" />
-    <link rel="stylesheet" href="//cityofphiladelphia.github.io/patterns/dist/0.10.0/css/patterns.css">
+    <link rel="stylesheet" href="//cityofphiladelphia.github.io/patterns/dist/0.11.0/css/patterns.css">
     <link rel="stylesheet" href="css/style.css">
     <script src="//cdnjs.cloudflare.com/ajax/libs/modernizr/2.8.3/modernizr.js"></script>
   </head>
@@ -40,19 +46,26 @@
       })(window,document,'script','dataLayer','GTM-MC6CR2');</script>
     <!-- End Google Tag Manager -->
     <div id="application" class="site">
-      <div id="alpha-alert">
+      <div data-swiftype-index="false" id="alpha-alert">
         <div class="row">
-          <div class="large-17 medium-15 columns">
-            <h1 class="h3">This service is in alpha</h1> <p>This is a work in progress. It may contain errors and inaccuracies. Help us improve it by providing feedback.</p>
-            <p><a href="http://alpha.phila.gov/about/">Learn more &raquo;</a></p>
+          <div class="large-15 columns">
+            <p>This service is in <a href="http://alpha.phila.gov/about/">Alpha</a>: it is a work in progress and may contain errors or inaccuracies.</p>
+            <a class="go-back small-text" href="http://property.phila.gov" target="_blank">
+              <i class="fa fa-reply"></i> Take me back to Phila.gov<span class="accessible"> Opens in new window</span></a>
           </div>
-          <div class="large-7 medium-9 columns">
-            <div class="button icon alternate"><a class="feedback" href="http://insights.hotjar.com/s?siteId=18849&surveyId=1136" target="_blank">Provide Feedback<span class="accessible"> Opens in new window</span><i class="fa fa-comments"></i></a></div>
-            <div class="button icon alternate"><a class="go-back" href="http://property.phila.gov" target="_blank">
-              Back to current site<span class="accessible"> Opens in new window</span><i class="fa fa-reply"></i></a></div>
+          <div class="large-9 columns contact">
+            <i class="fa fa-comments"></i> <a class="feedback" href="http://insights.hotjar.com/s?siteId=18849&surveyId=1136" target="_blank">Provide Feedback<span class="accessible"> Opens in new window</span></a>
+            <i class="fa fa-globe"></i><div id="google_translate_element"></div>
+              <script type="text/javascript">
+                function googleTranslateElementInit() {
+                  new google.translate.TranslateElement({pageLanguage: 'en', layout: google.translate.TranslateElement.InlineLayout.SIMPLE}, 'google_translate_element');
+                }
+              </script>
+              <script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
           </div>
         </div>
       </div>
+
       <header class="site-header app" role="banner">
         <div class="row">
           <div class="small-24 medium-24 column">
@@ -142,7 +155,8 @@
       <div data-hook="below-content" class="row"></div>
     </div>
 
-    <footer class="site-footer" role="contentinfo">
+    <!-- Begin Footer -->
+    <footer data-swiftype-index='false' class="site-footer" role="contentinfo">
       <section class="fat">
         <div class="row">
           <div class="large-8 columns">
@@ -154,7 +168,6 @@
                 <li><a href="http://www.phila.gov/mayor">Mayor's Office</a></li>
                 <li><a href="http://iframe.publicstuff.com/#?client_id=242">Report an Issue / 311</a></li>
                 <li><a href="http://cityofphiladelphia.wordpress.com/">News</a></li>
-                <li><a href="http://www.phila.gov/phoneDir/">Phone Directory</a></li>
               </ul>
             </nav>
           </div>
@@ -193,6 +206,7 @@
       </div>
     </footer>
 
+    <!-- End Footer -->
     <div id="terms-modal" class="reveal-modal full" data-reveal aria-labelledby="modal-title" aria-hidden="true" role="dialog">
       <h3>Terms of Use</h3>
       <p>The Office of Property Assessment of the City of Philadelphia (OPA) makes every effort to produce and publish on this site the most accurate and current information available to it. Our ownership records are based on deeds as recorded with the City of Philadelphia Department of Records (DOR), and we revise these records for currency as often as we are able. You are responsible, however, for verifying the accuracy of the information on this site by referring to the corresponding deed(s).</p>
@@ -524,7 +538,7 @@
     <script src="//maps.googleapis.com/maps/api/js?v=3.19&sensor=false&libraries=geometry"></script>
     <script src="//code.jquery.com/jquery-2.1.3.min.js"></script>
     <script src="//cdnjs.cloudflare.com/ajax/libs/foundation/5.5.1/js/foundation.min.js"></script>
-    <script src="//cityofphiladelphia.github.io/patterns/dist/0.10.0/js/patterns.min.js"></script>
+    <script src="//cityofphiladelphia.github.io/patterns/dist/0.11.0/js/patterns.min.js"></script>
     <script src="//cdnjs.cloudflare.com/ajax/libs/fastclick/1.0.6/fastclick.min.js"></script>
     <script src="//cdnjs.cloudflare.com/ajax/libs/accounting.js/0.4.1/accounting.min.js"></script>
     <script src="//js.arcgis.com/3.13/"></script>

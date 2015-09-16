@@ -290,7 +290,7 @@ app.views.property = function (accountNumber) {
       switch (sa.serviceAreaId) {
         // Sidebox
         case 'SA_STREETS_Rubbish_Recyc':
-          return app.hooks.rubbishDay.text(sa.value);
+          return app.hooks.rubbishDay.text(app.util.abbrevToFullDay(sa.value));
 
         // School catchment
         case 'SA_SCHOOLS_Elementary_School_Catchment':

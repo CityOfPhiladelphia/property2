@@ -239,6 +239,20 @@ app.util.formatSalesDate = function (salesDate) {
   } else return '';
 };
 
+app.util.abbrevToFullDay = function(abbrev) {
+  switch(abbrev) {
+    case 'SUN': return 'Sunday';
+    case 'MON': return 'Monday';
+    case 'TUE': return 'Tuesday';
+    case 'WED': return 'Wednesday';
+    case 'THU': return 'Thursday';
+    case 'FRI': return 'Friday';
+    case 'SAT': return 'Saturday';
+  }
+
+  return abbrev;
+};
+
 // Get a full address with unit included from OPA property
 app.util.default = function (val, def) {
   return val || def;
