@@ -62,7 +62,6 @@ app.views.property = function (accountNumber) {
         history.replaceState(state, ''); // Second param not optional in IE10
         if (!opaRendered) renderOpa();
         if (!opaDetailsRendered) renderOpaDetails();
-        if (!state.sa) getSaData();
       })
       .fail(function () {
         history.replaceState({error: true}, '');
