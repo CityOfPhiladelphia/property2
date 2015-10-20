@@ -115,13 +115,17 @@ app.hooks.searchFormContainer.find('form').on('submit', function (e) {
   if (e.ctrlKey || e.altKey || e.shiftKey) return;
   e.preventDefault();
 
-  var data = app.util.parseSearchQueryForm(this),
-      params = $(this).serialize();
+  var params = $(this).serializeObject(),
+      queryStringParams = $(this).serialize();
 
-  $(this).find('input').blur();
-  history.pushState(null, data, '?' + params);
-  window.scroll(0, 0);
-  app.views.results(data);
+  params = app.util.normalizeSearchQuery(params);
+
+  if (params) {
+    $(this).find('input').blur();
+    history.pushState(null, params, '?' + queryStringParams);
+    window.scroll(0, 0);
+    app.views.results(params);
+  }
 });
 
 // global settings
@@ -143,8 +147,10 @@ app.route = function () {
     app.views.property(params.p);
   } else if (Object.keys(params).length) {
     params = app.util.normalizeSearchQuery(params);
-    showSearchOption(params.type);
-    app.views.results(params);
+    if (params) {
+      showSearchOption(params.type);
+      app.views.results(params);
+    }
   } else {
     app.views.front();
   }
@@ -171,11 +177,6 @@ app.util.addressWithUnit = function (property) {
   var unit = property.unit || '';
   if (unit) unit = ' #' + unit.replace(/^0+/, '');
   return property.full_address + unit;
-};
-
-app.util.parseSearchQueryForm = function(form) {
-  var data = $(form).serializeObject();
-  return app.util.normalizeSearchQuery(data);
 };
 
 app.util.normalizeSearchQuery = function(data) {
