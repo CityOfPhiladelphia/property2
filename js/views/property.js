@@ -62,7 +62,6 @@ app.views.property = function (accountNumber) {
         history.replaceState(state, ''); // Second param not optional in IE10
         if (!opaRendered) renderOpa();
         if (!opaDetailsRendered) renderOpaDetails();
-        if (!state.sa) getSaData();
       })
       .fail(function () {
         history.replaceState({error: true}, '');
@@ -71,11 +70,11 @@ app.views.property = function (accountNumber) {
   }
 
   function getSaData () {
-    $.ajax('https://api.phila.gov/ulrs/v3/addresses/' + encodeURIComponent(history.state.address) +
-      '/service-areas?format='+app.settings.ajaxType, {dataType: app.settings.ajaxType})
+    $.ajax('https://data.phila.gov/resource/bz79-67af.json?address_id=' + encodeURIComponent(history.state.address),
+        {dataType: app.settings.ajaxType})
       .done(function (data) {
         var state = $.extend({}, history.state);
-        state.sa = data.serviceAreaValues;
+        state.sa = data.length > 0 ? data[0] : null;
         history.replaceState(state, '');
         renderSa();
       })
@@ -278,6 +277,7 @@ app.views.property = function (accountNumber) {
 
   function renderSa () {
     var state = history.state;
+    var sa = state.sa;
 
     // No use rendering if there's been a data error
     if (state.error || state.sa.error) return;
@@ -286,81 +286,48 @@ app.views.property = function (accountNumber) {
     if (!opaRendered || !state.sa) return;
 
     // Render service areas
-    state.sa.forEach(function (sa) {
-      switch (sa.serviceAreaId) {
-        // Sidebox
-        case 'SA_STREETS_Rubbish_Recyc':
-          return app.hooks.rubbishDay.text(app.util.abbrevToFullDay(sa.value));
+    // Sidebox
+    app.hooks.rubbishDay.text(app.util.abbrevToFullDay(sa.rubbish));
 
-        // School catchment
-        case 'SA_SCHOOLS_Elementary_School_Catchment':
-          return app.hooks.elementarySchool.text(sa.value);
-        case 'SA_SCHOOLS_Middle_School_Catchment':
-          return app.hooks.middleSchool.text(sa.value);
-        case 'SA_SCHOOLS_High_School_Catchment':
-          return app.hooks.highSchool.text(sa.value);
+    // School catchment
+    app.hooks.elementarySchool.text(sa.elementary_school);
+    app.hooks.middleSchool.text(sa.middle_school);
+    app.hooks.highSchool.text(sa.high_school);
 
-        // Political
-        case 'SA_PLANNING_2016Councilmanic':
-          return app.hooks.councilDistrict.text(sa.value);
-        case 'SA_PLANNING_Ward':
-          return app.hooks.ward.text(sa.value);
-        case 'SA_PLANNING_Ward_Divisions':
-          return app.hooks.wardDivisions.text(sa.value);
+    // Political
+    app.hooks.councilDistrict.text(sa.council_2016);
+    app.hooks.ward.text(sa.ward);
+    app.hooks.wardDivisions.text(sa.ward_div);
 
-        // Public safety
-        case 'SA_POLICE_PSA':
-          return app.hooks.policePsa.text(sa.value);
-        case 'SA_POLICE_District':
-          return app.hooks.policeDistrict.text(sa.value);
-        case 'SA_POLICE_Sector':
-          return app.hooks.policeSector.text(sa.value);
-        case 'SA_POLICE_Division':
-          return app.hooks.policeDivision.text(sa.value);
-        case 'SA_POLICE_FireDistricts':
-          return app.hooks.fireDistrict.text(sa.value);
+    // Public safety
+    app.hooks.policePsa.text(sa.psa);
+    app.hooks.policeDistrict.text(sa.ppd_district);
+    app.hooks.policeSector.text(sa.ppd_sector);
+    app.hooks.policeDivision.text(sa.ppd_div);
+    app.hooks.fireDistrict.text(sa.fire_district);
 
-        // Streets
-        case 'SA_STREETS_Highway_District':
-          return app.hooks.highwayDistrict.text(sa.value);
-        case 'SA_STREETS_Highway_Section':
-          return app.hooks.highwaySection.text(sa.value);
-        case 'SA_STREETS_Highway_Subsection':
-          return app.hooks.highwaySubsection.text(sa.value);
-        case 'SA_STREETS_Street_Lights_Routes':
-          return app.hooks.streetLightRoutes.text(sa.value);
-        case 'SA_Streets_Traffic_District':
-          return app.hooks.trafficDistrict.text(sa.value);
-        case 'SA_STREETS_Recycling_Diversion_Rate':
-          return app.hooks.recyclingDiversion.text(sa.value);
-        case 'SA_STREETS_Sanitation_Area':
-          return app.hooks.sanitationArea.text(sa.value);
-        case 'SA_STREETS_Sanitation_Districts':
-          return app.hooks.sanitationDistrict.text(sa.value);
-        case 'SA_STREETS_Leaf':
-          return app.hooks.leafCollection.text(sa.value);
-        case 'SA_Streets_Traffic_PM_District':
-          return app.hooks.trafficPmDistrict.text(sa.value);
+    // Streets
+    app.hooks.highwayDistrict.text(sa.highway_district);
+    app.hooks.highwaySection.text(sa.highway_section);
+    app.hooks.highwaySubsection.text(sa.highway_subsection);
+    app.hooks.streetLightRoutes.text(sa.street_light_route);
+    app.hooks.trafficDistrict.text(sa.traffic_district);
+    app.hooks.recyclingDiversion.text(sa.recycling_diversion_rate_score);
+    app.hooks.sanitationArea.text(sa.sanitation_area);
+    app.hooks.sanitationDistrict.text(sa.sanitation_district);
+    app.hooks.leafCollection.text(sa.leaf);
+    app.hooks.trafficPmDistrict.text(sa.traffic_pm_district);
 
-        // Districts
-        case 'SA_PLANNING_Planning_Districts':
-          return app.hooks.planning.text(sa.value);
-        case 'SA_LNI_DISTRICT':
-          return app.hooks.liDistrict.text(sa.value);
-        case 'SA_RECREATION_Recreation_District':
-          return app.hooks.recreation.text(sa.value);
+    // Districts
+    app.hooks.planning.text(sa.planning_district);
+    app.hooks.liDistrict.text(sa.lni_district);
+    app.hooks.recreation.text(sa.rec_district);
 
-        // Water
-        case 'PWD_MAINT_DIST':
-          return app.hooks.pwdMaintenance.text(sa.value);
-        case 'PWD_PRES_DIST':
-          return app.hooks.pwdPressure.text(sa.value);
-        case 'PWD_WTPSA':
-          return app.hooks.waterTreatment.text(sa.value);
-        case 'SA_WATER_Water_Plate_Index':
-          return app.hooks.waterPlate.text(sa.value);
-      }
-    });
+    // Water
+    app.hooks.pwdMaintenance.text(sa.pwd_maint_dist);
+    app.hooks.pwdPressure.text(sa.pwd_pres_dist);
+    app.hooks.waterTreatment.text(sa.pwd_wtpsa);
+    app.hooks.waterPlate.text(sa.water_plate);
   }
 
   function renderError () {
