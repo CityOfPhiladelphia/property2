@@ -274,6 +274,7 @@ app.views.property = function (accountNumber) {
 
     app.hooks.improvementCondition.text(getExteriorConditionDescription(state.opa.characteristics.exterior_condition));
     app.hooks.beginningPoint.text(state.opa.characteristics.beginning_point);
+    app.hooks.homestead.text(state.opa.characteristics.homestead ? 'Yes' : 'No');
 
     opaDetailsRendered = true;
   }
