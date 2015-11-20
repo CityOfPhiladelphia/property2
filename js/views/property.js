@@ -272,7 +272,31 @@ app.views.property = function (accountNumber) {
       app.hooks.valuation.append(row);
     });
 
+    app.hooks.improvementCondition.text(getExteriorConditionDescription(state.opa.characteristics.exterior_condition));
+    app.hooks.beginningPoint.text(state.opa.characteristics.beginning_point);
+
     opaDetailsRendered = true;
+  }
+
+  function getExteriorConditionDescription(id) {
+    switch (id) {
+      case '1':
+        return 'Other';
+      case '2':
+        return 'New / Rehabbed';
+      case '3':
+        return 'Above Average';
+      case '4':
+        return 'Average';
+      case '5':
+        return 'Below Average';
+      case '6':
+        return 'Vacant';
+      case '7':
+        return 'Sealed / Structurally Compromised';
+      default:
+        return 'Not Applicable';
+    }
   }
 
   function renderSa () {
