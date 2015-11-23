@@ -335,16 +335,19 @@
             <div class="small-24 columns">
               <h4 class="alternate">Zoning</h4>
               <div data-hook="zoning" class="h3"></div>
-              <div class="text-right">
-                <a class="button no-margin-bottom" href="http://www.phila.gov/zoningarchive/" target="_blank">Zoning Documents</a>
-                <div class="small-text">On the Zoning Archive website</div>
-              </div>
+              <a class="small-text" href="http://www.phila.gov/zoningarchive/" target="_blank">See related zoning documents</a>
             </div>
           </div>
+        </div>
+
+        <div class="panel">
           <div class="row">
             <div class="small-24 columns">
-              <h4 class="alternate">Trash &amp; Recycling</h4>
-              <div data-hook="rubbish-day" class="h1 xtra-lg no-margin"></div>
+              <h4 class="alternate no-margin">Corrections or questions about this information?</h4>
+              <div class="text-right">
+                <a data-hook="opa-inquiry-url" class="button no-margin-bottom" href="#" target="_blank">Submit an official inquiry</a>
+                <div class="small-text">On the Office of Property Assessment website</div>
+              </div>
             </div>
           </div>
         </div>
@@ -417,6 +420,28 @@
                 <div class="medium-12 columns">
                   <h3>Sales Date</h3>
                   <div data-hook="sales-date"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="row"> <!-- Begin trash and recycling -->
+          <div class="columns">
+            <h2 class="alternate divide">Trash &amp; Recycling</h2>
+          </div>
+        </div>
+        <div class="row">
+          <div class="columns">
+            <div class="panel sales">
+              <div class="row">
+                <div class="medium-12 columns">
+                  <h3>Trash &amp; Recycling Day</h3>
+                  <div data-hook="rubbish-day" class="xtra-lg no-margin"></div>
+                </div>
+                <div class="medium-12 columns">
+                  <h3>Leaf Collection</h3>
+                  <div data-hook="leaf-collection"></div>
                 </div>
               </div>
             </div>

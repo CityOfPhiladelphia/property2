@@ -132,6 +132,8 @@ app.views.property = function (accountNumber) {
     app.hooks.content.append(app.hooks.propertySide);
     app.hooks.belowContent.append(app.hooks.propertySecondary);
 
+    app.hooks.opaInquiryUrl.attr('href', 'http://opa.phila.gov/opa.apps/Help/CitizenMain.aspx?sch=Ctrl2&s=1&url=search&id=' + state.opa.property_id);
+
     // Render map stuff
     renderMap();
     setStreetViewLink();
@@ -259,7 +261,7 @@ app.views.property = function (accountNumber) {
     pm.append($('<div>').text(ma.zip));
 
     // Render zoning
-    app.hooks.zoning.html(state.opa.characteristics.zoning + '<br>' +
+    app.hooks.zoning.html(state.opa.characteristics.zoning + ': ' +
       state.opa.characteristics.zoning_description);
 
     // Render valuation history
