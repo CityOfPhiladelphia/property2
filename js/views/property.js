@@ -309,10 +309,15 @@ app.views.property = function (accountNumber) {
     var sa = state.sa;
 
     // No use rendering if there's been a data error
-    if (state.error || state.sa.error) return;
+    if (state.error || !state.sa || state.sa.error) {
+      app.hooks.propertySecondary.hide();
+      return;
+    }
 
     // Wait for both OPA render and SA data
     if (!opaRendered || !state.sa) return;
+
+    app.hooks.propertySecondary.show();
 
     // Render service areas
     // Sidebox
