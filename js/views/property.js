@@ -40,7 +40,7 @@ app.views.property = function (accountNumber) {
 
   if (history.state.sa) {
     renderSa();
-  } else if (history.state.address) {
+  } else if (history.state.address && !alreadyGettingOpaData) {
     getSaData();
   }
 
@@ -60,8 +60,10 @@ app.views.property = function (accountNumber) {
         state.opa = property;
         state.address = app.util.addressWithUnit(property);
         history.replaceState(state, ''); // Second param not optional in IE10
+
         if (!opaRendered) renderOpa();
         if (!opaDetailsRendered) renderOpaDetails();
+        if (!state.sa) getSaData();
       })
       .fail(function () {
         history.replaceState({error: true}, '');
