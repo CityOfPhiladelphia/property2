@@ -481,46 +481,7 @@ app.views.property = function (accountNumber) {
     app.hooks.taxBalanceHistory.removeClass('hidden');
   }
 
-
   function renderError () {
     // TODO Display an error message that looks nice
   }
-
-  // // TODO Get L&I data
-  // // Tim also pointed at http://api.phila.gov/ULRS311/Data/LIAddressKey/340%20n%2012th%20st
-  // var topicsUrl = 'https://api.phila.gov/ulrs/v3/addresses/' + encodeURIComponent(params.p) + '/topics?format=json';
-  // $.ajax(topicsUrl)
-  //   .done(function (data) {
-  //     var addressKey;
-  //     data.topics.some(function (topic) {
-  //       if (topic.topicName === 'AddressKeys') {
-  //         return topic.keys.some(function (key) {
-  //           if (key.topicId) {
-  //             addressKey = key.topicId;
-  //             return true;
-  //           }
-  //         });
-  //       }
-  //     });
-  //     if (!addressKey) {
-  //       propertyData.li = {error: 'No L&I key found at ' + topicsUrl + '.'};
-  //       return --pending || app.views.address(propertyData);
-  //     }
-  //     $.ajax('https://services.phila.gov/PhillyApi/Data/v1.0/locations(' + addressKey + ')?$format=json')
-  //       .done(function (data) {
-  //         propertyData.li = data.d;
-  //         --pending || app.views.property(propertyData);
-  //       })
-  //       .fail(function () {
-  //         propertyData.li = {error: 'Failed to retrieve L&I address data.'};
-  //         --pending || app.views.property(propertyData);
-  //       });
-  //   })
-  //   .fail(function () {
-  //     propertyData.li = {error: 'Failed to retrieve address topics.'};
-  //     --pending || app.views.property(propertyData);
-  //   });
-  //
-  // function renderLi () {
-  // }
 };
