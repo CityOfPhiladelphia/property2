@@ -427,8 +427,7 @@ app.views.property = function (accountNumber) {
   }
 
   function renderRealEstateTax () {
-    var state = history.state,
-        i;
+    var state = history.state;
 
     // No use rendering if there's been a data error
     if (state.error) return;
@@ -469,10 +468,8 @@ app.views.property = function (accountNumber) {
 
     // Render tax balance history
     appendTaxBalanceRow(state.realestatetax.balance_totals);
-    i = 0;
     state.realestatetax.forEach(function (b) {
       appendTaxBalanceRow(b);
-      i++;
     });
 
     // Rebind the tooltips that we just rendered
