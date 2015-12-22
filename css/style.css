@@ -238,7 +238,7 @@ table thead tr th, table thead tr td{
   /*stop blank page at end */
   body, html, #application { height: 100%; }
 
-  #alpha-alert, footer, .button, .button + .small-text, .search, .map, #breadcrumbs, .search-box, .divider, .real-estate-taxes, .search-right {
+  #alpha-alert, footer, .button, .button + .small-text, .search, .map-container, #breadcrumbs, .search-box, .divider, .real-estate-taxes, .search-right, .zoning-link, .opa-inquiry-panel {
     display:none;
   }
   /*to fit more on the page*/
