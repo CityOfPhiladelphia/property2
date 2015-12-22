@@ -444,7 +444,7 @@ app.views.property = function (accountNumber) {
     if (!opaRendered || !state.realestatetax) return;
 
     // Helper function to append a row
-    function appendTaxBalanceRow(b, rowClass) {
+    function appendTaxBalanceRow(b) {
       var row = $('<tr>');
       row.append($('<td>').text(b.tax_period));
       row.append($('<td>').text(accounting.formatMoney(b.principal, '$', 2)));
@@ -453,10 +453,6 @@ app.views.property = function (accountNumber) {
       row.append($('<td>').text(accounting.formatMoney(b.other, '$', 2)));
       row.append($('<td>').text(accounting.formatMoney(b.total, '$', 2)));
       row.append($('<td>').text(b.lien_number || '---'));
-
-      if (rowClass) {
-        row.addClass(rowClass);
-      }
 
       app.hooks.taxBalanceHistoryTbody.append(row);
     }
@@ -472,11 +468,10 @@ app.views.property = function (accountNumber) {
     app.hooks.totalTaxBalance.text(accounting.formatMoney(state.realestatetax.balance_totals.total));
 
     // Render tax balance history
-    appendTaxBalanceRow(state.realestatetax.balance_totals, 'highlight-fill');
+    appendTaxBalanceRow(state.realestatetax.balance_totals);
     i = 0;
     state.realestatetax.forEach(function (b) {
-      var rowClass = '';
-      appendTaxBalanceRow(b, rowClass);
+      appendTaxBalanceRow(b);
       i++;
     });
 
