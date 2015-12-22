@@ -379,11 +379,43 @@
             <h2 class="alternate divide">Real Estate Taxes</h2>
           </div>
         </div>
-        <div class="row">
-          <div class="hide-for-print medium-14 columns"><p class="no-margin normal">Real Estate Tax account balances have not been incorporated into this application.</p></div>
-          <div class="medium-10 columns align-right">
-            <a class="button no-margin" href="http://www.phila.gov/revenue/realestatetax">Current Tax Balance</a>
-            <div class="small-text">On Department of Revenue website</div>
+        <div class="row tax-balance-summary">
+          <div class="medium-12 columns">
+            <h2 data-hook="total-tax-balance" class="xtra-lg no-margin"></h2>
+            <a href="#" class="small-text">See entire tax balance history</a>
+            <p data-hook="tax-balance-status" class="hidden"></p>
+          </div>
+          <div class="medium-12 columns">
+
+            <!-- Tooltip for non-mobile -->
+            <a data-hook="pay-tax-balance-link" data-tooltip data-options="disable_for_touch:true" aria-haspopup="true" title="Tax balances cannot currently be paid directly from this site. You will be taken to the Department of Revenue for payment." class="button hidden no-margin" target="_blank" href="http://www.phila.gov/revenue/realestatetax">Pay Tax Balance</a>
+
+            <!-- Show on mobile view
+            <p class="pay-tax-balance-tip">Tax balances cannot currently be paid directly from this site. You will be taken to the Department of Revenue for payment.</p>
+            -->
+
+            <!-- <a data-hook="tax-balance-history-link" class="button hidden" href="#">Show Details</a> -->
+          </div>
+        </div>
+        <div data-hook="tax-balance-history" class="row">
+          <div class="columns">
+            <table role="grid" summary="Valuation History" class="responsive">
+              <thead>
+                <tr>
+                  <th>Year</th>
+                  <th>Principal</th>
+                  <th>Interest</th>
+                  <th>Penalty</th>
+                  <th>Other</th>
+                  <th>Total</th>
+                  <th>Lien/Docket</th>
+                </tr>
+              </thead>
+              <tbody data-hook="tax-balance-history-tbody">
+              </tbody>
+            </table>
+
+            <a data-hook="more-tax-balance-history-link" href="#" class="button expand hidden">See More History</a>
           </div>
         </div> <!-- End taxes -->
         <div class="row"> <!-- Begin valuation -->
@@ -409,6 +441,7 @@
             </table>
           </div>
         </div> <!-- End valuation -->
+
         <div class="row"> <!-- Begin sales details -->
           <div class="columns">
             <h2 class="alternate divide">Sales Details</h2>

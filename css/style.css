@@ -183,10 +183,10 @@ table thead tr th, table thead tr td{
   background:#dbe1e3;
   color:#000;
 }
-/* Fix images in google maps*/
-.gmnoprint img {
-    max-width: none;
+.tax-balance-summary {
+  padding-bottom: 1rem;
 }
+
 .hidden{
   display:none !important;
 }

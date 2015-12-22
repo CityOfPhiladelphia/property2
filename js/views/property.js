@@ -1,6 +1,7 @@
 /*global $,app,esri,accounting,google*/
 
 app.views.property = function (accountNumber) {
+  var HISTORY_PAGE_SIZE = 5;
   var alreadyGettingOpaData, opaRendered, opaDetailsRendered;
 
   app.hooks.ownerSearchDisclaimer.addClass('hide');
@@ -42,6 +43,12 @@ app.views.property = function (accountNumber) {
     renderSa();
   } else if (history.state.address && !alreadyGettingOpaData) {
     getSaData();
+  }
+
+  if (history.state.realestatetax) {
+    renderRealEstateTax();
+  } else if (history.state.opa) {
+    getRealEstateTaxData();
   }
 
   function hasOpaDetails() {
@@ -87,6 +94,54 @@ app.views.property = function (accountNumber) {
       });
   }
 
+  function getRealEstateTaxData () {
+    var state = history.state;
+
+    // Totals do not come back from the API. Calculate them once when the data
+    // is fetched.
+    function addTaxBalanceTotals(data) {
+      var balanceTotals = {
+        tax_period: 'Total', principal: 0, interest: 0, penalty: 0, other: 0, total: 0
+      };
+
+      data.forEach(function (b) {
+        var total = parseFloat(b.total),
+            principal = parseFloat(b.principal),
+            interest = parseFloat(b.interest),
+            penalty = parseFloat(b.penalty),
+            other = parseFloat(b.other);
+
+        // Total for all attributes for all years
+        balanceTotals.total += total;
+        balanceTotals.principal += principal;
+        balanceTotals.interest += interest;
+        balanceTotals.penalty += penalty;
+        balanceTotals.other += other;
+      });
+
+      data.balance_totals = balanceTotals;
+      return data;
+    }
+
+    // $.ajax('https://data.phila.gov/resource/y5ti-svsu.json?parcel_id'+state.opa.account_number)
+    $.ajax('test-taxes.json')
+      .done(function (data) {
+        var state = $.extend({}, history.state);
+
+        state.realestatetax = data;
+        addTaxBalanceTotals(data);
+
+        history.replaceState(state, '');
+        renderRealEstateTax();
+      })
+      .fail(function () {
+        var state = $.extend({}, history.state);
+        state.realestatetax = {error: true};
+        history.replaceState(state, '');
+        renderRealEstateTax();
+      });
+  }
+
   function renderOpa () {
     var state = history.state;
 
@@ -127,6 +182,14 @@ app.views.property = function (accountNumber) {
 
     // Empty valuation history
     app.hooks.valuation.empty();
+
+    // Reset tax balance history
+    app.hooks.taxBalanceStatus.removeClass('hidden').text('Loading...');
+    // app.hooks.taxBalanceHistoryLink.addClass('hidden').text('Show Details');
+    app.hooks.payTaxBalanceLink.addClass('hidden');
+    app.hooks.taxBalanceHistory.addClass('hidden');
+    app.hooks.totalTaxBalance.empty();
+    app.hooks.taxBalanceHistoryTbody.empty();
 
     app.hooks.content.append(app.hooks.propertyMain);
     app.hooks.content.append(app.hooks.propertySide);
@@ -363,6 +426,76 @@ app.views.property = function (accountNumber) {
     app.hooks.waterTreatment.text(sa.pwd_wtpsa);
     app.hooks.waterPlate.text(sa.water_plate);
   }
+
+  function renderRealEstateTax () {
+    var state = history.state,
+        i;
+
+    // No use rendering if there's been a data error
+    if (state.error) return;
+
+    if (state.realestatetax.error) {
+      // Empty the total tax balance
+      app.hooks.taxBalanceStatus.removeClass('hidden').text('No tax balance information found.');
+
+      return;
+    }
+
+    // Wait for both OPA render and RET data
+    if (!opaRendered || !state.realestatetax) return;
+
+
+
+
+    // Helper function to append a row
+    function appendTaxBalanceRow(b, rowClass) {
+      var row = $('<tr>');
+      row.append($('<td>').text(b.tax_period));
+      row.append($('<td>').text(accounting.formatMoney(b.principal)));
+      row.append($('<td>').text(accounting.formatMoney(b.interest)));
+      row.append($('<td>').text(accounting.formatMoney(b.penalty)));
+      row.append($('<td>').text(accounting.formatMoney(b.other)));
+      row.append($('<td>').text(accounting.formatMoney(b.total)));
+      row.append($('<td>').text(b.lien_number));
+
+      if (rowClass) {
+        row.addClass(rowClass);
+      }
+
+      app.hooks.taxBalanceHistoryTbody.append(row);
+    }
+
+    // Sort tax balances in place by year, descending
+    state.realestatetax.sort(function(a, b) { return b.tax_period - a.tax_period; });
+
+    // Show history link
+    app.hooks.taxBalanceStatus.addClass('hidden');
+    // app.hooks.taxBalanceHistoryLink.removeClass('hidden');
+    app.hooks.payTaxBalanceLink.removeClass('hidden');
+
+    // Render total balance
+    app.hooks.totalTaxBalance.text(accounting.formatMoney(state.realestatetax.balance_totals.total));
+
+    // Render tax balance history
+    appendTaxBalanceRow(state.realestatetax.balance_totals, 'highlight-fill');
+    i = 0;
+    state.realestatetax.forEach(function (b) {
+      var rowClass = '';
+      if (i >= HISTORY_PAGE_SIZE) { rowClass = 'hidden'; }
+
+      appendTaxBalanceRow(b, rowClass);
+      i++;
+    });
+
+    // If there are hidden history rows, show the "more" button
+    if(app.hooks.taxBalanceHistory.find('tr.hidden').length > 0) {
+      // app.hooks.moreTaxBalanceHistoryLink.removeClass('hidden');
+    }
+
+    // Rebind the tooltips that we just rendered
+    $(document).foundation('tooltip', 'reflow');
+  }
+
 
   function renderError () {
     // TODO Display an error message that looks nice
