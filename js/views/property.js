@@ -185,7 +185,6 @@ app.views.property = function (accountNumber) {
 
     // Reset tax balance history
     app.hooks.taxBalanceStatus.removeClass('hidden').text('Loading...');
-    // app.hooks.taxBalanceHistoryLink.addClass('hidden').text('Show Details');
     app.hooks.payTaxBalanceLink.addClass('hidden');
     app.hooks.taxBalanceHistory.addClass('hidden');
     app.hooks.totalTaxBalance.empty();
@@ -444,19 +443,16 @@ app.views.property = function (accountNumber) {
     // Wait for both OPA render and RET data
     if (!opaRendered || !state.realestatetax) return;
 
-
-
-
     // Helper function to append a row
     function appendTaxBalanceRow(b, rowClass) {
       var row = $('<tr>');
       row.append($('<td>').text(b.tax_period));
-      row.append($('<td>').text(accounting.formatMoney(b.principal)));
-      row.append($('<td>').text(accounting.formatMoney(b.interest)));
-      row.append($('<td>').text(accounting.formatMoney(b.penalty)));
-      row.append($('<td>').text(accounting.formatMoney(b.other)));
-      row.append($('<td>').text(accounting.formatMoney(b.total)));
-      row.append($('<td>').text(b.lien_number));
+      row.append($('<td>').text(accounting.formatMoney(b.principal, '$', 2)));
+      row.append($('<td>').text(accounting.formatMoney(b.interest, '$', 2)));
+      row.append($('<td>').text(accounting.formatMoney(b.penalty, '$', 2)));
+      row.append($('<td>').text(accounting.formatMoney(b.other, '$', 2)));
+      row.append($('<td>').text(accounting.formatMoney(b.total, '$', 2)));
+      row.append($('<td>').text(b.lien_number || '---'));
 
       if (rowClass) {
         row.addClass(rowClass);
@@ -470,7 +466,6 @@ app.views.property = function (accountNumber) {
 
     // Show history link
     app.hooks.taxBalanceStatus.addClass('hidden');
-    // app.hooks.taxBalanceHistoryLink.removeClass('hidden');
     app.hooks.payTaxBalanceLink.removeClass('hidden');
 
     // Render total balance
@@ -481,19 +476,14 @@ app.views.property = function (accountNumber) {
     i = 0;
     state.realestatetax.forEach(function (b) {
       var rowClass = '';
-      if (i >= HISTORY_PAGE_SIZE) { rowClass = 'hidden'; }
-
       appendTaxBalanceRow(b, rowClass);
       i++;
     });
 
-    // If there are hidden history rows, show the "more" button
-    if(app.hooks.taxBalanceHistory.find('tr.hidden').length > 0) {
-      // app.hooks.moreTaxBalanceHistoryLink.removeClass('hidden');
-    }
-
     // Rebind the tooltips that we just rendered
     $(document).foundation('tooltip', 'reflow');
+
+    app.hooks.taxBalanceHistory.removeClass('hidden');
   }
 
 

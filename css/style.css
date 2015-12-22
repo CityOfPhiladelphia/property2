@@ -226,7 +226,9 @@ table thead tr th, table thead tr td{
   .search-box.medium-10 .search-form-container {
     width: 70%;
   }
-
+  .pay-tax-balance-tip {
+    display: none;
+  }
 }
 
 
