@@ -472,9 +472,6 @@ app.views.property = function (accountNumber) {
       appendTaxBalanceRow(b);
     });
 
-    // Rebind the tooltips that we just rendered
-    $(document).foundation('tooltip', 'reflow');
-
     app.hooks.taxBalanceHistory.removeClass('hidden');
   }
 
