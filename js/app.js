@@ -259,6 +259,14 @@ app.util.default = function (val, def) {
   return val || def;
 };
 
+app.util.tpl = function(str, data){
+ for(var p in data) {
+   str=str.replace(new RegExp('{{'+p+'}}','g'), data[p]);
+ }
+ return str;
+};
+
+
 
 // We only handle whole dollar amounts here
 accounting.settings.currency.precision = 0;
