@@ -239,7 +239,7 @@ table thead tr th, table thead tr td{
   /*stop blank page at end */
   body, html, #application { height: 100%; }
 
-  #alpha-alert, footer, .button, .button + .small-text, .search, .map, #breadcrumbs, .search-box, .divider, .search-right, .tax-balance-summary, .zoning-link, .opa-inquiry-panel, .total-tax-balance {
+  #alpha-alert, footer, .button, .button + .small-text, .search, .map-container, #breadcrumbs, .search-box, .divider, .search-right, .tax-balance-summary, .zoning-link, .opa-inquiry-panel, .total-tax-balance {
     display:none;
   }
   /*to fit more on the page*/
