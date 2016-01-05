@@ -154,8 +154,7 @@ app.views.property = function (accountNumber) {
       return data;
     }
 
-    // $.ajax('https://data.phila.gov/resource/y5ti-svsu.json?parcel_id'+state.opa.account_number)
-    $.ajax('test-taxes.json')
+    $.ajax('https://data.phila.gov/resource/y5ti-svsu.json?parcel_number='+state.opa.account_number)
       .done(function (data) {
         var state = $.extend({}, history.state);
 
