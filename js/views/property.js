@@ -497,7 +497,10 @@ app.views.property = function (accountNumber) {
     app.hooks.totalTaxBalance.text(accounting.formatMoney(state.realestatetax.balance_totals.total));
 
     // Render tax balance history
-    appendTaxBalanceRow(state.realestatetax.balance_totals);
+    if (state.realestatetax && state.realestatetax.length > 1) {
+      // Render totals if there is more than one row
+      appendTaxBalanceRow(state.realestatetax.balance_totals);
+    }
     state.realestatetax.forEach(function (b) {
       appendTaxBalanceRow(b);
     });
