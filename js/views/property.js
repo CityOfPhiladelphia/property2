@@ -491,7 +491,6 @@ app.views.property = function (accountNumber) {
 
     // Show history link
     app.hooks.taxBalanceStatus.addClass('hidden');
-    app.hooks.payTaxBalanceLink.removeClass('hidden');
 
     // Render total balance
     app.hooks.totalTaxBalance.text(accounting.formatMoney(state.realestatetax.balance_totals.total));
@@ -507,6 +506,7 @@ app.views.property = function (accountNumber) {
 
     if (state.realestatetax.balance_totals.total !== 0) {
       app.hooks.taxBalanceHistory.removeClass('hidden');
+      app.hooks.payTaxBalanceLink.removeClass('hidden');
     }
   }
 
