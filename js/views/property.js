@@ -505,7 +505,9 @@ app.views.property = function (accountNumber) {
       appendTaxBalanceRow(b);
     });
 
-    app.hooks.taxBalanceHistory.removeClass('hidden');
+    if (state.realestatetax.balance_totals.total !== 0) {
+      app.hooks.taxBalanceHistory.removeClass('hidden');
+    }
   }
 
   function renderError () {
