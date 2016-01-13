@@ -47,7 +47,7 @@ app.views.property = function (accountNumber) {
 
   if (history.state.realestatetax) {
     renderRealEstateTax();
-  } else if (history.state.opa) {
+  } else if (history.state.opa && !alreadyGettingOpaData) {
     getRealEstateTaxData();
   }
 
@@ -102,6 +102,7 @@ app.views.property = function (accountNumber) {
         if (!opaRendered) renderOpa();
         if (!opaDetailsRendered) renderOpaDetails();
         if (!state.sa) getSaData();
+        if (!state.realestatetax) getRealEstateTaxData();
       })
       .fail(function () {
         history.replaceState({error: true}, '');
