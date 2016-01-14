@@ -56,16 +56,17 @@ app.views.property = function (accountNumber) {
     e.preventDefault();
 
     var tpl = '<?xml version="1.0" encoding="utf-16"?><BillingStatement xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema"><ApplicationID>fcd68fd2-e923-4b03-a0e7-a678c2ed612a</ApplicationID><AccountNumber /><BillNumber>{{account_number}}</BillNumber><StatementNumber /><BillingDate>{{now}}</BillingDate><DueDate>{{now}}</DueDate><TotalDue>{{amount}}</TotalDue><DepartMentId>0</DepartMentId><Fund>0</Fund><PaymentDate>0001-01-01T00:00:00</PaymentDate><Quantity>0</Quantity><ItemAmount>0</ItemAmount><TotalAmountdue>0</TotalAmountdue><PartialPaymentFlag>false</PartialPaymentFlag><ReceiptpresentFlag>false</ReceiptpresentFlag><Details><BillingStatementDetail><ItemDate>{{now}}</ItemDate><ItemDescription>{{description}}</ItemDescription><Charges>{{amount}}</Charges><Credits>0</Credits></BillingStatementDetail></Details><Customers><Customer><FirstName>{{name}}</FirstName><MiddleName /><LastName /><BillingAddress><Address><AddressLine1>{{address}}</AddressLine1><City>{{city}}</City><State>{{state}}</State><PostalCode>{{zip}}</PostalCode><Country>USA</Country></Address></BillingAddress></Customer></Customers></BillingStatement>',
-        xml = app.util.tpl(tpl, getPaymentData());
+        xml = app.util.tpl(tpl, getPaymentData()),
+        // Create imaginary form with the endpoint & the xml data
+        $form = $('<form/>', {
+          method: 'post',
+          action: 'https://secure.phila.gov/PaymentCenter/Gateway1/InitiatePurchase.aspx'
+        }).append($('<input/>', {
+          name: 'billStmt',
+          val: xml
+        }));
 
-    // Create imaginary form with the endpoint & the xml data and submit it
-    $('<form/>', {
-      method: 'post',
-      action: 'https://secure.phila.gov/PaymentCenter/Gateway1/InitiatePurchase.aspx'
-    }).append($('<input/>', {
-      name: 'billStmt',
-      val: xml
-    })).submit();
+    $form.appendTo('body').submit();
   });
 
   function getPaymentData() {
