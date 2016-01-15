@@ -113,7 +113,7 @@ app.views.property = function (accountNumber) {
 
   function getSaData () {
     $.ajax('https://data.phila.gov/resource/bz79-67af.json?address_id=' + encodeURIComponent(history.state.address),
-        {dataType: app.settings.ajaxType})
+        {dataType: app.settings.ajaxType, jsonp: '$jsonp'})
       .done(function (data) {
         var state = $.extend({}, history.state);
         state.sa = data.length > 0 ? data[0] : null;
@@ -156,7 +156,8 @@ app.views.property = function (accountNumber) {
       return data;
     }
 
-    $.ajax('https://data.phila.gov/resource/y5ti-svsu.json?parcel_number='+state.opa.account_number)
+    $.ajax('https://data.phila.gov/resource/y5ti-svsu.json?parcel_number='+state.opa.account_number,
+        {dataType: app.settings.ajaxType, jsonp: '$jsonp'})
       .done(function (data) {
         var state = $.extend({}, history.state);
 
