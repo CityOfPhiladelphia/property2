@@ -132,7 +132,11 @@ app.views.property = function (accountNumber) {
     app.hooks.content.append(app.hooks.propertySide);
     app.hooks.belowContent.append(app.hooks.propertySecondary);
 
+    // Set OPA inquiry link
     app.hooks.opaInquiryUrl.attr('href', 'http://opa.phila.gov/opa.apps/Help/CitizenMain.aspx?sch=Ctrl2&s=1&url=search&id=' + state.opa.property_id);
+
+    // Set L&I link
+    app.hooks.liLink.attr('href', 'http://li.phila.gov/#summary?address=' + encodeURI(state.address));
 
     // Render map stuff
     renderMap();
