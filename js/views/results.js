@@ -54,6 +54,13 @@ app.views.results = function (parsedQuery) {
       .done(function (data) {
         var property, accountNumber, href, withUnit;
 
+        // If we get a 200 response but an 400 error code (ummmmm), treat it like a fail.
+        if (!data.data) {
+          history.replaceState({error: 'Failed to retrieve results. Please try another search.'}, '');
+          render();
+          return;
+        }
+
         // For business reasons, owner searches need to always show on the
         // results page for the disclaimer.
         if (!isOwnerSearch && (data.data.property || data.data.properties.length === 1)) {
