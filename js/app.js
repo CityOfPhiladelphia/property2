@@ -116,7 +116,7 @@ app.hooks.searchFormContainer.find('form').on('submit', function (e) {
   e.preventDefault();
 
   var params = app.util.serializeObject(this),
-      queryStringParams = $(this).serialize();
+      queryStringParams = app.util.serializeQueryStringParams(params);
 
   params = app.util.normalizeSearchQuery(params);
 
@@ -268,6 +268,17 @@ app.util.serializeObject = function (form) {
       }
     });
   return obj;
+};
+
+// Serialize an object to query string params
+app.util.serializeQueryStringParams = function(obj) {
+  var str = [];
+  for(var p in obj) {
+    if (obj.hasOwnProperty(p)) {
+      str.push(encodeURIComponent(p) + '=' + encodeURIComponent(obj[p]));
+    }
+  }
+  return str.join('&');
 };
 
 // We only handle whole dollar amounts here
