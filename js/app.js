@@ -118,6 +118,10 @@ app.hooks.searchFormContainer.find('form').on('submit', function (e) {
   var params = $(this).serializeObject(),
       queryStringParams = $(this).serialize();
 
+  if (window.console) {
+    console.log(params, $(this), queryStringParams);
+  }
+
   params = app.util.normalizeSearchQuery(params);
 
   if (params) {
@@ -228,6 +232,11 @@ app.util.normalizeSearchQuery = function(data) {
 
 app.util.cleanPropertyQuery = function(query) {
   // Trim, remove extra speces, and replace dots and hashes -- API can't handle them
+  if (window.console) {
+    // Temp debugging for production
+    console.log(arguments);
+  }
+
   return query.trim().replace(/\./g, ' ').replace(/ {2,}/g, ' ').replace(/#/g, '');
 };
 
