@@ -342,7 +342,6 @@ app.views.property = function (accountNumber) {
     app.hooks.policeDistrict.text(sa.ppd_district);
     app.hooks.policeSector.text(sa.ppd_sector);
     app.hooks.policeDivision.text(sa.ppd_div);
-    app.hooks.fireDistrict.text(sa.fire_district);
 
     // Streets
     app.hooks.highwayDistrict.text(sa.highway_district);
