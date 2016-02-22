@@ -115,12 +115,8 @@ app.hooks.searchFormContainer.find('form').on('submit', function (e) {
   if (e.ctrlKey || e.altKey || e.shiftKey) return;
   e.preventDefault();
 
-  var params = $(this).serializeObject(),
+  var params = app.util.serializeObject(this),
       queryStringParams = $(this).serialize();
-
-  if (window.console) {
-    console.log(params, $(this), queryStringParams);
-  }
 
   params = app.util.normalizeSearchQuery(params);
 
@@ -232,11 +228,6 @@ app.util.normalizeSearchQuery = function(data) {
 
 app.util.cleanPropertyQuery = function(query) {
   // Trim, remove extra speces, and replace dots and hashes -- API can't handle them
-  if (window.console) {
-    // Temp debugging for production
-    console.log(arguments);
-  }
-
   return query.trim().replace(/\./g, ' ').replace(/ {2,}/g, ' ').replace(/#/g, '');
 };
 
@@ -268,6 +259,16 @@ app.util.default = function (val, def) {
   return val || def;
 };
 
+// Serialize a form into an object, assuming only one level of depth
+app.util.serializeObject = function (form) {
+  var obj = {};
+  $.each($(form).serializeArray(), function (i, element) {
+      if (!obj[element.name]) {
+        obj[element.name] = element.value;
+      }
+    });
+  return obj;
+};
 
 // We only handle whole dollar amounts here
 accounting.settings.currency.precision = 0;
