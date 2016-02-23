@@ -111,25 +111,28 @@ app.views.results = function (parsedQuery) {
     //app.hooks.count.find('#total').text(state.total);
     //app.hooks.content.append(app.hooks.count);
     app.hooks.resultRows.empty(); // TODO reuse existing result nodes
-    state.data.properties.forEach(addRow);
-    if (state.total > state.data.properties.length) {
-      var seeMoreA = app.hooks.seeMore.find('a');
-      seeMoreA.off('click'); // Drop previously created click events
-      seeMoreA.on('click', function (e) {
-        $.ajax('https://api.phila.gov/opa/v1.1/' + opaEndpoint + '?format=json'+
-          '&skip=' + state.data.properties.length, {dataType: app.settings.ajaxType})
-          .done(function (data) {
-            state.data.properties = state.data.properties.concat(data.data.properties);
-            history.replaceState(state, ''); // Second param not optional in IE10
-            data.data.properties.forEach(addRow);
-            if (state.total === state.data.properties.length) app.hooks.seeMore.hide();
-          });
-      });
-      app.hooks.seeMore.show();
-    } else {
-      app.hooks.seeMore.hide();
+    if (state.data && state.data.properties) {
+      state.data.properties.forEach(addRow);
+
+      if (state.total > state.data.properties.length) {
+        var seeMoreA = app.hooks.seeMore.find('a');
+        seeMoreA.off('click'); // Drop previously created click events
+        seeMoreA.on('click', function (e) {
+          $.ajax('https://api.phila.gov/opa/v1.1/' + opaEndpoint + '?format=json'+
+            '&skip=' + state.data.properties.length, {dataType: app.settings.ajaxType})
+            .done(function (data) {
+              state.data.properties = state.data.properties.concat(data.data.properties);
+              history.replaceState(state, ''); // Second param not optional in IE10
+              data.data.properties.forEach(addRow);
+              if (state.total === state.data.properties.length) app.hooks.seeMore.hide();
+            });
+        });
+        app.hooks.seeMore.show();
+      } else {
+        app.hooks.seeMore.hide();
+      }
+      app.hooks.content.append(app.hooks.results);
     }
-    app.hooks.content.append(app.hooks.results);
   }
 
   function renderOwnerSearchDisclaimer() {
