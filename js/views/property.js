@@ -161,6 +161,12 @@ app.views.property = function (accountNumber) {
           // Set center
           app.globals.map.centerAndZoom([state.opa.geometry.x, state.opa.geometry.y], 8);
 
+          // If check to fix intermittent bugs
+          if (!app.globals.map || !app.globals.map.graphics) {
+            console.warn('`graphics` layer on the map is null. Marker can not be added.');
+            return;
+          }
+
           // Clear any existing markers
           app.globals.map.graphics.clear();
 
@@ -213,8 +219,6 @@ app.views.property = function (accountNumber) {
             zoom: 8,
             smartNavigation: false
           });
-
-
 
           app.globals.layer = new Tiled('https://tiles.arcgis.com/tiles/fLeGjb7u4uXqeF9q/arcgis/rest/services/CityBasemap/MapServer');
           app.globals.map.addLayer(app.globals.layer);
