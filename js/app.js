@@ -228,7 +228,7 @@ app.util.normalizeSearchQuery = function(data) {
 
 app.util.cleanPropertyQuery = function(query) {
   // Trim, remove extra speces, and replace dots and hashes -- API can't handle them
-  return query.trim().replace(/\./g, ' ').replace(/ {2,}/g, ' ').replace(/#/g, '');
+  return query.replace(/\./g, ' ').replace(/ {2,}/g, ' ').replace(/#/g, '').trim();
 };
 
 // Pull a human-readable sales date from what the OPA API gives us
