@@ -72,7 +72,17 @@ app.views.property = function (accountNumber) {
   }
 
   function getSaData () {
-    $.ajax('https://data.phila.gov/resource/bz79-67af.json?address_id=' + encodeURIComponent(history.state.address),
+    // Check for an address with a dash in it. Dashed addresses are not in the
+    // service area table, so pluck off the first number and try to look it up
+    // that way.
+    var address = history.state.address,
+        matches = /(\d+) *- *(\d+) +(.+)$/gi.exec(address);
+
+    if (matches && matches.length > 1) {
+      address = matches[1] + ' ' + matches[3];
+    }
+
+    $.ajax('https://data.phila.gov/resource/bz79-67af.json?address_id=' + encodeURIComponent(address),
         {dataType: app.settings.ajaxType})
       .done(function (data) {
         var state = $.extend({}, history.state);
