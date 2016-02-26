@@ -232,7 +232,10 @@ app.util.cleanPropertyQuery = function(query) {
   }
 
   // Trim, remove extra speces, and replace dots and hashes -- API can't handle them
-  return query.replace(/\./g, ' ').replace(/ {2,}/g, ' ').replace(/#/g, '').trim();
+  if (query) {
+    return query.replace(/\./g, ' ').replace(/ {2,}/g, ' ').replace(/#/g, '').trim();
+  }
+  return query;
 };
 
 // Pull a human-readable sales date from what the OPA API gives us
