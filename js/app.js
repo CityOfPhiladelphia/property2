@@ -227,6 +227,10 @@ app.util.normalizeSearchQuery = function(data) {
 };
 
 app.util.cleanPropertyQuery = function(query) {
+  if (!query) {
+    return '';
+  }
+
   // Trim, remove extra speces, and replace dots and hashes -- API can't handle them
   return query.replace(/\./g, ' ').replace(/ {2,}/g, ' ').replace(/#/g, '').trim();
 };
