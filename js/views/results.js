@@ -125,6 +125,9 @@ app.views.results = function (parsedQuery) {
               history.replaceState(state, ''); // Second param not optional in IE10
               data.data.properties.forEach(addRow);
               if (state.total === state.data.properties.length) app.hooks.seeMore.hide();
+
+              // Update the Tablesaw responsive tables
+              $(document).trigger('enhance.tablesaw');
             });
         });
         app.hooks.seeMore.show();
@@ -132,6 +135,9 @@ app.views.results = function (parsedQuery) {
         app.hooks.seeMore.hide();
       }
       app.hooks.content.append(app.hooks.results);
+
+      // Update the Tablesaw responsive tables
+      $(document).trigger('enhance.tablesaw');
     }
   }
 
@@ -165,10 +171,10 @@ app.views.results = function (parsedQuery) {
     var href = '?' + $.param({p: accountNumber});
     row.append($('<td>').append($('<a href="' + href + '">').text(withUnit)));
     row.append($('<td>').text(property.valuation_history && accounting.formatMoney(property.valuation_history[0].market_value)));
-    row.append($('<td class="hide-for-small">').text(app.util.formatSalesDate(property.sales_information.sales_date)
+    row.append($('<td>').text(app.util.formatSalesDate(property.sales_information.sales_date)
       + ', ' + accounting.formatMoney(property.sales_information.sales_price)));
-    row.append($('<td class="hide-for-small">').text(property.ownership.owners.join(', ')));
-    row.append($('<td>').html('<i class="fa fa-arrow-circle-right"></i>'));
+    row.append($('<td>').text(property.ownership.owners.join(', ')));
+    row.append($('<td class="hide-for-small">').html('<i class="fa fa-arrow-circle-right"></i>'));
     row.on('click', function (e) {
         if (e.ctrlKey || e.altKey || e.shiftKey) return;
         e.preventDefault();

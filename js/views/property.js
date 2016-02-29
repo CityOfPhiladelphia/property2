@@ -307,6 +307,9 @@ app.views.property = function (accountNumber) {
     app.hooks.homestead.text(state.opa.characteristics.homestead ? 'Yes' : 'No');
 
     opaDetailsRendered = true;
+
+    // Update the Tablesaw responsive tables
+    $(document).trigger('enhance.tablesaw');
   }
 
   function getExteriorConditionDescription(id) {
