@@ -3,6 +3,26 @@ body {
   investigate further */
   overflow-x:hidden;
 }
+
+.search-head .small-text {
+  margin-top: -20px;
+}
+.search-head h1 {
+  margin-top:.5rem;
+}
+
+.map-container {
+  width:100%;
+}
+.map {
+  height: 200px;
+}
+
+.panel h4{
+  color:#666;
+  margin-bottom: 0;
+}
+
 .search-head .small-text {
   margin-top: -20px;
 }
@@ -18,13 +38,13 @@ body {
   position: relative;
 
   width: 38%;
-  height: 2.5rem;
+  height: 2.85714rem;
   padding: 0.5rem 0 0.5rem 0.5rem;
-  border: 1px solid #666666;
+  border: 1px solid #f2c612;
   border-width: 1px 0px 1px 1px;
-  background: #f7f7f7;
+  background: #fff;
 
-  font-size: 0.875rem;
+  font-size: 1.15rem;
   cursor: pointer;
 }
 .search-form-container {
@@ -36,19 +56,19 @@ body {
   margin: 0.25rem;
 }
 .search-select-options {
-  border: 1px solid #666666;
+  border: 1px solid #f2c612;
   border-width: 0px 1px 1px 1px;
   background: #ffffff;
   padding: 0;
 
   position: absolute;
   left: 0;
-  top: 2.5rem;
+  top: 2.85714rem;
   min-width: 250px;
   z-index: 31;
 }
 .search-select-options li {
-  height: 2.5rem;
+  height: 2.85714rem;
   padding: 0.5rem 1rem;
 
   border-bottom: 1px solid #f7f7f7;
@@ -58,12 +78,14 @@ body {
   border-bottom-width: 0;
 }
 .search-select-options li:hover {
-  background: #027ea4;
+  background: #dbe1e3;
 }
 .search-select-options label {
-  color: #027ea4;
+  color: #2176d2;
+  font-weight: bold;
   width: 125px;
   display: inline-block;
+  cursor: pointer;
 }
 .search-select-options li:hover label,
 .search-select-options li:hover small {
@@ -85,89 +107,21 @@ body {
 .search input[type="text"] {
   border-width: 1px 0px 1px 1px;
 }
+
 .intro {
   font-size:1.3rem;
   font-weight:bold;
   text-align:center;
 }
 .intro .fa-circle {
-  color:#027EA4;
+  color:#2176d2;
 }
 .front .callout {
   margin:-15px 0 1rem 5rem;
 }
-.no-margin-bottom {
-  margin-bottom: 0;
-}
-@media only screen and (max-width: 40em) {
-  .front .callout {
-    margin:0.625rem 0 1rem 0;
-  }
-  .intro .fa-stack{
-    display:none;
-  }
-}
-.xtra-lg {
-  font-size:1.89rem;
-  line-height:1;
-  word-wrap:break-word;
-}
-.align-right{
-  text-align:right;
-}
-.sales h3 {
-  margin-bottom:5px;
-  font-weight:normal;
-  color: #666;
-  font-size: 0.8125rem;
-  margin-top: 0;
-}
-h4.alternate{
-  margin-bottom:0;
-  font-weight:normal;
-}
-.normal{
-  text-transform:none;
-}
-p {
-  font-size:.9rem;
-}
-.button{
-  width:100%;
-}
-.small-text{
-  font-family:"Open Sans","Arial",sans-serif;
-  font-weight:normal;
-  text-transform:none;
-}
-table thead tr th, table thead tr td{
-    font-size:.7rem;
-}
-.panel, .bold {
-  font-family: 'Montserrat', 'Tahoma', sans-serif;
-  font-weight: 700;
-  text-transform: uppercase;
-}
-.owners {
-    line-height:1;
-}
-.owners div {
-  margin-bottom:1rem;
-}
-.map-container {
-  width:100%;
-}
-.map {
-  height: 200px;
-}
-.mailing {
-  font-size:.8rem;
-}
+
 .result-row {
   cursor: pointer;
-}
-.panel h3{
-  color:#666;
 }
 .results-view{
   background: #dbe1e3;
@@ -183,12 +137,25 @@ table thead tr th, table thead tr td{
   background:#dbe1e3;
   color:#000;
 }
-/* Fix images in google maps*/
-.gmnoprint img {
-    max-width: none;
+
+.owners {
+    line-height:1;
 }
-.hidden{
-  display:none !important;
+.owners div {
+  margin-bottom:1rem;
+}
+
+.button {
+  width: 100%;
+}
+
+@media only screen and (max-width: 40em) {
+  .front .callout {
+    margin:0.625rem 0 1rem 0;
+  }
+  .intro .fa-stack{
+    display:none;
+  }
 }
 
 @media only screen and (min-width: 40.0625em) {
@@ -226,9 +193,7 @@ table thead tr th, table thead tr td{
   .search-box.medium-10 .search-form-container {
     width: 70%;
   }
-
 }
-
 
 /* print-specific*/
 @media print {
@@ -238,7 +203,7 @@ table thead tr th, table thead tr td{
   /*stop blank page at end */
   body, html, #application { height: 100%; }
 
-  #alpha-alert, footer, .button, .button + .small-text, .search, .map-container, #breadcrumbs, .search-box, .divider, .real-estate-taxes, .search-right, .zoning-link, .opa-inquiry-panel {
+  #alpha-alert, header, nav, footer, .feedback, .button, .button + .small-text, .search, .map-container, #breadcrumbs, .search-box, .divider, .real-estate-taxes, .search-right, .zoning-link, .opa-inquiry-panel {
     display:none;
   }
   /*to fit more on the page*/
@@ -270,5 +235,8 @@ table thead tr th, table thead tr td{
   }
   a[href]:after {
     content: none !important;
+  }
+  .stat {
+    font-size: 1rem;
   }
 }

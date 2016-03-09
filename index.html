@@ -28,10 +28,8 @@
     <link rel="image_src" href="img/property.png" />
 
     <link rel="stylesheet" href="//js.arcgis.com/3.15/esri/css/esri.css">
-    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
-    <link rel="stylesheet" href="//code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
-    <link rel="stylesheet" href="css/responsive-tables.css" />
-    <link rel="stylesheet" href="//cityofphiladelphia.github.io/patterns/dist/0.12.6/css/patterns.css">
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="//cityofphiladelphia.github.io/patterns/dist/1.1.3/css/patterns.css">
     <link rel="stylesheet" href="css/style.css">
     <script src="//cdnjs.cloudflare.com/ajax/libs/modernizr/2.8.3/modernizr.js"></script>
   </head>
@@ -50,16 +48,13 @@
       <p class="browsehappy alert">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
     <![endif]-->
 
-    <div id="application" class="site">
+    <div id="application" class="page">
       <div data-swiftype-index="false" id="alpha-alert">
         <div class="row">
-          <div class="large-15 columns">
-            <p>This service is in <a href="http://alpha.phila.gov/about/">Alpha</a>: it is a work in progress and may contain errors or inaccuracies.</p>
-            <a class="go-back small-text" href="http://www.phila.gov" target="_blank">
-              <i class="fa fa-reply"></i> Take me back to Phila.gov<span class="accessible"> Opens in new window</span></a>
+          <div class="large-16 columns">
+            <p>We're piloting a new, user-friendly website design. To view the existing City website, visit <a class="external" href="http://phila.gov" target="_blank">phila.gov<span class="accessible"> Opens in new window</span></a>.
           </div>
-          <div class="large-9 columns contact">
-            <i class="fa fa-comments"></i> <a class="feedback" href="https://alpha.phila.gov/feedback?url=alpha.phila.gov/property" target="_blank">Provide Feedback<span class="accessible"> Opens in new window</span></a>
+          <div class="large-8 columns accessibility">
             <i class="fa fa-globe"></i><div id="google_translate_element"></div>
               <script type="text/javascript">
                 function googleTranslateElementInit() {
@@ -71,76 +66,84 @@
         </div>
       </div>
 
-      <header class="site-header app" role="banner">
-        <div class="row">
-          <div class="small-24 medium-24 column">
-            <a href="http://alpha.phila.gov"><img src="//cityofphiladelphia.github.io/patterns/images/city-of-philadelphia-logo.png" class="logo no-scale" alt="City of Philadelphia"></a>
-            <h1 class="page-title" data-hook="app-title">Property</h1>
+      <header data-swiftype-index="false" id="masthead" class="site-header app" role="banner">
+        <div class="row site-branding">
+          <div class="small-24 columns">
+            <a href="http://alpha.phila.gov/" class="logo">
+              <img data-interchange="[//cityofphiladelphia.github.io/patterns/images/city-of-philadelphia-mobile.png, small], [//cityofphiladelphia.github.io/patterns/images/city-of-philadelphia-white.png, medium] ">
+            </a>
+            <div class="page-title-container">
+              <h1 data-hook="app-title" class="page-title">Property</h1>
+            </div>
+          </div>
+
+          <a class="skip-link screen-reader-text" href="#content">Skip to content</a>
+        </div>
+        <div class="row expanded">
+          <div class="columns">
+            <div class="row">
+              <div data-swiftype-index="false" class="large-24 columns">
+                <nav>
+                  <ul data-hook="crumbs" class="breadcrumbs">
+                    <li><a href="/">alpha.phila.gov</a></li>
+                    <li>Property</li>
+                  </ul>
+                </nav>
+              </div>
+            </div>
           </div>
         </div>
       </header>
-      <div class="row">
-        <div class="small-24 columns">
-          <div class="divider"></div>
-        </div>
-      </div>
-      <div class="row">
-        <div id="breadcrumbs" class="large-24 columns">
-          <ul data-hook="crumbs" class="inline-list">
-            <li><a href="http://alpha.phila.gov">alpha.phila.gov</a></li>
-            <li>Property</li>
-          </ul>
-        </div>
-      </div>
+
       <div class="search-head">
         <div class="row">
           <div data-hook="search-right" class="medium-4 columns">&nbsp;</div>
           <div data-hook="search-box" class="search-box medium-16 columns">
 
             <div class="search">
-              <div class="search-select left" data-hook="search-select">
-                <strong data-hook="search-select-label" class="left">Address</strong> <i class="fa fa-caret-down fa-lg"></i>
+              <div class="search-select float-left" data-hook="search-select">
+                <strong data-hook="search-select-label" class="float-left">Address</strong> <i class="fa fa-caret-down fa-lg"></i>
 
                 <ul class="search-select-options no-bullet hide" data-hook="search-select-options">
                   <li data-searchtype="address"><label>Address</label> <small>1234 Market St</small></li>
                   <li data-searchtype="block"><label>Block</label> <small>1200 Market St</small></li>
                   <li data-searchtype="owner"><label>Owner</label> <small>Doe John</small></li>
                   <li data-searchtype="account"><label>Account</label> <small>883309000</small></li>
-                  <li data-searchtype="intersection"><label>Intersection</label> <small>12th and Market</small></li>
+                  <li data-searchtype="intersection"><label>Intersection</label> <small>12th &amp; Market</small></li>
                 </ul>
               </div>
 
-              <div data-hook="search-form-container" class="left search-form-container">
+              <div data-hook="search-form-container" class="float-left search-form-container">
                 <!-- Address -->
                 <form data-hook="search-address" class="search-form-option">
-                  <input type="text" class="left field-lg" data-hook="search-address" name="a" placeholder="1234 Market St">
-                  <input type="text" class="left field-sm" data-hook="search-unit" name="u" placeholder="Unit #">
+                  <input type="text" class="float-left field-lg" data-hook="search-address" name="a" placeholder="1234 Market St">
+                  <input type="text" class="float-left field-sm" data-hook="search-unit" name="u" placeholder="Unit #">
                   <input type="submit">
                 </form>
 
                 <!-- Block -->
                 <form data-hook="search-block" class="search-form-option hide">
-                  <input type="text" class="left field-sm" data-hook="search-blocknum" name="bn" placeholder="1200">
-                  <input type="text" class="left field-lg" data-hook="search-blockstreet" name="bs" placeholder="Market St">
+                  <input type="text" class="float-left field-sm" data-hook="search-blocknum" name="bn" placeholder="1200">
+                  <input type="text" class="float-left field-lg" data-hook="search-blockstreet" name="bs" placeholder="Market St">
                   <input type="submit">
                 </form>
 
                 <!-- Owner -->
                 <form data-hook="search-owner" class="search-form-option hide">
-                  <input type="text" class="left" name="o" placeholder="Doe John">
+                  <input type="text" class="float-left" name="o" placeholder="Doe John">
                   <input type="submit">
                 </form>
 
                 <!-- Account -->
                 <form data-hook="search-account" class="search-form-option hide">
-                  <input type="text" class="left" name="an" placeholder="883309000">
+                  <input type="text" class="float-left" name="an" placeholder="883309000">
                   <input type="submit">
                 </form>
 
                 <!-- Intersection -->
                 <form data-hook="search-intersection" class="search-form-option hide">
-                  <input type="text" class="left field-md" data-hook="search-int-street1" name="s1" placeholder="12th St">
-                  <input type="text" class="left field-md" data-hook="search-int-street2" name="s2" placeholder="Market St">
+                  <input type="text" class="float-left field-md" data-hook="search-int-street1" name="s1" placeholder="12th St">
+                  <input type="text" class="float-left field-md" data-hook="search-int-street2" name="s2" placeholder="Market St">
                   <input type="submit">
                 </form>
               </div>
@@ -163,6 +166,12 @@
     </div>
 
     <!-- Begin Footer -->
+    <div class="row feedback">
+      <div class="small-24 columns">
+        <div class="panel center mbl"><p>We're still working on this page's design and content. <a href="/feedback/">How can we make it better?</a></p></div>
+      </div>
+    </div>
+
     <footer data-swiftype-index='false' class="site-footer" role="contentinfo">
       <section class="fat">
         <div class="row">
@@ -214,7 +223,7 @@
     </footer>
 
     <!-- End Footer -->
-    <div id="terms-modal" class="reveal-modal full" data-reveal aria-labelledby="modal-title" aria-hidden="true" role="dialog">
+    <div id="terms-modal" class="reveal" data-reveal aria-labelledby="modal-title" aria-hidden="true" role="dialog">
       <h3>Terms of Use</h3>
       <p>The Office of Property Assessment of the City of Philadelphia (OPA) makes every effort to produce and publish on this site the most accurate and current information available to it. Our ownership records are based on deeds as recorded with the City of Philadelphia Department of Records (DOR), and we revise these records for currency as often as we are able. You are responsible, however, for verifying the accuracy of the information on this site by referring to the corresponding deed(s).</p>
       <p>The OPA is not an abstract company and we do not determine who has the better title to a property if the public records conflict as to ownership. The information on this site is not intended to indicate the quality of title or priority of interest in any property, and you are advised not to rely on it for that purpose.</p>
@@ -236,8 +245,9 @@
       <h3>Miscellaneous</h3>
       <p>The foregoing terms and conditions and all disputes arising under them shall be governed, construed and decided in accordance with the laws of the Commonwealth of Pennsylvania. The City reserves the right to revise and otherwise change the foregoing terms and conditions at anytime and without notice. Headings are for convenience only and in no way define, limit, extend or describe the intent of any provision of these Terms of Use and Disclaimer.</p>
 
-      <a class="close-reveal-modal" aria-label="Close">&#215;</a>
+      <button class="close-button" data-close aria-label="Close" type="button">&#215;</button>
     </div>
+
 
     <!-- Site template collection -->
     <div id="templates" style="display:none">
@@ -273,7 +283,7 @@
               <th scope="col">Market Value</th>
               <th scope="col">Sale Details</th>
               <th scope="col">Owner</th>
-              <th scope="col" class="hide-for-small"></th>
+              <th scope="col" class="hide-for-small-only"></th>
             </tr>
           </thead>
           <tbody data-hook="result-rows">
@@ -290,8 +300,8 @@
 
       <!-- Property view side panel -->
       <div data-hook="property-side" class="property-side large-10 columns">
-        <div class="hide-for-large-up"><h3 class="alternate divide">Property Details</h3></div>
-        <div class="panel">
+        <div class="hide-for-large"><h3 class="alternate divide">Property Details</h3></div>
+        <div class="panel mbm">
           <div class="row">
             <div class="columns map-container">
               <div data-hook="map" class="map"></div>
@@ -303,45 +313,45 @@
           <div class="row">
             <div class="medium-10 columns">
               <h4 class="alternate"><span title="Office of Property Assessment">OPA</span> Account</h4>
-              <div data-hook="opa-account" class="h3"></div>
+              <strong data-hook="opa-account"></strong>
             </div>
             <div class="medium-14 columns">
               <h4 class="alternate">Homestead Exemption</h4>
-              <div data-hook="homestead" class="h3">Yes</div>
+              <strong data-hook="homestead">Yes</strong>
             </div>
           </div>
           <div class="row">
             <div class="small-24 columns">
               <h4 class="alternate">Description</h4>
-              <div data-hook="improvement-description" class="h3"></div>
+              <strong data-hook="improvement-description"></strong>
             </div>
           </div>
           <div class="row">
             <div class="small-24 columns">
               <h4 class="alternate">Condition</h4>
-              <div data-hook="improvement-condition" class="h3"></div>
+              <strong data-hook="improvement-condition"></strong>
             </div>
           </div>
           <div class="row">
             <div class="small-24 columns">
               <h4 class="alternate">Beginning Point</h4>
-              <div data-hook="beginning-point" class="h3"></div>
+              <strong data-hook="beginning-point"></strong>
             </div>
           </div>
           <div class="row">
             <div class="medium-10 columns">
               <h4 class="alternate">Land Area <span class="normal">(SqFt)</span></h4>
-              <div data-hook="land-area" class="h2 no-margin xtra-lg"></div>
+              <strong data-hook="land-area" class="stat"></strong>
             </div>
             <div class="medium-14 columns">
               <h4 class="alternate">Improvement Area <span class="normal">(SqFt)</span></h4>
-              <div data-hook="improvement-area" class="h2 no-margin xtra-lg"></div>
+              <strong data-hook="improvement-area" class="stat"></strong>
             </div>
           </div>
           <div class="row">
             <div class="small-24 columns">
               <h4 class="alternate">Zoning</h4>
-              <div data-hook="zoning" class="h3"></div>
+              <strong data-hook="zoning"></strong>
               <a class="small-text zoning-link" href="http://www.phila.gov/zoningarchive/" target="_blank">See related zoning documents</a>
             </div>
           </div>
@@ -352,7 +362,7 @@
             <div class="small-24 columns">
               <h4 class="alternate no-margin">Corrections or questions about this information?</h4>
               <div class="text-right">
-                <a data-hook="opa-inquiry-url" class="button no-margin-bottom" href="#" target="_blank">Submit an official inquiry</a>
+                <a data-hook="opa-inquiry-url" class="button no-margin" href="#" target="_blank">Submit an official inquiry</a>
                 <div class="small-text">On the Office of Property Assessment website</div>
               </div>
             </div>
@@ -369,7 +379,7 @@
         </div>
         <div class="row">
           <div class="owner-name medium-15 columns">
-            <h2 data-hook="property-owners" class="xtra-lg no-margin owners"></h2>
+            <h1 data-hook="property-owners" class="no-margin owners"></h1>
           </div>
           <div class="medium-9 columns">
             <h4 data-hook="property-mailing-header" class="alternate no-margin">Mailing Address</h4>
@@ -383,7 +393,7 @@
         </div>
         <div class="row">
           <div class="hide-for-print medium-14 columns"><p class="no-margin normal">Real Estate Tax account balances have not yet been added to this application.</p></div>
-          <div class="medium-10 columns align-right">
+          <div class="medium-10 columns text-right">
             <a class="button no-margin" href="http://www.phila.gov/revenue/realestatetax">View the Tax Balance</a>
             <div class="small-text">On Department of Revenue website</div>
           </div>
@@ -418,15 +428,15 @@
         </div>
         <div class="row">
           <div class="columns">
-            <div class="panel sales">
+            <div class="panel sales mbm">
               <div class="row">
                 <div class="medium-12 columns">
-                  <h3>Sales Price</h3>
-                  <div data-hook="sales-price" class="xtra-lg"></div>
+                  <h4 class="alternate">Sales Price</h4>
+                  <strong data-hook="sales-price" class="stat"></strong>
                 </div>
                 <div class="medium-12 columns">
-                  <h3>Sales Date</h3>
-                  <div data-hook="sales-date"></div>
+                  <h4 class="alternate">Sales Date</h4>
+                  <strong data-hook="sales-date"></strong>
                 </div>
               </div>
             </div>
@@ -443,7 +453,7 @@
         </div>
         <div class="row">
           <div class="hide-for-print medium-14 columns"><p class="no-margin normal">Permits, licenses, and violations from L&amp;I have not yet been added to this application.</p></div>
-          <div class="medium-10 columns align-right">
+          <div class="medium-10 columns text-right">
             <a data-hook="li-link" class="button no-margin" target="_blank" href="http://li.phila.gov/">View the L&amp;I Records</a>
             <div class="small-text">On the Licenses &amp; Inspections website</div>
           </div>
@@ -456,15 +466,15 @@
         </div>
         <div class="row">
           <div class="columns">
-            <div class="panel sales">
+            <div class="panel sales mbm">
               <div class="row">
                 <div class="medium-12 columns">
-                  <h3>Trash &amp; Recycling Day</h3>
-                  <div data-hook="rubbish-day" class="xtra-lg no-margin"></div>
+                  <h4 class="alternate">Trash &amp; Recycling Day</h4>
+                  <strong data-hook="rubbish-day" class="stat no-margin"></strong>
                 </div>
                 <div class="medium-12 columns">
-                  <h3>Leaf Collection</h3>
-                  <div data-hook="leaf-collection"></div>
+                  <h4 class="alternate">Leaf Collection</h4>
+                  <strong data-hook="leaf-collection"></strong>
                 </div>
               </div>
             </div>
@@ -478,31 +488,31 @@
         </div>
         <div class="row">
           <div class="medium-12 columns">
-            <div class="panel">
+            <div class="panel mbm">
               <h3>School Catchment</h3>
               <h4 class="alternate">Elementary School</h4>
-              <div data-hook="elementary-school"></div>
+              <strong data-hook="elementary-school"></strong>
               <h4 class="alternate">Middle School</h4>
-              <div data-hook="middle-school"></div>
+              <strong data-hook="middle-school"></strong>
               <h4 class="alternate">High School</h4>
-              <div data-hook="high-school"></div>
+              <strong data-hook="high-school"></strong>
             </div>
           </div>
           <div class="medium-12 columns">
-            <div class="panel">
+            <div class="panel mbm">
               <h3>Political</h3>
               <h4 class="alternate">2016 Councilmanic District</h4>
-              <div data-hook="council-district"></div>
+              <strong data-hook="council-district"></strong>
               <h4 class="alternate">Ward</h4>
-              <div data-hook="ward"></div>
+              <strong data-hook="ward"></strong>
               <h4 class="alternate">Ward Divisions</h4>
-              <div data-hook="ward-divisions"></div>
+              <strong data-hook="ward-divisions"></strong>
             </div>
           </div>
         </div>
         <div class="row">
           <div class="columns">
-            <div class="panel">
+            <div class="panel mbm">
               <div class="row">
                 <div class="columns">
                   <h3>Public Safety</h3>
@@ -511,17 +521,17 @@
               <div class="row">
                 <div class="medium-12 columns">
                   <h4 class="alternate">Police District</h4>
-                  <div data-hook="police-district"></div>
+                  <strong data-hook="police-district"></strong>
 
                   <h4 class="alternate">Police Sector</h4>
-                  <div data-hook="police-sector"></div>
+                  <strong data-hook="police-sector"></strong>
                 </div>
                 <div class="medium-12 columns">
                   <h4 class="alternate">Police Public Service Area</h4>
-                  <div data-hook="police-psa"></div>
+                  <strong data-hook="police-psa"></strong>
 
                   <h4 class="alternate">Police Division</h4>
-                  <div data-hook="police-division"></div>
+                  <strong data-hook="police-division"></strong>
                 </div>
               </div>
             </div>
@@ -529,7 +539,7 @@
         </div>
         <div class="row">
           <div class="columns">
-            <div class="panel">
+            <div class="panel mbm">
               <div class="row">
                 <div class="columns">
                   <h3>Streets</h3>
@@ -538,30 +548,30 @@
               <div class="row">
                 <div class="medium-12 columns">
                   <h4 class="alternate">Highway District</h4>
-                  <div data-hook="highway-district"></div>
+                  <strong data-hook="highway-district"></strong>
                   <h4 class="alternate">Highway Section</h4>
-                  <div data-hook="highway-section"></div>
+                  <strong data-hook="highway-section"></strong>
                   <h4 class="alternate">Highway Subsection</h4>
-                  <div data-hook="highway-subsection"></div>
+                  <strong data-hook="highway-subsection"></strong>
                   <h4 class="alternate">Street Light Routes</h4>
-                  <div data-hook="street-light-routes"></div>
+                  <strong data-hook="street-light-routes"></strong>
                   <h4 class="alternate">Traffic District</h4>
-                  <div data-hook="traffic-district"></div>
+                  <strong data-hook="traffic-district"></strong>
                   <h4 class="alternate">Traffic PM District</h4>
-                  <div data-hook="traffic-pm-district"></div>
+                  <strong data-hook="traffic-pm-district"></strong>
                 </div>
                 <div class="medium-12 columns">
                   <h4 class="alternate">Trash &amp; Recycling Day</h4>
-                  <div data-hook="rubbish-day"></div>
+                  <strong data-hook="rubbish-day"></strong>
                   <h4 class="alternate">Leaf Collection Day</h4>
-                  <div data-hook="leaf-collection"></div>
-                  <div data-hook="" class="h1 xtra-lg no-margin"></div>
+                  <strong data-hook="leaf-collection"></strong>
+                  <strong data-hook="" class="h1 stat no-margin"></strong>
                   <h4 class="alternate">Recycling Diversion Rate</h4>
-                  <div data-hook="recycling-diversion"></div>
+                  <strong data-hook="recycling-diversion"></strong>
                   <h4 class="alternate">Sanitation Area</h4>
-                  <div data-hook="sanitation-area"></div>
+                  <strong data-hook="sanitation-area"></strong>
                   <h4 class="alternate">Sanitation District</h4>
-                  <div data-hook="sanitation-district"></div>
+                  <strong data-hook="sanitation-district"></strong>
                 </div>
               </div>
             </div>
@@ -569,27 +579,27 @@
         </div>
         <div class="row">
           <div class="medium-12 columns">
-            <div class="panel">
+            <div class="panel mbm">
               <h3>Districts</h3>
               <h4 class="alternate">Planning</h4>
-              <div data-hook="planning"></div>
+              <strong data-hook="planning"></strong>
               <h4 class="alternate">Licenses and Inspections (L+I)</h4>
-              <div data-hook="li-district"></div>
+              <strong data-hook="li-district"></strong>
               <h4 class="alternate">Recreation</h4>
-              <div data-hook="recreation"></div>
+              <strong data-hook="recreation"></strong>
             </div>
           </div>
           <div class="medium-12 columns">
-            <div class="panel">
+            <div class="panel mbm">
               <h3>Water</h3>
               <h4 class="alternate">PWD Maintenance Districts</h4>
-              <div data-hook="pwd-maintenance"></div>
+              <strong data-hook="pwd-maintenance"></strong>
               <h4 class="alternate">PWD Pressure Districts</h4>
-              <div data-hook="pwd-pressure"></div>
+              <strong data-hook="pwd-pressure"></strong>
               <h4 class="alternate">Water Treatment Plant</h4>
-              <div data-hook="water-treatment"></div>
+              <strong data-hook="water-treatment"></strong>
               <h4 class="alternate">Water Plate Index</h4>
-              <div data-hook="water-plate"></div>
+              <strong data-hook="water-plate"></strong>
             </div>
           </div>
         </div> <!-- End service area -->
@@ -598,13 +608,12 @@
 
     <!--[if !IE 8]><!-->
 
-    <script src="//maps.googleapis.com/maps/api/js?v=3&libraries=geometry"></script>
-    <script src="//code.jquery.com/jquery-2.1.3.min.js"></script>
-    <script src="//cdnjs.cloudflare.com/ajax/libs/foundation/5.5.1/js/foundation.min.js"></script>
-    <script src="//cityofphiladelphia.github.io/patterns/dist/0.12.6/js/patterns.min.js"></script>
-    <script src="//cdnjs.cloudflare.com/ajax/libs/fastclick/1.0.6/fastclick.min.js"></script>
+    <script src="//code.jquery.com/jquery-2.2.1.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/foundation/6.1.2/foundation.min.js"></script>
+    <script src="//cityofphiladelphia.github.io/patterns/dist/1.1.3/js/patterns.min.js"></script>
     <script src="//cdnjs.cloudflare.com/ajax/libs/accounting.js/0.4.1/accounting.min.js"></script>
     <script src="//js.arcgis.com/3.15/"></script>
+    <script src="//maps.googleapis.com/maps/api/js?v=3&libraries=geometry"></script>
     <script src="js/deparam.js"></script>
     <script src="js/app.js"></script>
     <script src="js/views/front.js"></script>

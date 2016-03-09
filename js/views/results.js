@@ -8,7 +8,7 @@ app.views.results = function (parsedQuery) {
   // Search
   app.hooks.searchRight.html('&nbsp;');
   app.hooks.searchLeft.removeClass('medium-14').addClass('medium-4').html('&nbsp;');
-  app.hooks.searchBox.removeClass('medium-10 right').addClass('medium-16');
+  app.hooks.searchBox.removeClass('medium-10 float-right').addClass('medium-16');
 
   // Empty both content areas
   app.hooks.content.children().detach();
@@ -174,7 +174,7 @@ app.views.results = function (parsedQuery) {
     row.append($('<td>').text(app.util.formatSalesDate(property.sales_information.sales_date)
       + ', ' + accounting.formatMoney(property.sales_information.sales_price)));
     row.append($('<td>').text(property.ownership.owners.join(', ')));
-    row.append($('<td class="hide-for-small">').html('<i class="fa fa-arrow-circle-right"></i>'));
+    row.append($('<td class="hide-for-small-only">').html('<i class="fa fa-arrow-circle-right"></i>'));
     row.on('click', function (e) {
         if (e.ctrlKey || e.altKey || e.shiftKey) return;
         e.preventDefault();
