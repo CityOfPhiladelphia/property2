@@ -134,7 +134,10 @@ body {
   font-size:.8rem;
 }
 .results tr:hover, .results tr:hover a{
-  background:#dbe1e3;
+  background:#F2BA13;
+  color:#000;
+}
+.results tr:hover i {
   color:#000;
 }
 
