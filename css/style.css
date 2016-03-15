@@ -113,12 +113,6 @@ body {
   font-weight:bold;
   text-align:center;
 }
-.intro .fa-circle {
-  color:#2176d2;
-}
-.front .callout {
-  margin:-15px 0 1rem 5rem;
-}
 
 .result-row {
   cursor: pointer;
