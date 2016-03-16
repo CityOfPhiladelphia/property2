@@ -194,19 +194,35 @@ body {
   body {
    font-size: 80%;
   }
+  .property-side,
+  .property-main,
+  .tablesaw {
+    width:100% !important;
+  }
+  .medium-12{
+    width:50%;
+  }
   /*stop blank page at end */
   body, html, #application { height: 100%; }
 
-  #alpha-alert, header, nav, footer, .feedback, .button, .button + .small-text, .search, .map-container, #breadcrumbs, .search-box, .divider, .real-estate-taxes, .search-right, .zoning-link, .opa-inquiry-panel {
-    display:none;
+  #alpha-alert, header, nav, footer, .feedback, .button, .button + .small-text, .search, .map-container, #breadcrumbs, .search-box, .divider, .search-right, .zoning-link{
+    display:none !important;
+  }
+
+  /*tablesaw-specific overrides */
+  .tablesaw-stack td .tablesaw-cell-label,
+  .tablesaw-stack th .tablesaw-cell-label{
+    display:none !important;
+  }
+  .tablesaw-stack thead td, .tablesaw-stack thead th,
+  .tablesaw-stack td, .tablesaw-stack th {
+    display: table-cell !important;
+  }
+  .tablesaw-stack tbody td, .tablesaw-stack tbody th{
+    float: none !important;
+    width: auto !important;
   }
   /*to fit more on the page*/
-  .medium-12, .large-10, .property-main{
-    width:50%;
-  }
-  .property-side {
-    margin-top:-45px;
-  }
   .xtra-lg, .h3{
     font-size:1em;
   }
