@@ -7,10 +7,18 @@ body {
 .search-head .small-text {
   margin-top: -20px;
 }
+.search-head {
+  margin-top:0;
+}
 .search-head h1 {
   margin-top:.5rem;
 }
-
+.caps {
+  text-transform: uppercase;
+}
+.bold{
+  font-weight: bold;
+}
 .map-container {
   width:100%;
 }
@@ -106,12 +114,6 @@ body {
 }
 .search input[type="text"] {
   border-width: 1px 0px 1px 1px;
-}
-
-.intro {
-  font-size:1.3rem;
-  font-weight:bold;
-  text-align:center;
 }
 
 .result-row {
