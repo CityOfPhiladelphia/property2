@@ -25,7 +25,9 @@ body {
 .map {
   height: 200px;
 }
-
+.front {
+  margin-top: 1.6rem;
+}
 .panel h4{
   color:#666;
   margin-bottom: 0;
