@@ -95,6 +95,7 @@
         </div>
       </header>
 
+      <div data-hook="above-content" class="row"></div>
       <div class="search-head">
         <div class="row">
           <div data-hook="search-right" class="medium-4 columns">&nbsp;</div>
@@ -154,7 +155,7 @@
         </div>
         <div data-hook="owner-search-disclaimer" class="row hide">
           <div class="small-24 columns">
-            <p>
+            <p class="center mtm mbn">
               Your IP address is <strong data-hook="owner-search-disclaimer-ip" data-default="170.115.248.21">(Loading)</strong> and you searched for properties owned by <strong data-hook="owner-search-disclaimer-query">(Loading)</strong> on <span data-hook="owner-search-disclaimer-datetime"></span>.
               <span data-tooltip aria-haspopup="true" class="has-tip" title="Property owner searches are recorded to encourage safe and responsible use. The data shown here represents your visit to this page."><i class="fa fa-info-circle"></i></span>
             </p>
@@ -255,10 +256,19 @@
       <!-- Loading message for results and property views -->
       <div data-hook="loading" class="columns">Loading...</div>
 
+      <!-- Above search content -->
+      <div data-hook="intro" class="columns intro center">
+        <div class="row">
+          <div class="columns medium-centered">
+            <p class="mam h3">
+            View valuation, tax, and physical details of properties within the City of Philadelphia.</p>
+            <p><i class="fa fa-arrow-down"></i> Use the tool below to select <span class="caps bold">address, block, owner, account</span> or <span class="caps bold">intersection</span>.</p>
+          </div>
+        </div>
+      </div>
+
       <!-- Front view content -->
       <div data-hook="front" class="columns front">
-        <p class="intro mbl">
-        View valuation, tax, and physical details of properties within the City of Philadelphia.</p>
         <div class="row">
           <div class="columns medium-14 medium-centered">
             <div class="callout">

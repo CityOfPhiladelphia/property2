@@ -13,6 +13,7 @@ app.views.results = function (parsedQuery) {
   // Empty both content areas
   app.hooks.content.children().detach();
   app.hooks.belowContent.children().detach();
+  app.hooks.aboveContent.children().detach();
 
 
   var opaEndpoint = parsedQuery.type + '/',

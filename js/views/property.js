@@ -19,6 +19,7 @@ app.views.property = function (accountNumber) {
 
   // Clear existing elements out of the way
   app.hooks.content.children().detach();
+  app.hooks.aboveContent.children().detach();
 
   if (!history.state) history.replaceState({}, '');
 
