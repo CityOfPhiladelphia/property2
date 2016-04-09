@@ -20,7 +20,15 @@ app.views.property = function (accountNumber) {
   // Clear existing elements out of the way
   app.hooks.content.children().detach();
   app.hooks.aboveContent.children().detach();
-
+  
+  // Toggle loading messages, content panels
+  app.hooks.valuationStatus.removeClass('hide');
+  app.hooks.trashStatus.removeClass('hide');
+  app.hooks.serviceAreaStatus.removeClass('hide');
+  app.hooks.valuationPanel.addClass('hide');
+  app.hooks.trashPanel.addClass('hide');
+  app.hooks.serviceAreaPanel.addClass('hide');
+  
   if (!history.state) history.replaceState({}, '');
 
   if (history.state.error) return renderError();
