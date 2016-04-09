@@ -311,6 +311,10 @@ app.views.property = function (accountNumber) {
 
     // Update the Tablesaw responsive tables
     $(document).trigger('enhance.tablesaw');
+    
+    // Hide status, show content.
+    app.hooks.valuationStatus.hide();
+    app.hooks.valuationPanel.show();
   }
 
   function getExteriorConditionDescription(id) {
@@ -391,6 +395,12 @@ app.views.property = function (accountNumber) {
     app.hooks.pwdPressure.text(sa.pwd_pres_dist);
     app.hooks.waterTreatment.text(sa.pwd_wtpsa);
     app.hooks.waterPlate.text(sa.water_plate);
+    
+    // Hide status messages, load content.
+    app.hooks.serviceAreaStatus.hide();
+    app.hooks.serviceAreaPanel.show();
+    app.hooks.trashStatus.hide();
+    app.hooks.trashPanel.show();
   }
 
   function renderError () {
