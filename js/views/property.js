@@ -313,8 +313,8 @@ app.views.property = function (accountNumber) {
     $(document).trigger('enhance.tablesaw');
     
     // Hide status, show content.
-    app.hooks.valuationStatus.hide();
-    app.hooks.valuationPanel.show();
+    app.hooks.valuationStatus.addClass('hide');
+    app.hooks.valuationPanel.removeClass('hide');
   }
 
   function getExteriorConditionDescription(id) {
@@ -397,10 +397,10 @@ app.views.property = function (accountNumber) {
     app.hooks.waterPlate.text(sa.water_plate);
     
     // Hide status messages, load content.
-    app.hooks.serviceAreaStatus.hide();
-    app.hooks.serviceAreaPanel.show();
-    app.hooks.trashStatus.hide();
-    app.hooks.trashPanel.show();
+    app.hooks.trashStatus.addClass('hide');
+    app.hooks.trashPanel.removeClass('hide');
+    app.hooks.serviceAreaStatus.addClass('hide');
+    app.hooks.serviceAreaPanel.removeClass('hide');
   }
 
   function renderError () {
