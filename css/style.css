@@ -25,6 +25,11 @@ body {
 .map {
   height: 200px;
 }
+.map-explainer p {
+  line-height: 1.2;
+  margin-top: 0.8rem;
+  margin-bottom: 0.8rem;
+}
 .front {
   margin-top: 1.6rem;
 }
