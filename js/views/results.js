@@ -45,7 +45,9 @@ app.views.results = function (parsedQuery) {
   app.hooks.content.empty(); // Remove loading message
   app.hooks.ownerSearchDisclaimer.addClass('hide');
 
-  if (history.state) {
+  alert(app.hssupport);
+
+  if (history.state && app.hssupport) {
     render();
   } else {
     app.hooks.content.append(app.hooks.loading);
@@ -71,6 +73,8 @@ app.views.results = function (parsedQuery) {
           accountNumber = property.account_number;
           href = '?' + $.param({p: accountNumber});
           withUnit = app.util.addressWithUnit(property);
+
+          if ( !app.hssupport ) history.state={};
 
           history.replaceState({
             opa: property,

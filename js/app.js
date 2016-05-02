@@ -169,6 +169,13 @@ if (!history.pushState) {
   };
 }
 
+// Support browsers lacking history.state support
+if (history.state === undefined){
+  app.hssupport = false;
+} else {
+  app.hssupport = true;
+}
+
 // App utilties
 app.util = {};
 
