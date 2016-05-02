@@ -169,7 +169,7 @@ if (!history.pushState) {
   };
 }
 
-// Support browsers lacking history.state support
+// Support browsers lacking history.state support (Safari 5)
 if (history.state === undefined){
   app.globals.historyState = false;
 } else {
