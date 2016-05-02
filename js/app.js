@@ -171,9 +171,9 @@ if (!history.pushState) {
 
 // Support browsers lacking history.state support
 if (history.state === undefined){
-  app.hssupport = false;
+  app.globals.historyState = false;
 } else {
-  app.hssupport = true;
+  app.globals.historyState = true;
 }
 
 // App utilties

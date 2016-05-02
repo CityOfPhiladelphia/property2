@@ -34,7 +34,6 @@ app.views.property = function (accountNumber) {
   if (history.state.error) return renderError();
 
   if (history.state.opa) {
-    alert('hey');
     renderOpa();
   } else {
     app.hooks.content.append(app.hooks.loading);
@@ -69,8 +68,7 @@ app.views.property = function (accountNumber) {
         var property = data.data.property;
         state.opa = property;
         state.address = app.util.addressWithUnit(property);
-        alert(app.hssupport);
-        if( app.hssupport ){
+        if( app.globals.historyState ){
           history.replaceState(state, ''); // Second param not optional in IE10
         } else {
           history.state = state;
