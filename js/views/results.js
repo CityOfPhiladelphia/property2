@@ -55,6 +55,8 @@ app.views.results = function (parsedQuery) {
       .done(function (data) {
         var property, accountNumber, href, withUnit;
 
+        if ( !app.globals.historyState ) history.state={};
+
         // If we get a 200 response but an 400 error code (ummmmm), treat it like a fail.
         if (!data.data) {
           history.replaceState({error: 'Failed to retrieve results. Please try another search.'}, '');
@@ -72,8 +74,6 @@ app.views.results = function (parsedQuery) {
           href = '?' + $.param({p: accountNumber});
           withUnit = app.util.addressWithUnit(property);
 
-          if ( !app.globals.historyState ) history.state={};
-
           history.replaceState({
             opa: property,
             address: withUnit
@@ -86,7 +86,11 @@ app.views.results = function (parsedQuery) {
             data = $.extend({isOwnerSearch: true}, data);
           }
 
-          history.replaceState(data, ''); // Second param not optional in IE10
+          if ( !app.globals.historyState ) {
+            history.state= data;
+          } else {
+            history.replaceState(data, ''); // Second param not optional in IE10
+          }
           render();
         }
       })
