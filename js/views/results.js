@@ -57,7 +57,8 @@ app.views.results = function (parsedQuery) {
     if (propRegEX.test(opaEndpoint)){
       alert('regex match');
       islocalQuery = true;
-      ajaxRequest = '/opa_api_large_props/2401-PENNSYLVANIA-AVE.json';
+      //Add the S3 bucket to this ajaxRequest var
+      ajaxRequest = '/2401%20PENNSYLVANIA%20AVE.json';
     } else {
       ajaxRequest = 'https://api.phila.gov/opa/v1.1/' + opaEndpoint + '?format=json';
     }
