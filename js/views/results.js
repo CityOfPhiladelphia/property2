@@ -17,7 +17,9 @@ app.views.results = function (parsedQuery) {
 
 
   var opaEndpoint = parsedQuery.type + '/',
-      isOwnerSearch = false;
+      isOwnerSearch = false,
+      islocalQuery = false,
+      ajaxRequest;
 
   switch (parsedQuery.type) {
     case 'account':
@@ -50,7 +52,17 @@ app.views.results = function (parsedQuery) {
   } else {
     app.hooks.content.append(app.hooks.loading);
 
-    $.ajax('https://api.phila.gov/opa/v1.1/' + opaEndpoint + '?format=json',
+    //crude check to see if query matches something of interest
+    var propRegEX = /(address\/)(?:2401)+((?:Pennsylvania|%20)+).*/ig;
+    if (propRegEX.test(opaEndpoint)){
+      alert('regex match');
+      islocalQuery = true;
+      ajaxRequest = '/opa_api_large_props/2401-PENNSYLVANIA-AVE.json';
+    } else {
+      ajaxRequest = 'https://api.phila.gov/opa/v1.1/' + opaEndpoint + '?format=json';
+    }
+
+    $.ajax(ajaxRequest,
       {dataType: app.settings.ajaxType})
       .done(function (data) {
         var property, accountNumber, href, withUnit;
@@ -119,17 +131,36 @@ app.views.results = function (parsedQuery) {
         var seeMoreA = app.hooks.seeMore.find('a');
         seeMoreA.off('click'); // Drop previously created click events
         seeMoreA.on('click', function (e) {
-          $.ajax('https://api.phila.gov/opa/v1.1/' + opaEndpoint + '?format=json'+
-            '&skip=' + state.data.properties.length, {dataType: app.settings.ajaxType})
-            .done(function (data) {
-              state.data.properties = state.data.properties.concat(data.data.properties);
-              history.replaceState(state, ''); // Second param not optional in IE10
-              data.data.properties.forEach(addRow);
-              if (state.total === state.data.properties.length) app.hooks.seeMore.hide();
+          if ( islocalQuery ) {
+            var tempPropArray = [];
+            $.ajax( ajaxRequest, {dataType: app.settings.ajaxType})
+              .done(function (data) {
+                var tempPropArray =data.data.properties;
+                var seeMorePropArray = tempPropArray.slice(state.data.properties.length);
+                console.log(state.data.properties.length);
+                state.data.properties = state.data.properties.concat(seeMorePropArray);
+                history.replaceState(state, ''); // Second param not optional in IE10
+                data.data.properties.forEach(addRow);
+                if (state.total === state.data.properties.length) app.hooks.seeMore.hide();
 
-              // Update the Tablesaw responsive tables
-              $(document).trigger('enhance.tablesaw');
-            });
+                // Update the Tablesaw responsive tables
+                $(document).trigger('enhance.tablesaw');
+              });
+
+          } else {
+
+            $.ajax( ajaxRequest +
+              '&skip=' + state.data.properties.length, {dataType: app.settings.ajaxType})
+              .done(function (data) {
+                state.data.properties = state.data.properties.concat(data.data.properties);
+                history.replaceState(state, ''); // Second param not optional in IE10
+                data.data.properties.forEach(addRow);
+                if (state.total === state.data.properties.length) app.hooks.seeMore.hide();
+
+                // Update the Tablesaw responsive tables
+                $(document).trigger('enhance.tablesaw');
+              });
+          }
         });
         app.hooks.seeMore.show();
       } else {
@@ -165,7 +196,7 @@ app.views.results = function (parsedQuery) {
       });
   }
 
-  function addRow (property) {
+  function addRow (property, index) {
     var row = app.hooks.resultRow.clone();
     var accountNumber = property.account_number;
     var withUnit = app.util.addressWithUnit(property);

@@ -20,7 +20,7 @@ app.views.property = function (accountNumber) {
   // Clear existing elements out of the way
   app.hooks.content.children().detach();
   app.hooks.aboveContent.children().detach();
-  
+
   // Toggle loading messages, content panels
   app.hooks.valuationStatus.removeClass('hide');
   app.hooks.trashStatus.removeClass('hide');
@@ -28,12 +28,12 @@ app.views.property = function (accountNumber) {
   app.hooks.valuationPanel.addClass('hide');
   app.hooks.trashPanel.addClass('hide');
   app.hooks.serviceAreaPanel.addClass('hide');
-  
+
   if (!history.state) history.replaceState({}, '');
 
   if (history.state.error) return renderError();
 
-  if (history.state.opa) {
+  if (history.state.opa && typeof(state) == 'object') {
     renderOpa();
   } else {
     app.hooks.content.append(app.hooks.loading);
@@ -319,7 +319,7 @@ app.views.property = function (accountNumber) {
 
     // Update the Tablesaw responsive tables
     $(document).trigger('enhance.tablesaw');
-    
+
     // Hide status, show content.
     app.hooks.valuationStatus.addClass('hide');
     app.hooks.valuationPanel.removeClass('hide');
@@ -403,7 +403,7 @@ app.views.property = function (accountNumber) {
     app.hooks.pwdPressure.text(sa.pwd_pres_dist);
     app.hooks.waterTreatment.text(sa.pwd_wtpsa);
     app.hooks.waterPlate.text(sa.water_plate);
-    
+
     // Hide status messages, load content.
     app.hooks.trashStatus.addClass('hide');
     app.hooks.trashPanel.removeClass('hide');
