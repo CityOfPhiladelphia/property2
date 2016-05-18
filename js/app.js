@@ -181,11 +181,17 @@ app.util = {};
 
 // Get a full address with unit included from OPA property
 app.util.addressWithUnit = function (property) {
-  var unit = property.unit || '';
-  if (unit) unit = ' #' + unit.replace(/^0+/, '');
+  var unit = property.unit;
+  // Trim leading zeros
+  if (unit) {
+    var unitTrimmed = unit.replace(/^0+/, '');
+    if (unitTrimmed.length > 0) unit = unitTrimmed;
+    else unit = null;
+  }
   // Handle different address keys in OPA, Socrata
-  var baseAddress = property.full_address || property.location;
-  return baseAddress + unit;
+  var address = property.full_address || property.location;
+  address += (unit ? ' #' + unit : '');
+  return address;
 };
 
 app.util.normalizeSearchQuery = function(data) {
