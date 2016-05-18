@@ -17,9 +17,7 @@ app.views.results = function (parsedQuery) {
 
 
   var opaEndpoint = parsedQuery.type + '/',
-      isOwnerSearch = false,
-      islocalQuery = false,
-      ajaxRequest;
+      isOwnerSearch = false;
 
   switch (parsedQuery.type) {
     case 'account':
@@ -60,7 +58,7 @@ app.views.results = function (parsedQuery) {
     // in an unambiguous unit num. Previously this would navigate directly to
     // the property.
     
-    var matchingProp;
+    var matchingProp, searchUrl;
     
     // 'Try' all this so we don't introduce any unexpected errors.
     try {
@@ -145,13 +143,11 @@ app.views.results = function (parsedQuery) {
       
       // Form static file url
       var fileName = address.replace(' ', '+') + '.json',
-          ajaxRequest = 'https://s3.amazonaws.com/phila-property/' + fileName;
+          searchUrl = 'https://s3.amazonaws.com/phila-property/' + fileName;
     }
-    else {
-      ajaxRequest = 'https://api.phila.gov/opa/v1.1/' + opaEndpoint + '?format=json';
-    }
+    else searchUrl = 'https://api.phila.gov/opa/v1.1/' + opaEndpoint + '?format=json';
 
-    $.ajax(ajaxRequest,
+    $.ajax(searchUrl,
       {dataType: app.settings.ajaxType})
       .done(function (data) {
         var property, accountNumber, href, withUnit;
