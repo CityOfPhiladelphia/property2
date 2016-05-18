@@ -176,7 +176,9 @@ app.util = {};
 app.util.addressWithUnit = function (property) {
   var unit = property.unit || '';
   if (unit) unit = ' #' + unit.replace(/^0+/, '');
-  return property.full_address + unit;
+  // Handle different address keys in OPA, Socrata
+  var baseAddress = property.full_address || property.location;
+  return baseAddress + unit;
 };
 
 app.util.normalizeSearchQuery = function(data) {
