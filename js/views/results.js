@@ -179,7 +179,7 @@ app.views.results = function (parsedQuery) {
     row.append($('<td>').text(property.ownership.owners.join(', ')));
     row.append($('<td class="hide-for-small-only">').html('<i class="fa fa-arrow-circle-right"></i>'));
     row.on('click', function (e) {
-        if (e.ctrlKey || e.altKey || e.shiftKey) return;
+        if (e.ctrlKey || e.altKey || e.shiftKey || e.metaKey) return;
         e.preventDefault();
         history.pushState({opa: property, address: withUnit}, withUnit, href);
         window.scroll(0, 0);

@@ -27,7 +27,7 @@ $('#templates').detach();
 
 // A smart link back to the front page for wrapping other elements
 app.hooks.frontLink = $('<a>').attr('href', window.location.pathname).on('click', function (e) {
-  if (e.ctrlKey || e.altKey || e.shiftKey) return;
+  if (e.ctrlKey || e.altKey || e.shiftKey || e.metaKey) return;
   var a = $(e.target);
   var href = a.attr('href');
   e.preventDefault();
@@ -112,7 +112,7 @@ function showSearchOption(type) {
 
 // pushState on search submit
 app.hooks.searchFormContainer.find('form').on('submit', function (e) {
-  if (e.ctrlKey || e.altKey || e.shiftKey) return;
+  if (e.ctrlKey || e.altKey || e.shiftKey || e.metaKey) return;
   e.preventDefault();
 
   var params = app.util.serializeObject(this),
