@@ -52,14 +52,102 @@ app.views.results = function (parsedQuery) {
   } else {
     app.hooks.content.append(app.hooks.loading);
 
-    //crude check to see if query matches something of interest
-    var propRegEX = /(address\/)(?:2401)+((?:Pennsylvania|%20)+).*/ig;
-    if (propRegEX.test(opaEndpoint)){
-      alert('regex match');
-      islocalQuery = true;
-      //Add the S3 bucket to this ajaxRequest var
-      ajaxRequest = '/2401%20PENNSYLVANIA%20AVE.json';
-    } else {
+    // *** LARGE PROP CHECK ***
+    // This is a workaround for large properties that are currently causing
+    // performance issues in the OPA API.
+    
+    // TODO: this will return all units for an address even if the user passes
+    // in an unambiguous unit num. Previously this would navigate directly to
+    // the property.
+    
+    var matchingProp;
+    
+    // 'Try' all this so we don't introduce any unexpected errors.
+    try {
+      var targetAddress = parsedQuery.address.toUpperCase(),
+          largeProps = [
+            {addressLow: 2401, addressHigh: null, street: 'PENNSYLVANIA AVE'},
+            {addressLow: 1420, addressHigh: null, street: 'LOCUST ST'},
+            {addressLow: 2018, addressHigh: 2032, street: 'WALNUT ST'},
+            {addressLow: 224,  addressHigh: 230,  street: 'W RITTENHOUSE SQ'},
+            {addressLow: 2001, addressHigh: null, street: 'HAMILTON ST'},
+            {addressLow: 604,  addressHigh: 636,  street: 'S WASHINGTON SQ'},
+            {addressLow: 2601, addressHigh: null, street: 'PENNSYLVANIA AVE'},
+            {addressLow: 1100, addressHigh: null, street: 'BROAD ST'},
+            {addressLow: 901,  addressHigh: null, street: 'N PENN ST'},
+            {addressLow: 822,  addressHigh: 838,  street: 'CHESTNUT ST'},
+            {addressLow: 2101, addressHigh: 2017, street: 'CHESTNUT ST'},
+          ];
+        
+      // Parse search address
+      var targetAddressLowMatch   = /^\d+/.exec(targetAddress),
+          targetAddressLow        = targetAddressLowMatch ? targetAddressLowMatch[0] : null,
+          targetAddressHighMatch  = /(?:-)\d+/.exec(targetAddress),
+          targetAddressHigh       = targetAddressHighMatch ? targetAddressHighMatch[0] : null,
+          targetStreetMatch       = /(?: )([A-Z ]+)/.exec(targetAddress),
+          targetStreet            = targetStreetMatch ? targetStreetMatch[1] : null;
+          
+      // Loop over large props
+      for (var i = 0; i < largeProps.length; i++) {
+        var largeProp         = largeProps[i],
+            testAddressLow    = largeProp.addressLow,
+            testAddressHigh   = largeProp.addressHigh,
+            testStreet        = largeProp.street;
+
+        // Try to match exactly(ish)
+        if (testAddressLow == targetAddressLow && 
+            testStreet.indexOf(targetStreet) > -1
+        ) {
+          // If there's an address high
+          if (targetAddressHigh && testAddressHigh) {
+            // Make sure it matches
+            if (
+              testAddressHigh.toString().slice(-2) == targetAddressHigh ||
+              testAddressHigh == targetAddressHigh
+            ) matchingProp = largeProp;
+          }
+          else matchingProp = largeProp;
+          
+          if (matchingProp) {
+            console.log('matched to (exact)');
+            console.log(largeProp);
+            break;
+          }
+        }
+        
+        // See if address falls within range and has same parity
+        if (testAddressHigh &&
+            testStreet.indexOf(targetStreet) > -1 &&
+            testAddressLow <= targetAddressLow &&
+            targetAddressLow <= testAddressHigh &&
+            targetAddressLow % 2 === testAddressLow % 2
+        ) {
+          matchingProp = largeProp;
+          console.log('matched to (range)');
+          console.log(largeProp);
+          break;
+        }
+      }
+    }
+    catch (e) {
+      // TODO tell Sentry?
+      console.log('Unhandled error during large prop check: ' + e);
+    }
+    
+    if (matchingProp) {
+      // Form full address
+      var address;
+      if (matchingProp.addressHigh) {
+        address = matchingProp.addressLow + '-' + matchingProp.addressHigh.toString().slice(-2)
+      }
+      else address = matchingProp.addressLow;
+      address += ' ' + matchingProp.street;
+      
+      // Form static file url
+      var fileName = address.replace(' ', '+') + '.json',
+          ajaxRequest = 'https://s3.amazonaws.com/phila-property/' + fileName;
+    }
+    else {
       ajaxRequest = 'https://api.phila.gov/opa/v1.1/' + opaEndpoint + '?format=json';
     }
 
