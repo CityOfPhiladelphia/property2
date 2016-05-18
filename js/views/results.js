@@ -80,12 +80,12 @@ app.views.results = function (parsedQuery) {
           ];
         
       // Parse search address
-      var targetAddressLowMatch   = /^\d+/.exec(targetAddress),
-          targetAddressLow        = targetAddressLowMatch ? targetAddressLowMatch[0] : null,
-          targetAddressHighMatch  = /(?:-)\d+/.exec(targetAddress),
-          targetAddressHigh       = targetAddressHighMatch ? targetAddressHighMatch[0] : null,
-          targetStreetMatch       = /(?: )([A-Z ]+)/.exec(targetAddress),
-          targetStreet            = targetStreetMatch ? targetStreetMatch[1] : null;
+      var targetAddressParts      = /(\d+)(-\d+)?(?:[A-Z])? (?:1\/2 )?([A-Z0-9 ]+)/.exec(targetAddress),
+          targetAddressLow        = targetAddressParts[1],
+          targetAddressHigh       = targetAddressParts[2],
+          targetAddressHigh       = targetAddressHigh ? targetAddress.slice(-2) : null,
+          targetStreet            = targetAddressParts[3].replace(/\s+/g, ' ');
+      // console.log(targetAddressLow, targetAddressHigh, targetStreet);
           
       // Loop over large props
       for (var i = 0; i < largeProps.length; i++) {
@@ -109,8 +109,8 @@ app.views.results = function (parsedQuery) {
           else matchingProp = largeProp;
           
           if (matchingProp) {
-            console.log('matched to (exact)');
-            console.log(largeProp);
+            // console.log('matched to (exact)');
+            // console.log(largeProp);
             break;
           }
         }
@@ -123,15 +123,15 @@ app.views.results = function (parsedQuery) {
             targetAddressLow % 2 === testAddressLow % 2
         ) {
           matchingProp = largeProp;
-          console.log('matched to (range)');
-          console.log(largeProp);
+          // console.log('matched to (range)');
+          // console.log(largeProp);
           break;
         }
       }
     }
     catch (e) {
       // TODO tell Sentry?
-      console.log('Unhandled error during large prop check: ' + e);
+      // console.log('Unhandled error during large prop check: ' + e);
     }
     
     if (matchingProp) {
