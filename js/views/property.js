@@ -68,8 +68,11 @@ app.views.property = function (accountNumber) {
         var property = data.data.property;
         state.opa = property;
         state.address = app.util.addressWithUnit(property);
-        history.replaceState(state, ''); // Second param not optional in IE10
-
+        if( app.globals.historyState ){
+          history.replaceState(state, ''); // Second param not optional in IE10
+        } else {
+          history.state = state;
+        }
         if (!opaRendered) renderOpa();
         if (!opaDetailsRendered) renderOpaDetails();
         if (!state.sa) getSaData();

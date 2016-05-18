@@ -45,7 +45,7 @@ app.views.results = function (parsedQuery) {
   app.hooks.content.empty(); // Remove loading message
   app.hooks.ownerSearchDisclaimer.addClass('hide');
 
-  if (history.state) {
+  if (history.state && app.globals.historyState) {
     render();
   } else {
     app.hooks.content.append(app.hooks.loading);
@@ -156,6 +156,8 @@ app.views.results = function (parsedQuery) {
       .done(function (data) {
         var property, accountNumber, href, withUnit;
 
+        if ( !app.globals.historyState ) history.state={};
+
         // If we get a 200 response but an 400 error code (ummmmm), treat it like a fail.
         if (!data.data) {
           history.replaceState({error: 'Failed to retrieve results. Please try another search.'}, '');
@@ -197,7 +199,11 @@ app.views.results = function (parsedQuery) {
             data = $.extend({isOwnerSearch: true}, data);
           }
 
-          history.replaceState(data, ''); // Second param not optional in IE10
+          if ( !app.globals.historyState ) {
+            history.state= data;
+          } else {
+            history.replaceState(data, ''); // Second param not optional in IE10
+          }
           render();
         }
       })
