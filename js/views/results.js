@@ -58,7 +58,7 @@ app.views.results = function (parsedQuery) {
     // in an unambiguous unit num. Previously this would navigate directly to
     // the property.
     
-    var matchingProp, searchUrl;
+    var matchingProp, searchUrl, targetPropertyAddress;
     
     // 'Try' all this so we don't introduce any unexpected errors.
     try {
@@ -141,6 +141,10 @@ app.views.results = function (parsedQuery) {
       else address = matchingProp.addressLow;
       address += ' ' + matchingProp.street;
       
+      // If the user specified a unit, form the full address that we want to 
+      // filter query results on.
+      if (parsedQuery.unit) targetPropertyAddress = address + ' #' + parsedQuery.unit;
+      
       // Form static file url
       var fileName = address.replace(' ', '+') + '.json',
           searchUrl = 'https://s3.amazonaws.com/phila-property/' + fileName;
@@ -159,10 +163,22 @@ app.views.results = function (parsedQuery) {
           return;
         }
 
+        // If we matched to a large prop and the user specified a unit, try to 
+        // go straight to that property.
+        if (targetPropertyAddress) {
+          var props = data.data.properties;
+          for (var i = 0; i < props.length; i++) {
+            var prop = props[i],
+                propAddress = app.util.addressWithUnit(prop);
+            if (propAddress === targetPropertyAddress) {
+              data.data.properties = [prop];
+            }
+          }
+        }
+        
         // For business reasons, owner searches need to always show on the
         // results page for the disclaimer.
         if (!isOwnerSearch && (data.data.property || data.data.properties.length === 1)) {
-
           // If only one property go straight to property view
           property = data.data.property || data.data.properties[0];
           accountNumber = property.account_number;
