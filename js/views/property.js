@@ -54,9 +54,9 @@ app.views.property = function (accountNumber) {
   }
 
   function hasOpaDetails() {
-    // ownership.mailing_address is only included in detailed results, not the
+    // mailing_address_1 is only included in detailed results, not the
     // basic stuff that comes back from the geocode.
-    return history.state.opa && history.state.opa.ownership.mailing_address;
+    return history.state.opa && history.state.opa.mailing_address_1;
   }
 
   function getOpaData () {
