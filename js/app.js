@@ -194,6 +194,18 @@ app.util.addressWithUnit = function (property) {
   return address;
 };
 
+// Form a well-formatted ZIP code.
+app.util.formatZipCode = function (zip) {
+  if (zip) {
+    if (!(typeof zip == 'string' || zip instanceof String)) {
+      zip = zip.toString();
+    }
+    if (zip.length === 9) zip  = [zip.slice(0, 5), '-', zip.slice(5)].join('');
+  }
+  else zip = '';
+  return zip;
+}
+
 app.util.normalizeSearchQuery = function(data) {
   var parsedQuery, label;
 
