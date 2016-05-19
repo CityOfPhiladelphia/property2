@@ -61,18 +61,20 @@ app.views.property = function (accountNumber) {
 
   function getOpaData () {
     alreadyGettingOpaData = true;
-    $.ajax('https://api.phila.gov/opa/v1.1/account/' + accountNumber + '?format=json',
+    $.ajax('//data.phila.gov/resource/tqtk-pmbv.json?parcel_number=' + accountNumber,
       {dataType: app.settings.ajaxType})
       .done(function (data) {
         var state = $.extend({}, history.state);
-        var property = data.data.property;
+        var property = data[0];
         state.opa = property;
         state.address = app.util.addressWithUnit(property);
-        if( app.globals.historyState ){
+        
+        if (app.globals.historyState) {
           history.replaceState(state, ''); // Second param not optional in IE10
         } else {
           history.state = state;
         }
+        
         if (!opaRendered) renderOpa();
         if (!opaDetailsRendered) renderOpaDetails();
         if (!state.sa) getSaData();
@@ -94,7 +96,7 @@ app.views.property = function (accountNumber) {
       address = matches[1] + ' ' + matches[3];
     }
 
-    $.ajax('https://data.phila.gov/resource/bz79-67af.json?address_id=' + encodeURIComponent(address),
+    $.ajax('//data.phila.gov/resource/bz79-67af.json?address_id=' + encodeURIComponent(address),
         {dataType: app.settings.ajaxType})
       .done(function (data) {
         var state = $.extend({}, history.state);
@@ -118,38 +120,33 @@ app.views.property = function (accountNumber) {
 
     // Search area
     app.hooks.propertyTitle.find('h1').text(state.address);
-    app.hooks.propertyTitle.find('.small-text').text('Philadelphia, PA ' + state.opa.zip);
+    var zip_code = app.util.formatZipCode(state.opa.zip_code),
+        address_line_2 = 'Philadelphia, PA ' + zip_code;
+    app.hooks.propertyTitle.find('.small-text').text(address_line_2);
 
     // Clear loading...
     app.hooks.content.empty();
 
     // Render owners
     app.hooks.propertyOwners.empty();
-    state.opa.ownership.owners.forEach(function (owner) {
-      app.hooks.propertyOwners.append($('<div>').text(owner));
+    var owners = [state.opa.owner_1, state.opa.owner_2];
+    owners.forEach(function (owner) {
+      if (owner) app.hooks.propertyOwners.append($('<div>').text(owner));
     });
 
-    app.hooks.opaAccount.text(state.opa.account_number);
+    app.hooks.opaAccount.text(state.opa.parcel_number);
 
-    // Render improvement stuff
-    app.hooks.improvementDescription.text(state.opa.characteristics.description);
-    app.hooks.landArea.text(accounting.formatNumber(state.opa.characteristics.land_area));
-    app.hooks.improvementArea.text(accounting.formatNumber(state.opa.characteristics.improvement_area));
-
-    // Empty zoning in prep for details
+    // Empty things that will be rendered form OPA details
+    app.hooks.improvementDescription.empty();
+    app.hooks.landArea.empty();
+    app.hooks.improvementArea.empty();
     app.hooks.zoning.empty();
-
-    // Render sales details
-    app.hooks.salesPrice.text(accounting.formatMoney(state.opa.sales_information.sales_price));
-    app.hooks.salesDate.text(app.util.formatSalesDate(state.opa.sales_information.sales_date));
-
-    // Empty mailing address in prep for details
-    app.hooks.propertyMailingHeader.detach();
-    app.hooks.propertyMailing.empty();
-
-    // Empty valuation history
+    app.hooks.salesPrice.empty();
+    app.hooks.salesDate.empty();
     app.hooks.valuation.empty();
-
+    app.hooks.propertyMailing.empty();
+    app.hooks.propertyMailingHeader.detach();
+    
     app.hooks.content.append(app.hooks.propertyMain);
     app.hooks.content.append(app.hooks.propertySide);
     app.hooks.belowContent.append(app.hooks.propertySecondary);
@@ -181,7 +178,7 @@ app.views.property = function (accountNumber) {
           app.globals.map.disableScrollWheelZoom();
 
           // Set center
-          app.globals.map.centerAndZoom([state.opa.geometry.x, state.opa.geometry.y], 8);
+          app.globals.map.centerAndZoom(state.opa.coordinates.coordinates, 8);
 
           // If check to fix intermittent bugs
           if (!app.globals.map || !app.globals.map.graphics) {
@@ -193,7 +190,7 @@ app.views.property = function (accountNumber) {
           app.globals.map.graphics.clear();
 
           // Create a new marker
-          point = new Point(state.opa.geometry.x, state.opa.geometry.y);
+          point = new Point(state.opa.coordinates.coordinates);
 
           // Marker with a hole
           markerSymbol = new SimpleMarkerSymbol({
@@ -237,7 +234,7 @@ app.views.property = function (accountNumber) {
         } else {
           // Construct the map
           app.globals.map = new Map(app.hooks.map[0], {
-            center: [state.opa.geometry.x, state.opa.geometry.y],
+            center: state.opa.coordinates.coordinates,
             zoom: 8,
             smartNavigation: false
           });
@@ -266,7 +263,7 @@ app.views.property = function (accountNumber) {
     // Fetch StreetView data
     sv = new google.maps.StreetViewService();
     addressLatLng = new google.maps.LatLng(
-      state.opa.geometry.y, state.opa.geometry.x);
+      state.opa.coordinates.coordinates[1], state.opa.coordinates.coordinates[0]);
 
     sv.getPanoramaByLocation(addressLatLng, 50, function(panoData, status) {
       var cbp = '',
@@ -281,42 +278,89 @@ app.views.property = function (accountNumber) {
 
       // Set the street view url
       app.hooks.streetViewUrl.attr('href', 'http://maps.google.com/maps?q=loc:'+
-        state.opa.geometry.y + ',' + state.opa.geometry.x + '&layer=c&cbll='+
-        state.opa.geometry.y + ',' + state.opa.geometry.x + cbp);
+        state.opa.coordinates.coordinates[1] + ',' + state.opa.coordinates.coordinates[0] + '&layer=c&cbll='+
+        state.opa.coordinates.coordinates[1] + ',' + state.opa.coordinates.coordinates[0] + cbp);
     });
   }
 
   function renderOpaDetails () {
-    var state = history.state;
+    var state = history.state,
+        opa = state.opa;
 
     // Render mailing address
     var pm = app.hooks.propertyMailing;
-    var ma = state.opa.ownership.mailing_address;
     app.hooks.propertyMailingHeader.insertBefore(pm);
-    pm.append($('<div>').text(state.opa.ownership.liaison));
-    pm.append($('<div>').text(ma.street));
-    pm.append($('<div>').text(ma.city + ', ' + ma.state));
-    pm.append($('<div>').text(ma.zip));
+    if (opa.mailing_care_of) pm.append($('<div>').text(opa.mailing_care_of));
+    
+    // Form address
+    var mailing_address, mailing_street, mailing_city_state, mailing_zip;
+    // Check for an off-premise owner address. Note thhat mailing_street is the 
+    // first line of the address, e.g. 1234 MARKET ST
+    if (opa.mailing_street) {
+      // mailing_address_1 and 2 are recipient names which should be joined with
+      // a space.
+      if (opa.mailing_address_1) {
+        mailing_address = opa.mailing_address_1;
+        if (opa.mailing_address_2) {
+          mailing_address += ' ' + opa.mailing_address_2;
+        }
+      }
+      mailing_street = opa.mailing_street;
+      mailing_city_state = opa.mailing_city_state;
+      mailing_zip = opa.mailing_zip;
+    // If there's no mailing address, fall back to the property address.
+    } else {
+      mailing_street = state.address;
+      mailing_city_state = 'Philadelphia, PA';
+      mailing_zip = opa.zip_code;
+    }
+    mailing_zip = app.util.formatZipCode(mailing_zip);
+    
+    if (mailing_address) pm.append($('<div>').text(mailing_address));
+    pm.append($('<div>').text(mailing_street));
+    pm.append($('<div>').text(mailing_city_state));
+    pm.append($('<div>').text(mailing_zip));
 
     // Render zoning
-    app.hooks.zoning.html(state.opa.characteristics.zoning + ': ' +
-      state.opa.characteristics.zoning_description);
+    // TODO Socrata is missing zoning description
+    // app.hooks.zoning.html(state.opa.characteristics.zoning + ': ' +
+    //   state.opa.characteristics.zoning_description);
+    app.hooks.zoning.html(state.opa.zoning);
 
-    // Render valuation history
-    state.opa.valuation_history.forEach(function (vh) {
-      var row = $('<tr>');
-      row.append($('<td>').text(vh.certification_year));
-      row.append($('<td>').text(accounting.formatMoney(vh.market_value)));
-      row.append($('<td>').text(accounting.formatMoney(vh.land_taxable)));
-      row.append($('<td>').text(accounting.formatMoney(vh.improvement_taxable)));
-      row.append($('<td>').text(accounting.formatMoney(vh.land_exempt)));
-      row.append($('<td>').text(accounting.formatMoney(vh.improvement_exempt)));
-      app.hooks.valuation.append(row);
-    });
+    // Fetch and render valuation history
+    var url = '//data.phila.gov/resource/a67f-xaf2.json?parcel_number=' + accountNumber;
+    $.ajax(url)
+      .done(function (data) {
+        data.forEach(function (vh) {
+          var row = $('<tr>');
+          row.append($('<td>').text(vh.year));
+          row.append($('<td>').text(accounting.formatMoney(vh.market_value)));
+          row.append($('<td>').text(accounting.formatMoney(vh.taxable_land)));
+          row.append($('<td>').text(accounting.formatMoney(vh.taxable_building)));
+          row.append($('<td>').text(accounting.formatMoney(vh.exempt_land)));
+          row.append($('<td>').text(accounting.formatMoney(vh.exempt_building)));
+          app.hooks.valuation.append(row);
+        });
+      })
+      .fail(function () {
+        // TODO show warning
+        // console.warn('Error getting valuation history');
+      });
 
-    app.hooks.improvementCondition.text(getExteriorConditionDescription(state.opa.characteristics.exterior_condition));
-    app.hooks.beginningPoint.text(state.opa.characteristics.beginning_point);
-    app.hooks.homestead.text(state.opa.characteristics.homestead ? 'Yes' : 'No');
+    // Render sales info
+    app.hooks.salesPrice.text(accounting.formatMoney(state.opa.sale_price));
+    var saleDateMoment = moment(state.opa.sale_date),
+        saleDate = saleDateMoment.format('M/D/YYYY');
+    app.hooks.salesDate.text(saleDate);
+
+    // Render property details
+    app.hooks.improvementCondition.text(getExteriorConditionDescription(state.opa.exterior_condition));
+    app.hooks.improvementDescription.text(state.opa.building_code_description);
+    app.hooks.landArea.text(accounting.formatNumber(state.opa.total_area));
+    app.hooks.improvementArea.text(accounting.formatNumber(state.opa.total_livable_area));
+    // TODO these are not in Socrata
+    // app.hooks.beginningPoint.text(state.opa.characteristics.beginning_point);
+    // app.hooks.homestead.text(state.opa.characteristics.homestead ? 'Yes' : 'No');
 
     opaDetailsRendered = true;
 
