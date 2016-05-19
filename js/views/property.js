@@ -331,6 +331,9 @@ app.views.property = function (accountNumber) {
     var url = '//data.phila.gov/resource/a67f-xaf2.json?parcel_number=' + accountNumber;
     $.ajax(url)
       .done(function (data) {
+        // Sort by valuation year
+        data.sort(function(a,b) {return (a.year > b.year) ? 1 : ((b.year > a.year) ? -1 : 0);} );
+        data.reverse();
         data.forEach(function (vh) {
           var row = $('<tr>');
           row.append($('<td>').text(vh.year));
