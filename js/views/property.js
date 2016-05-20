@@ -33,7 +33,7 @@ app.views.property = function (accountNumber) {
 
   if (history.state.error) return renderError();
 
-  if (history.state.opa && typeof(state) == 'object') {
+  if (history.state.opa) {
     renderOpa();
   } else {
     app.hooks.content.append(app.hooks.loading);
@@ -156,10 +156,6 @@ app.views.property = function (accountNumber) {
 
     // Set L&I link
     app.hooks.liLink.attr('href', 'http://li.phila.gov/#summary?address=' + encodeURI(state.address));
-
-    // Render map stuff
-    renderMap();
-    setStreetViewLink();
 
     opaRendered = true;
   }
@@ -373,6 +369,10 @@ app.views.property = function (accountNumber) {
     // Hide status, show content.
     app.hooks.valuationStatus.addClass('hide');
     app.hooks.valuationPanel.removeClass('hide');
+    
+    // Render map stuff
+    renderMap();
+    setStreetViewLink();
   }
 
   function getExteriorConditionDescription(id) {
