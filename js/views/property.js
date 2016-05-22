@@ -31,7 +31,7 @@ app.views.property = function (accountNumber) {
 
   if (!history.state) history.replaceState({}, '');
 
-  if (history.state.error) return renderError();
+  if (history.state.error) renderError();
 
   if (history.state.opa) {
     renderOpa();
@@ -129,7 +129,8 @@ app.views.property = function (accountNumber) {
 
     // Render owners
     app.hooks.propertyOwners.empty();
-    var owners = [state.opa.owner_1, state.opa.owner_2];
+    // Check to see if the state.opa object is from the OPA API or Socrata.
+    var owners = state.opa.ownership ? state.opa.ownership.owners : [state.opa.owner_1, state.opa.owner_2];
     owners.forEach(function (owner) {
       if (owner) app.hooks.propertyOwners.append($('<div>').text(owner));
     });
@@ -462,7 +463,8 @@ app.views.property = function (accountNumber) {
   }
 
   function renderError () {
-    // TODO Display an error message that looks nice
+    app.hooks.propertySecondary.hide();
+    app.hooks.content.text('An error occurred trying to retrieve that property. Please try again.');
   }
 
   // // TODO Get L&I data
