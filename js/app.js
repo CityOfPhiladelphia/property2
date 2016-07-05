@@ -76,8 +76,8 @@ app.hooks.searchSelectClose.on('click', function(e) {
 });
 $('.search-form-option').on('click', function(e) {
   if ( !$('.search-select-close').hasClass('hide') ){
-    app.hooks.searchSelectOptions.toggleClass('hide');
-    app.hooks.searchSelectClose.toggleClass('hide');
+    app.hooks.searchSelectOptions.addClass('hide');
+    app.hooks.searchSelectClose.addClass('hide');
   }
 });
 
