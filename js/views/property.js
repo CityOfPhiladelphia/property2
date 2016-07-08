@@ -46,7 +46,13 @@ app.views.property = function (accountNumber) {
   } else {
     if (!alreadyGettingOpaData) getOpaData();
   }
-
+  
+  if (history.state.homestead){
+    renderHomestead();
+  } else {
+    getHomestead();
+  }
+  
   if (history.state.sa) {
     renderSa();
   } else if (history.state.address && !alreadyGettingOpaData) {
@@ -67,7 +73,7 @@ app.views.property = function (accountNumber) {
         var state = $.extend({}, history.state);
         var property = data[0];
         state.opa = property;
-        state.address = state.ais.properties.street_address;
+        state.address = state.ais.properties.opa_address;
 
         if (app.globals.historyState) {
           history.replaceState(state, ''); // Second param not optional in IE10
@@ -78,6 +84,7 @@ app.views.property = function (accountNumber) {
         if (!opaRendered) renderOpa();
         if (!opaDetailsRendered) renderOpaDetails();
         if (!state.sa) getSaData();
+        if (!state.homestead) getHomestead();
       })
       .fail(function () {
         history.replaceState({error: true}, '');
@@ -85,29 +92,75 @@ app.views.property = function (accountNumber) {
       });
   }
 
-  function getSaData () {
-    // Check for an address with a dash in it. Dashed addresses are not in the
-    // service area table, so pluck off the first number and try to look it up
-    // that way.
-    var address = history.state.address,
-        matches = /(\d+) *- *(\d+) +(.+)$/gi.exec(address);
-
-    if (matches && matches.length > 1) {
-      address = matches[1] + ' ' + matches[3];
+  // Gets two fields that are missing from the OPA property assessments in 
+  // Socrata: homestead exemption and beginning point.
+  function getHomestead ()
+  {
+    var accountNum = history.state.ais.properties.opa_account_num;
+        url = '//data.phila.gov/resource/crr8-9fv7.json';
+    console.log('acctNum', history.state.ais.properties.opa_account_num);
+    $.ajax(
+      url,
+      {data: {account_num: history.state.ais.properties.opa_account_num}})
+    .done(function (data) {
+      console.log('gotHomestead', data);
+      
+      // Update state
+      var state = $.extend({}, history.state);
+      state.homestead = data.length > 0 ? data[0] : null;
+      history.replaceState(state, '');
+      renderHomestead();
+    })
+    .fail(function (data) {
+      console.log('failed to get homestead');
+    });
+  }
+  
+  function renderHomestead () {
+    // get data from state
+    var data = history.state.homestead;
+    
+    if ( data.homestead_exemption && data.homestead_exemption > 0 ) {
+      app.hooks.homestead.text('Yes');
+    } else {
+      app.hooks.homestead.text('No');
     }
 
-    $.ajax('//data.phila.gov/resource/bz79-67af.json?address_id=' + encodeURIComponent(address),
-        {dataType: app.settings.ajaxType})
+     if ( data.beginning_point && data.homestead_exemption != '' ) {
+      app.hooks.beginningPoint.text(data.beginning_point);
+     } else {
+      app.hooks.beginningPoint.text('Not available');
+    }
+  }
+
+  function hasSaDetails() {
+    return history.state.ais;
+  }
+
+  function getSaData () {
+    var params = {
+      gatekeeperKey: app.config['gatekeeperKey'],
+    };
+
+    $.ajax( 'https://api.phila.gov/ais/v1/account/' + accountNumber,
+      {data: params, dataType: app.settings.ajaxType})
       .done(function (data) {
         var state = $.extend({}, history.state);
-        state.sa = data.length > 0 ? data[0] : null;
-        history.replaceState(state, '');
+        var property, href, withUnit;
+
+        state.ais = data;
+
+        if (app.globals.historyState) {
+          history.replaceState(state, ''); // Second param not optional in IE10
+        } else {
+          history.state = state;
+        }
+        
         renderSa();
       })
       .fail(function () {
-        var state = $.extend({}, history.state);
-        state.sa = {error: true};
-        history.replaceState(state, '');
+        history.replaceState({error: 'Failed to retrieve results. Please try another search.'}, '');
+        render();
       });
   }
 
@@ -399,22 +452,22 @@ app.views.property = function (accountNumber) {
 
   function renderSa () {
     var state = history.state;
-    var sa = state.sa;
+    var sa = state.ais ? state.ais.properties : null;
 
     // No use rendering if there's been a data error
-    if (state.error || !state.sa || state.sa.error) {
+    if (state.error || !state.ais || state.ais.error) {
       app.hooks.propertySecondary.hide();
       return;
     }
 
     // Wait for both OPA render and SA data
-    if (!opaRendered || !state.sa) return;
+    if (!opaRendered || !state.ais) return;
 
     app.hooks.propertySecondary.show();
 
     // Render service areas
     // Sidebox
-    app.hooks.rubbishDay.text(app.util.abbrevToFullDay(sa.rubbish));
+    app.hooks.rubbishDay.text(app.util.abbrevToFullDay(sa.rubbish_recycle_day));
 
     // School catchment
     app.hooks.elementarySchool.text(sa.elementary_school);
@@ -422,15 +475,15 @@ app.views.property = function (accountNumber) {
     app.hooks.highSchool.text(sa.high_school);
 
     // Political
-    app.hooks.councilDistrict.text(sa.council_2016);
-    app.hooks.ward.text(sa.ward);
-    app.hooks.wardDivisions.text(sa.ward_div);
+    app.hooks.councilDistrict.text(sa.council_district_2016);
+    app.hooks.ward.text(sa.political_ward);
+    app.hooks.wardDivisions.text(sa.political_division);
 
     // Public safety
-    app.hooks.policePsa.text(sa.psa);
-    app.hooks.policeDistrict.text(sa.ppd_district);
-    app.hooks.policeSector.text(sa.ppd_sector);
-    app.hooks.policeDivision.text(sa.ppd_div);
+    app.hooks.policePsa.text(sa.police_service_area);
+    app.hooks.policeDistrict.text(sa.police_district);
+    app.hooks.policeSector.text(sa.police_sector);
+    app.hooks.policeDivision.text(sa.police_division);
 
     // Streets
     app.hooks.highwayDistrict.text(sa.highway_district);
@@ -438,22 +491,22 @@ app.views.property = function (accountNumber) {
     app.hooks.highwaySubsection.text(sa.highway_subsection);
     app.hooks.streetLightRoutes.text(sa.street_light_route);
     app.hooks.trafficDistrict.text(sa.traffic_district);
-    app.hooks.recyclingDiversion.text(sa.recycling_diversion_rate_score);
+    app.hooks.recyclingDiversion.text(sa.recycling_diversion_rate);
     app.hooks.sanitationArea.text(sa.sanitation_area);
     app.hooks.sanitationDistrict.text(sa.sanitation_district);
-    app.hooks.leafCollection.text(sa.leaf);
+    app.hooks.leafCollection.text(sa.leaf_collection_area);
     app.hooks.trafficPmDistrict.text(sa.traffic_pm_district);
 
     // Districts
     app.hooks.planning.text(sa.planning_district);
-    app.hooks.liDistrict.text(sa.lni_district);
-    app.hooks.recreation.text(sa.rec_district);
+    app.hooks.liDistrict.text(sa.li_district);
+    app.hooks.recreation.text(sa.recreation_district);
 
     // Water
-    app.hooks.pwdMaintenance.text(sa.pwd_maint_dist);
-    app.hooks.pwdPressure.text(sa.pwd_pres_dist);
-    app.hooks.waterTreatment.text(sa.pwd_wtpsa);
-    app.hooks.waterPlate.text(sa.water_plate);
+    app.hooks.pwdMaintenance.text(sa.pwd_maint_district);
+    app.hooks.pwdPressure.text(sa.pwd_pressure_district);
+    app.hooks.waterTreatment.text(sa.pwd_treatment_plant);
+    app.hooks.waterPlate.text(sa.pwd_water_plate);
 
     // Hide status messages, load content.
     app.hooks.trashStatus.addClass('hide');

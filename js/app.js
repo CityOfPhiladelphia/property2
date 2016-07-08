@@ -6,6 +6,11 @@ var app = {};
 // Expose it for introspection
 window.app = app;
 
+// Config
+app.config = {
+  gatekeeperKey: 'c0eb3e7795b0235dfed5492fcd12a344',
+};
+
 // Set up pointers to useful elements
 app.hooks = {};
 
@@ -194,7 +199,7 @@ app.util = {};
 
 // Get a full address with unit included from OPA property
 // This may not be needed after migrating to AIS
-// app.util.addressWithUnit = function (property) {
+// app.util.address = function (property) {
 //   var unit = property.unit;
 //   // Trim leading zeros
 //   if (unit) {
@@ -250,7 +255,7 @@ app.util.normalizeSearchQuery = function (data) {
     label += app.util.cleanPropertyQuery(data.u) ? ' ' + data.u : '';
 
     parsedQuery = {
-      type: 'addresses',
+      type: 'address',
       label: label,
       address: app.util.cleanPropertyQuery(data.a),
       unit: app.util.cleanPropertyQuery(data.u)
@@ -274,15 +279,6 @@ app.util.cleanPropertyQuery = function (query) {
 
   // Trim, remove extra speces, and replace dots and hashes -- API can't handle them
   return query.replace(/\./g, ' ').replace(/ {2,}/g, ' ').replace(/#/g, '').trim().toUpperCase();
-};
-
-// Pull a human-readable sales date from what the OPA API gives us
-app.util.formatSalesDate = function (salesDate) {
-  var d, m;
-  if (m = /(-?\d+)-/.exec(salesDate)) {
-    d = new Date(+m[1]);
-    return (d.getMonth() + 1) + '/' + d.getDate() + '/' +  d.getFullYear();
-  } else return '';
 };
 
 app.util.abbrevToFullDay = function (abbrev) {
