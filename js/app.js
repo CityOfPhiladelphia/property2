@@ -66,6 +66,19 @@ app.hooks.appTitle.contents().wrap(app.hooks.frontLink);
 app.hooks.searchSelect.on('click', function(e) {
   e.preventDefault();
   app.hooks.searchSelectOptions.toggleClass('hide');
+  app.hooks.searchSelectClose.toggleClass('hide');
+});
+
+app.hooks.searchSelectClose.on('click', function(e) {
+  e.preventDefault();
+  app.hooks.searchSelectOptions.toggleClass('hide');
+  app.hooks.searchSelectClose.toggleClass('hide');
+});
+$('.search-form-option').on('click', function(e) {
+  if ( !$('.search-select-close').hasClass('hide') ){
+    app.hooks.searchSelectOptions.addClass('hide');
+    app.hooks.searchSelectClose.addClass('hide');
+  }
 });
 
 app.hooks.searchSelectOptions.find('li').on('click', function(e) {
