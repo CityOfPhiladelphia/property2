@@ -193,19 +193,20 @@ if (history.state === undefined){
 app.util = {};
 
 // Get a full address with unit included from OPA property
-app.util.addressWithUnit = function (property) {
-  var unit = property.unit;
-  // Trim leading zeros
-  if (unit) {
-    var unitTrimmed = unit.replace(/^0+/, '');
-    if (unitTrimmed.length > 0) unit = unitTrimmed;
-    else unit = null;
-  }
-  // Handle different address keys in OPA, Socrata
-  var address = property.full_address || property.location;
-  address += (unit ? ' #' + unit : '');
-  return address;
-};
+// This may not be needed after migrating to AIS
+// app.util.addressWithUnit = function (property) {
+//   var unit = property.unit;
+//   // Trim leading zeros
+//   if (unit) {
+//     var unitTrimmed = unit.replace(/^0+/, '');
+//     if (unitTrimmed.length > 0) unit = unitTrimmed;
+//     else unit = null;
+//   }
+//   // Handle different address keys in OPA, Socrata
+//   var address = property.full_address || property.location;
+//   address += (unit ? ' #' + unit : '');
+//   return address;
+// };
 
 // Form a well-formatted ZIP code.
 app.util.formatZipCode = function (zip) {
@@ -219,7 +220,7 @@ app.util.formatZipCode = function (zip) {
   return zip;
 }
 
-app.util.normalizeSearchQuery = function(data) {
+app.util.normalizeSearchQuery = function (data) {
   var parsedQuery, label;
 
   if (data.an) {
@@ -249,7 +250,7 @@ app.util.normalizeSearchQuery = function(data) {
     label += app.util.cleanPropertyQuery(data.u) ? ' ' + data.u : '';
 
     parsedQuery = {
-      type: 'address',
+      type: 'addresses',
       label: label,
       address: app.util.cleanPropertyQuery(data.a),
       unit: app.util.cleanPropertyQuery(data.u)
@@ -266,7 +267,7 @@ app.util.normalizeSearchQuery = function(data) {
   return parsedQuery;
 };
 
-app.util.cleanPropertyQuery = function(query) {
+app.util.cleanPropertyQuery = function (query) {
   if (!query) {
     return '';
   }
@@ -284,7 +285,7 @@ app.util.formatSalesDate = function (salesDate) {
   } else return '';
 };
 
-app.util.abbrevToFullDay = function(abbrev) {
+app.util.abbrevToFullDay = function (abbrev) {
   switch(abbrev) {
     case 'SUN': return 'Sunday';
     case 'MON': return 'Monday';
@@ -315,7 +316,7 @@ app.util.serializeObject = function (form) {
 };
 
 // Serialize an object to query string params
-app.util.serializeQueryStringParams = function(obj) {
+app.util.serializeQueryStringParams = function (obj) {
   var str = [];
   for(var p in obj) {
     if (obj.hasOwnProperty(p)) {

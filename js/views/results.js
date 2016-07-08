@@ -1,6 +1,8 @@
 /*global $,app*/
 
 app.views.results = function (parsedQuery) {
+  var GATEKEEPER_KEY = 'c0eb3e7795b0235dfed5492fcd12a344';
+  
   // Breadcrumbs
   app.hooks.resultsCrumb.find('b').text(parsedQuery.label);
   app.hooks.crumbs.update(app.hooks.resultsCrumb);
@@ -16,29 +18,30 @@ app.views.results = function (parsedQuery) {
   app.hooks.aboveContent.children().detach();
 
 
-  var opaEndpoint = parsedQuery.type + '/',
+  var endpoint = parsedQuery.type + '/',
       isOwnerSearch = false;
 
   switch (parsedQuery.type) {
     case 'account':
-      opaEndpoint += encodeURI(parsedQuery.account);
+      endpoint += encodeURI(parsedQuery.account);
       break;
+    // TODO there's currently no intersection endpoint
     case 'intersection':
-      opaEndpoint += encodeURI(parsedQuery.street1 + '/' + parsedQuery.street2);
+      endpoint += encodeURI(parsedQuery.street1 + '/' + parsedQuery.street2);
       break;
     case 'block':
-      opaEndpoint += encodeURI(parsedQuery.address + '/');
+      endpoint += encodeURI(parsedQuery.address + '/');
       break;
-    case 'address':
-      opaEndpoint += encodeURI(parsedQuery.address + '/');
+    case 'addresses':
+      endpoint += encodeURI(parsedQuery.address + '/');
 
       if (parsedQuery.unit) {
-        opaEndpoint += encodeURI(parsedQuery.unit);
+        endpoint += encodeURI(parsedQuery.unit);
       }
       break;
     case 'owner':
       isOwnerSearch = true;
-      opaEndpoint += encodeURI(parsedQuery.owner);
+      endpoint += encodeURI(parsedQuery.owner);
       break;
   }
 
@@ -50,145 +53,25 @@ app.views.results = function (parsedQuery) {
   } else {
     app.hooks.content.append(app.hooks.loading);
 
-    // *** LARGE PROP CHECK ***
-    // This is a workaround for large properties that are currently causing
-    // performance issues in the OPA API.
-    
-    // TODO: this will return all units for an address even if the user passes
-    // in an unambiguous unit num. Previously this would navigate directly to
-    // the property.
-    
-    var matchingProp, searchUrl, targetPropertyAddress;
-    
-    // 'Try' all this so we don't introduce any unexpected errors.
-    try {
-      var targetAddress = parsedQuery.address.toUpperCase(),
-          largeProps = [
-            {addressLow: 2401, addressHigh: null, street: 'PENNSYLVANIA AVE'},
-            {addressLow: 1420, addressHigh: null, street: 'LOCUST ST'},
-            {addressLow: 2018, addressHigh: 2032, street: 'WALNUT ST'},
-            {addressLow: 224,  addressHigh: 230,  street: 'W RITTENHOUSE SQ'},
-            {addressLow: 2001, addressHigh: null, street: 'HAMILTON ST'},
-            {addressLow: 604,  addressHigh: 636,  street: 'S WASHINGTON SQ'},
-            {addressLow: 2601, addressHigh: null, street: 'PENNSYLVANIA AVE'},
-            {addressLow: 1100, addressHigh: null, street: 'BROAD ST'},
-            {addressLow: 901,  addressHigh: null, street: 'N PENN ST'},
-            {addressLow: 822,  addressHigh: 838,  street: 'CHESTNUT ST'},
-            {addressLow: 2101, addressHigh: 2017, street: 'CHESTNUT ST'},
-          ];
-        
-      // Parse search address
-      var targetAddressParts      = /(\d+)(-\d+)?(?:[A-Z])? (?:1\/2 )?([A-Z0-9 ]+)/.exec(targetAddress),
-          targetAddressLow        = targetAddressParts[1],
-          targetAddressHigh       = targetAddressParts[2],
-          targetAddressHigh       = targetAddressHigh ? targetAddress.slice(-2) : null,
-          targetStreet            = targetAddressParts[3].replace(/\s+/g, ' ');
-      // console.log(targetAddressLow, targetAddressHigh, targetStreet);
-          
-      // Loop over large props
-      for (var i = 0; i < largeProps.length; i++) {
-        var largeProp         = largeProps[i],
-            testAddressLow    = largeProp.addressLow,
-            testAddressHigh   = largeProp.addressHigh,
-            testStreet        = largeProp.street;
-
-        // Try to match exactly(ish)
-        if (testAddressLow == targetAddressLow && 
-            testStreet.indexOf(targetStreet) > -1
-        ) {
-          // If there's an address high
-          if (targetAddressHigh && testAddressHigh) {
-            // Make sure it matches
-            if (
-              testAddressHigh.toString().slice(-2) == targetAddressHigh ||
-              testAddressHigh == targetAddressHigh
-            ) matchingProp = largeProp;
-          }
-          else matchingProp = largeProp;
-          
-          if (matchingProp) {
-            // console.log('matched to (exact)');
-            // console.log(largeProp);
-            break;
-          }
-        }
-        
-        // See if address falls within range and has same parity
-        if (testAddressHigh &&
-            testStreet.indexOf(targetStreet) > -1 &&
-            testAddressLow <= targetAddressLow &&
-            targetAddressLow <= testAddressHigh &&
-            targetAddressLow % 2 === testAddressLow % 2
-        ) {
-          matchingProp = largeProp;
-          // console.log('matched to (range)');
-          // console.log(largeProp);
-          break;
-        }
-      }
-    }
-    catch (e) {
-      // TODO tell Sentry?
-      // console.log('Unhandled error during large prop check: ' + e);
-    }
-    
-    if (matchingProp) {
-      // Form full address
-      var address;
-      if (matchingProp.addressHigh) {
-        address = matchingProp.addressLow + '-' + matchingProp.addressHigh.toString().slice(-2)
-      }
-      else address = matchingProp.addressLow;
-      address += ' ' + matchingProp.street;
-      
-      // If the user specified a unit, form the full address that we want to 
-      // filter query results on.
-      if (parsedQuery.unit) targetPropertyAddress = address + ' #' + parsedQuery.unit;
-      
-      // Form static file url
-      var fileName = address.replace(' ', '+') + '.json',
-          searchUrl = 'https://s3.amazonaws.com/phila-property/' + fileName;
-    }
-    else searchUrl = 'https://api.phila.gov/opa/v1.1/' + opaEndpoint + '?format=json';
-
-    $.ajax(searchUrl,
+    $.ajax( 'https://api.phila.gov/ais/v1/' + endpoint + '?gatekeeperKey=' + GATEKEEPER_KEY,
       {dataType: app.settings.ajaxType})
       .done(function (data) {
         var property, accountNumber, href, withUnit;
 
-        if ( !app.globals.historyState ) history.state={};
-
-        // If we get a 200 response but an 400 error code (ummmmm), treat it like a fail.
-        if (!data.data) {
-          history.replaceState({error: 'Failed to retrieve results. Please try another search.'}, '');
-          render();
-          return;
-        }
-
-        // If we matched to a large prop and the user specified a unit, try to 
-        // go straight to that property.
-        if (targetPropertyAddress) {
-          var props = data.data.properties;
-          for (var i = 0; i < props.length; i++) {
-            var prop = props[i],
-                propAddress = app.util.addressWithUnit(prop);
-            if (propAddress === targetPropertyAddress) {
-              data.data.properties = [prop];
-            }
-          }
-        }
+        if (!app.globals.historyState) history.state = {};
         
         // For business reasons, owner searches need to always show on the
         // results page for the disclaimer.
-        if (!isOwnerSearch && (data.data.property || data.data.properties.length === 1)) {
+        if (!isOwnerSearch && data.features.length === 1) {
           // If only one property go straight to property view
-          property = data.data.property || data.data.properties[0];
-          accountNumber = property.account_number;
+          feature = data.features[0];
+          attrs = feature.properties;
+          accountNumber = attrs.opa_account_num;
           href = '?' + $.param({p: accountNumber});
-          withUnit = app.util.addressWithUnit(property);
+          withUnit = feature.street_address;
 
           history.replaceState({
-            opa: property,
+            ais: feature,
             address: withUnit
           }, withUnit, href);
 
@@ -199,8 +82,8 @@ app.views.results = function (parsedQuery) {
             data = $.extend({isOwnerSearch: true}, data);
           }
 
-          if ( !app.globals.historyState ) {
-            history.state= data;
+          if (!app.globals.historyState) {
+            history.state = data;
           } else {
             history.replaceState(data, ''); // Second param not optional in IE10
           }

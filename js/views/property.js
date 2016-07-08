@@ -67,8 +67,8 @@ app.views.property = function (accountNumber) {
         var state = $.extend({}, history.state);
         var property = data[0];
         state.opa = property;
-        state.address = app.util.addressWithUnit(property);
-        
+        state.address = state.ais.properties.street_address;
+
         if (app.globals.historyState) {
           history.replaceState(state, ''); // Second param not optional in IE10
         } else {
