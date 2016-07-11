@@ -41,7 +41,7 @@ app.views.results = function (parsedQuery) {
       endpoint += encodeURI(parsedQuery.address);
 
       if (parsedQuery.unit) {
-        endpoint += encodeURI(parsedQuery.unit);
+        endpoint += encodeURI(' UNIT ' + parsedQuery.unit);
       }
       break;
     case 'owner':
