@@ -377,6 +377,11 @@ app.views.property = function (accountNumber) {
     //   state.opa.characteristics.zoning_description);
     app.hooks.zoning.html(state.opa.zoning);
 
+    // Render most recent year of valuation history from opa data
+    // see: https://github.com/CityOfPhiladelphia/property2/issues/147
+    var row = constructValuationRow('2017', opa)
+    app.hooks.valuation.append(row);
+
     // Fetch and render valuation history
     var url = '//data.phila.gov/resource/a67f-xaf2.json?parcel_number=' + accountNumber;
     $.ajax(url)
@@ -385,14 +390,10 @@ app.views.property = function (accountNumber) {
         data.sort(function(a,b) {return (a.year > b.year) ? 1 : ((b.year > a.year) ? -1 : 0);} );
         data.reverse();
         data.forEach(function (vh) {
-          var row = $('<tr>');
-          row.append($('<td>').text(vh.year));
-          row.append($('<td>').text(accounting.formatMoney(vh.market_value)));
-          row.append($('<td>').text(accounting.formatMoney(vh.taxable_land)));
-          row.append($('<td>').text(accounting.formatMoney(vh.taxable_building)));
-          row.append($('<td>').text(accounting.formatMoney(vh.exempt_land)));
-          row.append($('<td>').text(accounting.formatMoney(vh.exempt_building)));
-          app.hooks.valuation.append(row);
+          if (vh.year !== '2017') { // 2017 is rendered above (todo: what if values conflict? which is more accurate?)
+            var row = constructValuationRow(vh.year, vh);
+            app.hooks.valuation.append(row);
+          }
         });
       })
       .fail(function () {
@@ -427,6 +428,17 @@ app.views.property = function (accountNumber) {
     // Render map stuff
     renderMap();
     setStreetViewLink();
+  }
+
+  function constructValuationRow (year, data) {
+    var row = $('<tr>');
+    row.append($('<td>').text(year));
+    row.append($('<td>').text(accounting.formatMoney(data.market_value)));
+    row.append($('<td>').text(accounting.formatMoney(data.taxable_land)));
+    row.append($('<td>').text(accounting.formatMoney(data.taxable_building)));
+    row.append($('<td>').text(accounting.formatMoney(data.exempt_land)));
+    row.append($('<td>').text(accounting.formatMoney(data.exempt_building)));
+    return row
   }
 
   function getExteriorConditionDescription(id) {
