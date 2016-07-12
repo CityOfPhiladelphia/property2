@@ -110,11 +110,10 @@ app.views.property = function (accountNumber) {
   // Socrata: homestead exemption and beginning point.
   function getHomestead ()
   {
-    var accountNum = history.state.ais.properties.opa_account_num;
-        url = '//data.phila.gov/resource/crr8-9fv7.json';
+    var url = '//data.phila.gov/resource/crr8-9fv7.json';
     $.ajax(
       url,
-      {data: {account_num: history.state.ais.properties.opa_account_num}})
+      {data: {account_num: accountNumber }})
     .done(function (data) {
       // Update state
       var state = $.extend({}, history.state);
