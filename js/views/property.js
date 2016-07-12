@@ -33,31 +33,40 @@ app.views.property = function (accountNumber) {
 
   if (history.state.error) renderError();
 
-  if (history.state.opa) {
+  if (history.state.ais && history.state.opa && history.state.homestead) {
+    console.log('Has all required props (ais,opa,homestead)', history.state);
     renderOpa();
+    renderOpaDetails();
+    renderSa();
+    renderHomestead();
+  } else if (history.state.ais && !history.state.opa && !history.state.homestead) {
+    console.log('Has ais, missing other required props (opa,homestead)', history.state);
+    renderSa();
+    getOpaData();
   } else {
     app.hooks.content.append(app.hooks.loading);
-    getOpaData();
+    console.log('Did not have all required props (ais,opa,homestead)', history.state);
+    getSaData();
   }
 
   // The less-detailed search result contains address_match
-  if (hasOpaDetails()) {
-    renderOpaDetails();
-  } else {
-    if (!alreadyGettingOpaData) getOpaData();
-  }
-  
-  if (history.state.homestead){
-    renderHomestead();
-  } else {
-    getHomestead();
-  }
-  
-  if (history.state.sa) {
-    renderSa();
-  } else if (history.state.address && !alreadyGettingOpaData) {
-    getSaData();
-  }
+  // if (hasOpaDetails()) {
+  //   renderOpaDetails();
+  // } else {
+  //   if (!alreadyGettingOpaData) getOpaData();
+  // }
+
+  // if (history.state.homestead){
+  //   renderHomestead();
+  // } else {
+  //   getHomestead();
+  // }
+
+  // if (history.state.sa) {
+  //   renderSa();
+  // } else if (history.state.address && !alreadyGettingOpaData) {
+  //   getSaData();
+  // }
 
   function hasOpaDetails() {
     // mailing_address_1 is only included in detailed results, not the
@@ -80,11 +89,16 @@ app.views.property = function (accountNumber) {
         } else {
           history.state = state;
         }
-        
-        if (!opaRendered) renderOpa();
-        if (!opaDetailsRendered) renderOpaDetails();
-        if (!state.sa) getSaData();
-        if (!state.homestead) getHomestead();
+
+        if (!state.homestead) {
+          getHomestead();
+        } else {
+          renderHomestead();
+        }
+
+        renderOpa();
+        renderOpaDetails();
+
       })
       .fail(function () {
         history.replaceState({error: true}, '');
@@ -92,19 +106,16 @@ app.views.property = function (accountNumber) {
       });
   }
 
-  // Gets two fields that are missing from the OPA property assessments in 
+  // Gets two fields that are missing from the OPA property assessments in
   // Socrata: homestead exemption and beginning point.
   function getHomestead ()
   {
     var accountNum = history.state.ais.properties.opa_account_num;
         url = '//data.phila.gov/resource/crr8-9fv7.json';
-    console.log('acctNum', history.state.ais.properties.opa_account_num);
     $.ajax(
       url,
       {data: {account_num: history.state.ais.properties.opa_account_num}})
     .done(function (data) {
-      console.log('gotHomestead', data);
-      
       // Update state
       var state = $.extend({}, history.state);
       state.homestead = data.length > 0 ? data[0] : null;
@@ -115,11 +126,11 @@ app.views.property = function (accountNumber) {
       console.log('failed to get homestead');
     });
   }
-  
+
   function renderHomestead () {
     // get data from state
     var data = history.state.homestead;
-    
+
     if ( data.homestead_exemption && data.homestead_exemption > 0 ) {
       app.hooks.homestead.text('Yes');
     } else {
@@ -155,8 +166,8 @@ app.views.property = function (accountNumber) {
         } else {
           history.state = state;
         }
-        
         renderSa();
+        getOpaData();
       })
       .fail(function () {
         history.replaceState({error: 'Failed to retrieve results. Please try another search.'}, '');
@@ -200,7 +211,7 @@ app.views.property = function (accountNumber) {
     app.hooks.valuation.empty();
     app.hooks.propertyMailing.empty();
     app.hooks.propertyMailingHeader.detach();
-    
+
     app.hooks.content.append(app.hooks.propertyMain);
     app.hooks.content.append(app.hooks.propertySide);
     app.hooks.belowContent.append(app.hooks.propertySecondary);
@@ -341,10 +352,10 @@ app.views.property = function (accountNumber) {
     var pm = app.hooks.propertyMailing;
     app.hooks.propertyMailingHeader.insertBefore(pm);
     if (opa.mailing_care_of) pm.append($('<div>').text(opa.mailing_care_of));
-    
+
     // Form address
     var mailing_address, mailing_street, mailing_city_state, mailing_zip;
-    // Check for an off-premise owner address. Note thhat mailing_street is the 
+    // Check for an off-premise owner address. Note thhat mailing_street is the
     // first line of the address, e.g. 1234 MARKET ST
     if (opa.mailing_street) {
       // mailing_address_1 and 2 are recipient names which should be joined with
@@ -365,7 +376,7 @@ app.views.property = function (accountNumber) {
       mailing_zip = opa.zip_code;
     }
     mailing_zip = app.util.formatZipCode(mailing_zip);
-    
+
     if (mailing_address) pm.append($('<div>').text(mailing_address));
     pm.append($('<div>').text(mailing_street));
     pm.append($('<div>').text(mailing_city_state));
@@ -423,7 +434,7 @@ app.views.property = function (accountNumber) {
     // Hide status, show content.
     app.hooks.valuationStatus.addClass('hide');
     app.hooks.valuationPanel.removeClass('hide');
-    
+
     // Render map stuff
     renderMap();
     setStreetViewLink();
@@ -461,7 +472,7 @@ app.views.property = function (accountNumber) {
     }
 
     // Wait for both OPA render and SA data
-    if (!opaRendered || !state.ais) return;
+    if (!state.ais) return;
 
     app.hooks.propertySecondary.show();
 
