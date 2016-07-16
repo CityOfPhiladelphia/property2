@@ -416,8 +416,6 @@ app.views.property = function (accountNumber) {
         // TODO show warning
         // console.warn('Error getting valuation history');
       });
-      // Update the Tablesaw responsive tables
-      $(document).trigger('enhance.tablesaw');
     // Render sales info
     app.hooks.salesPrice.text(accounting.formatMoney(state.opa.sale_price));
     var saleDateMoment = moment(state.opa.sale_date),
