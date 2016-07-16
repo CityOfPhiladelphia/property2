@@ -404,6 +404,9 @@ app.views.property = function (accountNumber) {
           row.append($('<td>').text(accounting.formatMoney(vh.exempt_building)));
           app.hooks.valuation.append(row);
         });
+        // Reset Tablesaw Data
+        $('[data-hook="valuation"]').parent('table').table().data("table").destroy();
+        $('[data-hook="valuation"]').parent('table').table().data("table").refresh();
       })
       .fail(function () {
         // TODO show warning
