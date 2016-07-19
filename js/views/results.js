@@ -59,7 +59,7 @@ app.views.results = function (parsedQuery) {
     app.hooks.content.append(app.hooks.loading);
     getData()
   }
-  
+
   function getData () {
     var params = {
       gatekeeperKey: app.config['gatekeeperKey'],
@@ -73,7 +73,7 @@ app.views.results = function (parsedQuery) {
         var property, accountNumber, href, withUnit;
 
         if (!app.globals.historyState) history.state = {};
-        
+
         // For business reasons, owner searches need to always show on the
         // results page for the disclaimer.
         if (!isOwnerSearch && (
@@ -108,7 +108,7 @@ app.views.results = function (parsedQuery) {
               aisData = $.extend({isOwnerSearch: true}, aisData);
             }
             newState = aisData
-  
+
             if (!app.globals.historyState) {
               history.state = newState;
             } else {
@@ -123,7 +123,7 @@ app.views.results = function (parsedQuery) {
         render();
       });
   }
-  
+
   function constructOpaUrl (features) {
     var accountNumbers = $.map(features, function (feature) {
       return feature.properties.opa_account_num
@@ -140,7 +140,7 @@ app.views.results = function (parsedQuery) {
     };
     return '//data.phila.gov/resource/tqtk-pmbv.json?' + $.param(params)
   }
-  
+
   function keyBy (items, key) {
     var hash = {}
     for (var i = 0; i < items.length; i++) {
@@ -155,7 +155,7 @@ app.views.results = function (parsedQuery) {
     var features = state.features;
     var total_size = state.total_size;
     var isOwnerSearch = state.isOwnerSearch;
-    
+
     app.hooks.content.empty(); // Remove loading message
 
     if (total_size === 0) {
@@ -177,14 +177,14 @@ app.views.results = function (parsedQuery) {
         var seeMoreA = app.hooks.seeMore.find('a');
         seeMoreA.off('click'); // Drop previously created click events
         seeMoreA.on('click', function (e) {
-          
+
           var params = {
             gatekeeperKey: app.config['gatekeeperKey'],
             include_units: null,
             opa_only: null,
             page: state.page + 1
           };
-  
+
           $.ajax('https://api.phila.gov/ais/v1/' + endpoint,
                  {data: params, dataType: app.settings.ajaxType})
             .done(function (aisData) {
@@ -200,12 +200,13 @@ app.views.results = function (parsedQuery) {
                 state.features = state.features.concat(aisData.features);
                 state.page = aisData.page;
                 history.replaceState(state, ''); // Second param not optional in IE10
-  
+
                 $.each(aisData.features, addRow);
                 if (state.total_size === state.features.length) app.hooks.seeMore.hide();
-  
-                // Update the Tablesaw responsive tables
-                $(document).trigger('enhance.tablesaw');
+
+                // Remove old Tablesaw data and refresh
+                $('[data-hook="results-table"]').table().data("table").destroy();
+                $('[data-hook="results-table"]').table().data("table").refresh();
               });
             });
         });
@@ -249,13 +250,13 @@ app.views.results = function (parsedQuery) {
         accountNumber = attrs.opa_account_num,
         withUnit = attrs.street_address,
         href = '?' + $.param({p: accountNumber});
-        
+
     row.append($('<td>').append($('<a href="' + href + '">').text(withUnit)));
     row.append($('<td>').text(accounting.formatMoney(attrs.market_value)));
     row.append($('<td>').text(moment(attrs.sale_date).format('M/D/YYYY') + ', ' + accounting.formatMoney(attrs.sale_price)));
     row.append($('<td>').text(attrs.opa_owners && attrs.opa_owners.join(', ')));
     row.append($('<td class="hide-for-small-only">').html('<i class="fa fa-arrow-circle-right"></i>'));
-    
+
     row.on('click', function (e) {
         if (e.ctrlKey || e.altKey || e.shiftKey) return;
         e.preventDefault();

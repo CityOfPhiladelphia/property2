@@ -18,6 +18,7 @@ app.views.property = function (accountNumber) {
   app.hooks.searchBox.removeClass('medium-16').addClass('medium-10 float-right');
 
   // Clear existing elements out of the way
+  app.hooks.valuationTable.detach();
   app.hooks.content.children().detach();
   app.hooks.aboveContent.children().detach();
 
@@ -404,6 +405,12 @@ app.views.property = function (accountNumber) {
           row.append($('<td>').text(accounting.formatMoney(vh.exempt_building)));
           app.hooks.valuation.append(row);
         });
+
+        app.hooks.valuationTable.append(app.hooks.valuation);
+        app.hooks.valuationPanel.append(app.hooks.valuationTable);
+        // Update the Tablesaw responsive tables
+        $(document).trigger('enhance.tablesaw');
+
       })
       .fail(function () {
         // TODO show warning
@@ -426,9 +433,6 @@ app.views.property = function (accountNumber) {
     // app.hooks.homestead.text(state.opa.characteristics.homestead ? 'Yes' : 'No');
 
     opaDetailsRendered = true;
-
-    // Update the Tablesaw responsive tables
-    $(document).trigger('enhance.tablesaw');
 
     // Hide status, show content.
     app.hooks.valuationStatus.addClass('hide');

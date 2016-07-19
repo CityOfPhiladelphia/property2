@@ -285,7 +285,7 @@
       <div data-hook="no-results" class="columns">0 properties found</div>
       <div data-hook="results" class="columns results-view">
         <div data-hook="count" class="medium-6 columns" style="display:none"><span id="total"></span> properties found</div>
-        <table role="grid" summary="Property search results." class="tablesaw tablesaw-stack results no-borders" data-tablesaw-mode="stack">
+        <table role="grid" summary="Property search results." class="tablesaw tablesaw-stack results no-borders" data-tablesaw-mode="stack" data-hook="results-table">
           <thead>
             <tr>
               <th scope="col">Address</th>
@@ -416,7 +416,7 @@
         <div data-hook="valuation-status"><i class="fa fa-spinner fa-lg spin"></i> Loading...</div>
         <div data-hook="valuation-panel" class="row hide">
           <div class="columns">
-            <table role="grid" summary="Property valuation history." class="tablesaw tablesaw-stack" data-tablesaw-mode="stack">
+            <table role="grid" summary="Property valuation history." class="tablesaw tablesaw-stack" data-tablesaw-mode="stack" data-hook='valuation-table'>
               <thead>
                 <tr>
                   <th scope="col">Year</th>
