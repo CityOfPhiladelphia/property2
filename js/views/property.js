@@ -181,7 +181,7 @@ app.views.property = function (accountNumber) {
           app.globals.map.disableScrollWheelZoom();
 
           // Set center
-          app.globals.map.centerAndZoom([state.opa.geometry.x, state.opa.geometry.y], 8);
+          app.globals.map.centerAndZoom([state.opa.geometry.x, state.opa.geometry.y], 18);
 
           // If check to fix intermittent bugs
           if (!app.globals.map || !app.globals.map.graphics) {
