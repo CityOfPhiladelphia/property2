@@ -242,8 +242,11 @@ app.views.property = function (accountNumber) {
             smartNavigation: false
           });
 
-          app.globals.layer = new Tiled('https://tiles.arcgis.com/tiles/fLeGjb7u4uXqeF9q/arcgis/rest/services/CityBasemap/MapServer');
-          app.globals.map.addLayer(app.globals.layer);
+          app.globals.tileLayer = new Tiled('https://tiles.arcgis.com/tiles/fLeGjb7u4uXqeF9q/arcgis/rest/services/CityBasemap/MapServer');
+          app.globals.map.addLayer(app.globals.tileLayer);
+
+          app.globals.labelLayer = new Tiled('https://tiles.arcgis.com/tiles/fLeGjb7u4uXqeF9q/arcgis/rest/services/CityBasemap_Labels/MapServer');
+          app.globals.map.addLayer(app.globals.labelLayer);
 
           app.globals.map.on('load', initMapView);
         }
