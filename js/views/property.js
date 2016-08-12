@@ -239,7 +239,7 @@ app.views.property = function (accountNumber) {
           app.globals.map.disableScrollWheelZoom();
 
           // Set center
-          app.globals.map.centerAndZoom(state.opa.coordinates.coordinates, 8);
+          app.globals.map.centerAndZoom(state.opa.coordinates.coordinates, 18);
 
           // If check to fix intermittent bugs
           if (!app.globals.map || !app.globals.map.graphics) {
@@ -300,16 +300,11 @@ app.views.property = function (accountNumber) {
             smartNavigation: false
           });
 
-          app.globals.layer = new Tiled('https://tiles.arcgis.com/tiles/fLeGjb7u4uXqeF9q/arcgis/rest/services/CityBasemap/MapServer', {
-            // esri is annoying in that it conversts my https into http. :\ this fixes that.
-            tileServers: [
-              'https://tiles1.arcgis.com/tiles/fLeGjb7u4uXqeF9q/arcgis/rest/services/CityBasemap/MapServer',
-              'https://tiles2.arcgis.com/tiles/fLeGjb7u4uXqeF9q/arcgis/rest/services/CityBasemap/MapServer',
-              'https://tiles3.arcgis.com/tiles/fLeGjb7u4uXqeF9q/arcgis/rest/services/CityBasemap/MapServer',
-              'https://tiles4.arcgis.com/tiles/fLeGjb7u4uXqeF9q/arcgis/rest/services/CityBasemap/MapServer'
-            ]
-          });
-          app.globals.map.addLayer(app.globals.layer);
+          app.globals.tileLayer = new Tiled('https://tiles.arcgis.com/tiles/fLeGjb7u4uXqeF9q/arcgis/rest/services/CityBasemap/MapServer');
+          app.globals.map.addLayer(app.globals.tileLayer);
+
+          app.globals.labelLayer = new Tiled('https://tiles.arcgis.com/tiles/fLeGjb7u4uXqeF9q/arcgis/rest/services/CityBasemap_Labels/MapServer');
+          app.globals.map.addLayer(app.globals.labelLayer);
 
           app.globals.map.on('load', initMapView);
         }
