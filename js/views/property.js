@@ -505,7 +505,7 @@ app.views.property = function (accountNumber) {
     app.hooks.highwaySubsection.text(sa.highway_subsection);
     app.hooks.streetLightRoutes.text(sa.street_light_route);
     app.hooks.trafficDistrict.text(sa.traffic_district);
-    app.hooks.recyclingDiversion.text(sa.recycling_diversion_rate);
+    app.hooks.recyclingDiversion.text((parseFloat(sa.recycling_diversion_rate) * 100).toFixed(1) + '%');  // <-- percentified
     app.hooks.sanitationArea.text(sa.sanitation_area);
     app.hooks.sanitationDistrict.text(sa.sanitation_district);
     app.hooks.leafCollection.text(sa.leaf_collection_area);
