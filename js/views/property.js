@@ -77,7 +77,7 @@ app.views.property = function (accountNumber) {
 
   function getOpaData () {
     alreadyGettingOpaData = true;
-    $.ajax('//data.phila.gov/resource/tqtk-pmbv.json?parcel_number=' + accountNumber,
+    $.ajax('//data.phila.gov/resource/w7rb-qrn8.json?parcel_number=' + accountNumber,
       {dataType: app.settings.ajaxType})
       .done(function (data) {
         var state = $.extend({}, history.state);
@@ -239,7 +239,7 @@ app.views.property = function (accountNumber) {
           app.globals.map.disableScrollWheelZoom();
 
           // Set center
-          app.globals.map.centerAndZoom(state.opa.coordinates.coordinates, 18);
+          app.globals.map.centerAndZoom(state.opa.shape.coordinates, 18);
 
           // If check to fix intermittent bugs
           if (!app.globals.map || !app.globals.map.graphics) {
@@ -251,7 +251,7 @@ app.views.property = function (accountNumber) {
           app.globals.map.graphics.clear();
 
           // Create a new marker
-          point = new Point(state.opa.coordinates.coordinates);
+          point = new Point(state.opa.shape.coordinates);
 
           // Marker with a hole
           markerSymbol = new SimpleMarkerSymbol({
@@ -295,7 +295,7 @@ app.views.property = function (accountNumber) {
         } else {
           // Construct the map
           app.globals.map = new Map(app.hooks.map[0], {
-            center: state.opa.coordinates.coordinates,
+            center: state.opa.shape.coordinates,
             zoom: 8,
             smartNavigation: false
           });
@@ -319,7 +319,7 @@ app.views.property = function (accountNumber) {
     // Fetch StreetView data
     sv = new google.maps.StreetViewService();
     addressLatLng = new google.maps.LatLng(
-      state.opa.coordinates.coordinates[1], state.opa.coordinates.coordinates[0]);
+      state.opa.shape.coordinates[1], state.opa.shape.coordinates[0]);
 
     sv.getPanoramaByLocation(addressLatLng, 50, function(panoData, status) {
       var cbp = '',
@@ -334,8 +334,8 @@ app.views.property = function (accountNumber) {
 
       // Set the street view url
       app.hooks.streetViewUrl.attr('href', 'http://maps.google.com/maps?q=loc:'+
-        state.opa.coordinates.coordinates[1] + ',' + state.opa.coordinates.coordinates[0] + '&layer=c&cbll='+
-        state.opa.coordinates.coordinates[1] + ',' + state.opa.coordinates.coordinates[0] + cbp);
+        state.opa.shape.coordinates[1] + ',' + state.opa.shape.coordinates[0] + '&layer=c&cbll='+
+        state.opa.shape.coordinates[1] + ',' + state.opa.shape.coordinates[0] + cbp);
     });
   }
 

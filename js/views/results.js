@@ -138,7 +138,7 @@ app.views.results = function (parsedQuery) {
       ].join(','),
       $where: 'parcel_number in ("' + accountNumbers.join('","') + '")'
     };
-    return '//data.phila.gov/resource/tqtk-pmbv.json?' + $.param(params)
+    return '//data.phila.gov/resource/w7rb-qrn8.json?' + $.param(params)
   }
 
   function keyBy (items, key) {
