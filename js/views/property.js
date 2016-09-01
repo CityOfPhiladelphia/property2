@@ -77,7 +77,7 @@ app.views.property = function (accountNumber) {
 
   function getOpaData () {
     alreadyGettingOpaData = true;
-    $.ajax('//data.phila.gov/resource/tqtk-pmbv.json?parcel_number=' + accountNumber,
+    $.ajax('//data.phila.gov/resource/w7rb-qrn8.json?parcel_number=' + accountNumber,
       {dataType: app.settings.ajaxType})
       .done(function (data) {
         var state = $.extend({}, history.state);
