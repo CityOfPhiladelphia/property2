@@ -384,7 +384,7 @@ app.views.property = function (accountNumber) {
     app.hooks.zoning.html(state.opa.zoning);
 
     // Fetch and render valuation history
-    var url = '//data.phila.gov/resource/a67f-xaf2.json?parcel_number=' + accountNumber;
+    var url = '//data.phila.gov/resource/npdr-96qp.json?parcel_number=' + accountNumber;
     $.ajax(url)
       .done(function (data) {
         // Sort by valuation year
