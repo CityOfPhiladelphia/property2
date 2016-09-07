@@ -34,19 +34,18 @@ app.views.property = function (accountNumber) {
 
   if (history.state.error) renderError();
 
-  if (history.state.ais && history.state.opa && history.state.homestead) {
-    console.log('Has all required props (ais,opa,homestead)', history.state);
+  if (history.state.ais && history.state.opa) {
+    console.log('Has all required props (ais,opa)', history.state);
     renderOpa();
     renderOpaDetails();
     renderSa();
-    renderHomestead();
-  } else if (history.state.ais && !history.state.opa && !history.state.homestead) {
-    console.log('Has ais, missing other required props (opa,homestead)', history.state);
+  } else if (history.state.ais && !history.state.opa) {
+    console.log('Has ais, missing other required props (opa)', history.state);
     renderSa();
     getOpaData();
   } else {
     app.hooks.content.append(app.hooks.loading);
-    console.log('Did not have all required props (ais,opa,homestead)', history.state);
+    console.log('Did not have all required props (ais,opa)', history.state);
     getSaData();
   }
 
@@ -55,12 +54,6 @@ app.views.property = function (accountNumber) {
   //   renderOpaDetails();
   // } else {
   //   if (!alreadyGettingOpaData) getOpaData();
-  // }
-
-  // if (history.state.homestead){
-  //   renderHomestead();
-  // } else {
-  //   getHomestead();
   // }
 
   // if (history.state.sa) {
@@ -91,12 +84,6 @@ app.views.property = function (accountNumber) {
           history.state = state;
         }
 
-        if (!state.homestead) {
-          getHomestead();
-        } else {
-          renderHomestead();
-        }
-
         renderOpa();
         renderOpaDetails();
 
@@ -105,43 +92,6 @@ app.views.property = function (accountNumber) {
         history.replaceState({error: true}, '');
         renderError();
       });
-  }
-
-  // Gets two fields that are missing from the OPA property assessments in
-  // Socrata: homestead exemption and beginning point.
-  function getHomestead ()
-  {
-    var url = '//data.phila.gov/resource/crr8-9fv7.json';
-    $.ajax(
-      url,
-      {data: {account_num: accountNumber }})
-    .done(function (data) {
-      // Update state
-      var state = $.extend({}, history.state);
-      state.homestead = data.length > 0 ? data[0] : null;
-      history.replaceState(state, '');
-      renderHomestead();
-    })
-    .fail(function (data) {
-      console.log('failed to get homestead');
-    });
-  }
-
-  function renderHomestead () {
-    // get data from state
-    var data = history.state.homestead;
-
-    if ( data.homestead_exemption && data.homestead_exemption > 0 ) {
-      app.hooks.homestead.text('Yes');
-    } else {
-      app.hooks.homestead.text('No');
-    }
-
-     if ( data.beginning_point && data.homestead_exemption != '' ) {
-      app.hooks.beginningPoint.text(data.beginning_point);
-     } else {
-      app.hooks.beginningPoint.text('Not available');
-    }
   }
 
   function hasSaDetails() {
@@ -184,7 +134,7 @@ app.views.property = function (accountNumber) {
 
     // Search area
     app.hooks.propertyTitle.find('h1').text(state.address);
-    var zip_code = app.util.formatZipCode(state.opa.zip_code),
+    var zip_code = app.util.formatZipCode(state.opa && state.opa.zip_code),
         address_line_2 = 'Philadelphia, PA ' + zip_code;
     app.hooks.propertyTitle.find('.small-text').text(address_line_2);
 
@@ -423,9 +373,8 @@ app.views.property = function (accountNumber) {
     app.hooks.improvementDescription.text(state.opa.building_code_description);
     app.hooks.landArea.text(accounting.formatNumber(state.opa.total_area));
     app.hooks.improvementArea.text(accounting.formatNumber(state.opa.total_livable_area));
-    // TODO these are not in Socrata
-    // app.hooks.beginningPoint.text(state.opa.characteristics.beginning_point);
-    // app.hooks.homestead.text(state.opa.characteristics.homestead ? 'Yes' : 'No');
+    app.hooks.beginningPoint.text(state.opa.beginning_point);
+    app.hooks.homestead.text(state.opa.homestead_exemption && state.opa.homestead_exemption > 0 ? 'Yes' : 'No');
 
     opaDetailsRendered = true;
 
