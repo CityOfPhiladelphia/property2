@@ -8,7 +8,8 @@ window.app = app;
 
 // Config
 app.config = {
-  gatekeeperKey: 'c0eb3e7795b0235dfed5492fcd12a344',
+  gatekeeperKey:        'c0eb3e7795b0235dfed5492fcd12a344',
+  initialMapZoomLevel:  18,
 };
 
 // Set up pointers to useful elements

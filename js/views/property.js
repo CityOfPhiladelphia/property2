@@ -189,7 +189,10 @@ app.views.property = function (accountNumber) {
           app.globals.map.disableScrollWheelZoom();
 
           // Set center
-          app.globals.map.centerAndZoom(state.opa.shape.coordinates, 18);
+          app.globals.map.centerAndZoom(
+            state.ais.geometry.coordinates,
+            app.config.initialMapZoomLevel
+          );
 
           // If check to fix intermittent bugs
           if (!app.globals.map || !app.globals.map.graphics) {
@@ -201,7 +204,7 @@ app.views.property = function (accountNumber) {
           app.globals.map.graphics.clear();
 
           // Create a new marker
-          point = new Point(state.opa.shape.coordinates);
+          point = new Point(state.ais.geometry.coordinates);
 
           // Marker with a hole
           markerSymbol = new SimpleMarkerSymbol({
@@ -245,8 +248,8 @@ app.views.property = function (accountNumber) {
         } else {
           // Construct the map
           app.globals.map = new Map(app.hooks.map[0], {
-            center: state.opa.shape.coordinates,
-            zoom: 8,
+            center: state.ais.geometry.coordinates,
+            zoom: app.config.initialMapZoomLevel,
             smartNavigation: false
           });
 
@@ -269,7 +272,7 @@ app.views.property = function (accountNumber) {
     // Fetch StreetView data
     sv = new google.maps.StreetViewService();
     addressLatLng = new google.maps.LatLng(
-      state.opa.shape.coordinates[1], state.opa.shape.coordinates[0]);
+      state.ais.geometry.coordinates[1], state.ais.geometry.coordinates[0]);
 
     sv.getPanoramaByLocation(addressLatLng, 50, function(panoData, status) {
       var cbp = '',
@@ -284,8 +287,8 @@ app.views.property = function (accountNumber) {
 
       // Set the street view url
       app.hooks.streetViewUrl.attr('href', 'http://maps.google.com/maps?q=loc:'+
-        state.opa.shape.coordinates[1] + ',' + state.opa.shape.coordinates[0] + '&layer=c&cbll='+
-        state.opa.shape.coordinates[1] + ',' + state.opa.shape.coordinates[0] + cbp);
+        state.ais.geometry.coordinates[1] + ',' + state.ais.geometry.coordinates[0] + '&layer=c&cbll='+
+        state.ais.geometry.coordinates[1] + ',' + state.ais.geometry.coordinates[0] + cbp);
     });
   }
 
