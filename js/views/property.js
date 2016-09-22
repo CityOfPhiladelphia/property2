@@ -22,7 +22,13 @@ app.views.property = function (accountNumber) {
   app.hooks.content.children().detach();
   app.hooks.aboveContent.children().detach();
 
-  // Toggle loading messages, content panels
+  // If there's an error, render it and stop there.
+  if (history.state.error) {
+    renderError(history.state.error);
+    return;
+  }
+
+  // Show loading messages
   app.hooks.valuationStatus.removeClass('hide');
   app.hooks.trashStatus.removeClass('hide');
   app.hooks.serviceAreaStatus.removeClass('hide');
@@ -32,7 +38,6 @@ app.views.property = function (accountNumber) {
 
   if (!history.state) history.replaceState({}, '');
 
-  if (history.state.error) renderError();
 
   if (history.state.ais && history.state.opa) {
     console.log('Has all required props (ais,opa)', history.state);
@@ -49,19 +54,6 @@ app.views.property = function (accountNumber) {
     getSaData();
   }
 
-  // The less-detailed search result contains address_match
-  // if (hasOpaDetails()) {
-  //   renderOpaDetails();
-  // } else {
-  //   if (!alreadyGettingOpaData) getOpaData();
-  // }
-
-  // if (history.state.sa) {
-  //   renderSa();
-  // } else if (history.state.address && !alreadyGettingOpaData) {
-  //   getSaData();
-  // }
-
   function hasOpaDetails() {
     // mailing_address_1 is only included in detailed results, not the
     // basic stuff that comes back from the geocode.
@@ -70,12 +62,22 @@ app.views.property = function (accountNumber) {
 
   function getOpaData () {
     alreadyGettingOpaData = true;
-    $.ajax('//data.phila.gov/resource/w7rb-qrn8.json?parcel_number=' + accountNumber,
-      {dataType: app.settings.ajaxType})
+    params = {parcel_number: accountNumber};
+    $.ajax('//data.phila.gov/resource/w7rb-qrn8.json',
+      {
+        dataType: app.config.ajaxType,
+        data: params,
+      }
+    )
+      .then(function (res) {
+        var d = $.Deferred();
+        // make sure we got at least one result
+        res.length > 0 ? d.resolve(res[0]) : d.reject();
+        return d.promise();
+      })
       .done(function (data) {
         var state = $.extend({}, history.state);
-        var property = data[0];
-        state.opa = property;
+        state.opa = data;
         state.address = state.ais.properties.opa_address;
 
         if (app.globals.historyState) {
@@ -86,11 +88,11 @@ app.views.property = function (accountNumber) {
 
         renderOpa();
         renderOpaDetails();
-
       })
       .fail(function () {
-        history.replaceState({error: true}, '');
-        renderError();
+        var error = app.config.defaultError;
+        history.replaceState({error: error}, '');
+        renderError(error);
       });
   }
 
@@ -104,11 +106,10 @@ app.views.property = function (accountNumber) {
     };
 
     $.ajax( 'https://api.phila.gov/ais/v1/account/' + accountNumber,
-      {data: params, dataType: app.settings.ajaxType})
+      {data: params, dataType: app.config.ajaxType})
       .done(function (data) {
         var state = $.extend({}, history.state);
         var property, href, withUnit;
-
         state.ais = data;
 
         if (app.globals.historyState) {
@@ -116,12 +117,15 @@ app.views.property = function (accountNumber) {
         } else {
           history.state = state;
         }
+
         renderSa();
         getOpaData();
       })
       .fail(function () {
-        history.replaceState({error: 'Failed to retrieve results. Please try another search.'}, '');
-        render();
+        var error = app.config.defaultError;
+        history.replaceState({error: error}, '');
+        // render();
+        renderError(error);
       });
   }
 
@@ -476,9 +480,9 @@ app.views.property = function (accountNumber) {
     app.hooks.serviceAreaPanel.removeClass('hide');
   }
 
-  function renderError () {
+  function renderError (error) {
     app.hooks.propertySecondary.hide();
-    app.hooks.content.text('An error occurred trying to retrieve that property. Please try again.');
+    app.hooks.content.text(error);
   }
 
   // // TODO Get L&I data

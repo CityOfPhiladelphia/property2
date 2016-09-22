@@ -8,8 +8,10 @@ window.app = app;
 
 // Config
 app.config = {
+  ajaxType:             $.support.cors ? 'json' : 'jsonp',
   gatekeeperKey:        'c0eb3e7795b0235dfed5492fcd12a344',
   initialMapZoomLevel:  18,
+  defaultError:         'Failed to retrieve results. Please try another search.',
 };
 
 // Set up pointers to useful elements
@@ -146,11 +148,6 @@ app.hooks.searchFormContainer.find('form').on('submit', function (e) {
     app.views.results(params);
   }
 });
-
-// global settings
-app.settings = {
-  ajaxType: $.support.cors ? 'json' : 'jsonp'
-};
 
 // global variables
 app.globals = {};

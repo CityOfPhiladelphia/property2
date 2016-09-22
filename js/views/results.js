@@ -68,7 +68,7 @@ app.views.results = function (parsedQuery) {
     };
 
     $.ajax( 'https://api.phila.gov/ais/v1/' + endpoint,
-      {data: params, dataType: app.settings.ajaxType})
+      {data: params, dataType: app.config.ajaxType})
       .done(function (aisData) {
         var property, accountNumber, href, withUnit;
 
@@ -95,7 +95,7 @@ app.views.results = function (parsedQuery) {
         } else {
           // Fetch market_value, sale data from OPA dataset
           var opaUrl = constructOpaUrl(aisData.features);
-          $.ajax(opaUrl, {dataType: app.settings.ajaxType})
+          $.ajax(opaUrl, {dataType: app.config.ajaxType})
           .done(function (opaData) {
             var keyedOpaData = keyBy(opaData, 'parcel_number')
             $.each(aisData.features, function (index, feature) {
@@ -119,7 +119,8 @@ app.views.results = function (parsedQuery) {
         }
       })
       .fail(function () {
-        history.replaceState({error: 'Failed to retrieve results. Please try another search.'}, '');
+        var error = app.config.defaultError;
+        history.replaceState({error: error}, '');
         render();
       });
   }
@@ -186,11 +187,11 @@ app.views.results = function (parsedQuery) {
           };
 
           $.ajax('https://api.phila.gov/ais/v1/' + endpoint,
-                 {data: params, dataType: app.settings.ajaxType})
+                 {data: params, dataType: app.config.ajaxType})
             .done(function (aisData) {
               // Fetch market_value, sale data from OPA dataset
               var opaUrl = constructOpaUrl(aisData.features);
-              $.ajax(opaUrl, {dataType: app.settings.ajaxType})
+              $.ajax(opaUrl, {dataType: app.config.ajaxType})
               .done(function (opaData) {
                 var keyedOpaData = keyBy(opaData, 'parcel_number')
                 $.each(aisData.features, function (index, feature) {
