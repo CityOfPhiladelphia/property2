@@ -18,7 +18,7 @@ app.views.property = function (accountNumber) {
   app.hooks.searchBox.removeClass('medium-16').addClass('medium-10 float-right');
 
   // Clear existing elements out of the way
-  app.hooks.valuationTable.detach();
+  if (app.hooks.valuationTable) app.hooks.valuationTable.detach();
   app.hooks.content.children().detach();
   app.hooks.aboveContent.children().detach();
 
