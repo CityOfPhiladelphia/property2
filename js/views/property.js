@@ -22,12 +22,6 @@ app.views.property = function (accountNumber) {
   app.hooks.content.children().detach();
   app.hooks.aboveContent.children().detach();
 
-  // If there's an error, render it and stop there.
-  if (history.state.error) {
-    renderError(history.state.error);
-    return;
-  }
-
   // Show loading messages
   app.hooks.valuationStatus.removeClass('hide');
   app.hooks.trashStatus.removeClass('hide');
@@ -38,6 +32,11 @@ app.views.property = function (accountNumber) {
 
   if (!history.state) history.replaceState({}, '');
 
+  // If there's an error, render it and stop there.
+  if (history.state.error) {
+    renderError(history.state.error);
+    return;
+  }
 
   if (history.state.ais && history.state.opa) {
     console.log('Has all required props (ais,opa)', history.state);
