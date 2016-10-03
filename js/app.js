@@ -6,6 +6,14 @@ var app = {};
 // Expose it for introspection
 window.app = app;
 
+// Config
+app.config = {
+  ajaxType:             $.support.cors ? 'json' : 'jsonp',
+  gatekeeperKey:        'c0eb3e7795b0235dfed5492fcd12a344',
+  initialMapZoomLevel:  18,
+  defaultError:         'Failed to retrieve results. Please try another search.',
+};
+
 // Set up pointers to useful elements
 app.hooks = {};
 
@@ -141,11 +149,6 @@ app.hooks.searchFormContainer.find('form').on('submit', function (e) {
   }
 });
 
-// global settings
-app.settings = {
-  ajaxType: $.support.cors ? 'json' : 'jsonp'
-};
-
 // global variables
 app.globals = {};
 
@@ -193,13 +196,34 @@ if (history.state === undefined){
 app.util = {};
 
 // Get a full address with unit included from OPA property
-app.util.addressWithUnit = function (property) {
-  var unit = property.unit || '';
-  if (unit) unit = ' #' + unit.replace(/^0+/, '');
-  return property.full_address + unit;
-};
+// This may not be needed after migrating to AIS
+// app.util.address = function (property) {
+//   var unit = property.unit;
+//   // Trim leading zeros
+//   if (unit) {
+//     var unitTrimmed = unit.replace(/^0+/, '');
+//     if (unitTrimmed.length > 0) unit = unitTrimmed;
+//     else unit = null;
+//   }
+//   // Handle different address keys in OPA, Socrata
+//   var address = property.full_address || property.location;
+//   address += (unit ? ' #' + unit : '');
+//   return address;
+// };
 
-app.util.normalizeSearchQuery = function(data) {
+// Form a well-formatted ZIP code.
+app.util.formatZipCode = function (zip) {
+  if (zip) {
+    if (!(typeof zip == 'string' || zip instanceof String)) {
+      zip = zip.toString();
+    }
+    if (zip.length === 9) zip  = [zip.slice(0, 5), '-', zip.slice(5)].join('');
+  }
+  else zip = '';
+  return zip;
+}
+
+app.util.normalizeSearchQuery = function (data) {
   var parsedQuery, label;
 
   if (data.an) {
@@ -246,7 +270,7 @@ app.util.normalizeSearchQuery = function(data) {
   return parsedQuery;
 };
 
-app.util.cleanPropertyQuery = function(query) {
+app.util.cleanPropertyQuery = function (query) {
   if (!query) {
     return '';
   }
@@ -255,16 +279,7 @@ app.util.cleanPropertyQuery = function(query) {
   return query.replace(/\./g, ' ').replace(/ {2,}/g, ' ').replace(/#/g, '').trim().toUpperCase();
 };
 
-// Pull a human-readable sales date from what the OPA API gives us
-app.util.formatSalesDate = function (salesDate) {
-  var d, m;
-  if (m = /(-?\d+)-/.exec(salesDate)) {
-    d = new Date(+m[1]);
-    return (d.getMonth() + 1) + '/' + d.getDate() + '/' +  d.getFullYear();
-  } else return '';
-};
-
-app.util.abbrevToFullDay = function(abbrev) {
+app.util.abbrevToFullDay = function (abbrev) {
   switch(abbrev) {
     case 'SUN': return 'Sunday';
     case 'MON': return 'Monday';
@@ -295,7 +310,7 @@ app.util.serializeObject = function (form) {
 };
 
 // Serialize an object to query string params
-app.util.serializeQueryStringParams = function(obj) {
+app.util.serializeQueryStringParams = function (obj) {
   var str = [];
   for(var p in obj) {
     if (obj.hasOwnProperty(p)) {
