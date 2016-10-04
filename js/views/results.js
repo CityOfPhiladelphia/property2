@@ -62,7 +62,7 @@ app.views.results = function (parsedQuery) {
 
   function getData () {
     var params = {
-      gatekeeperKey: app.config['gatekeeperKey'],
+      // gatekeeperKey: app.config['gatekeeperKey'],
       include_units: null,
       opa_only: null,
     };
@@ -180,7 +180,7 @@ app.views.results = function (parsedQuery) {
         seeMoreA.on('click', function (e) {
 
           var params = {
-            gatekeeperKey: app.config['gatekeeperKey'],
+            // gatekeeperKey: app.config['gatekeeperKey'],
             include_units: null,
             opa_only: null,
             page: state.page + 1
