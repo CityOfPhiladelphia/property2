@@ -325,3 +325,20 @@ accounting.settings.currency.precision = 0;
 
 //things to do on small screens
 var smallScreens = $( window ).width() >= '480';
+
+app.util.constructTencode = function (aisObj) {
+  var props = aisObj.properties,
+      streetCode = props.street_code,
+      addressLow = props.address_low.toString(),
+      addressLowPadded = '0'.repeat(5 - addressLow.length) + addressLow,
+      unitNum = props.unit_num,
+      tencode = streetCode + addressLowPadded;
+
+  // check for unit num and pad
+  if (unitNum.length > 0) {
+    var unitNumPadded = '0'.repeat(7 - unitNum.length) + unitNum;
+    tencode += unitNumPadded; 
+  }
+
+  return tencode;
+}
