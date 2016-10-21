@@ -54,6 +54,7 @@
     <![endif]-->
 
     <div id="application" class="page">
+      <a class="skip-link screen-reader-text" href="#maincontent">Skip to content</a>
       <div data-swiftype-index="false" id="alpha-alert">
         <div class="row">
           <div class="large-18 columns">
@@ -81,8 +82,6 @@
               <h1 data-hook="app-title" class="page-title">Property</h1>
             </div>
           </div>
-
-          <a class="skip-link screen-reader-text" href="#content">Skip to content</a>
         </div>
         <div class="row expanded">
           <div class="columns">
@@ -99,79 +98,79 @@
           </div>
         </div>
       </header>
+      <main id="maincontent">
+        <div data-hook="above-content" class="row"></div>
+        <div class="search-head">
+          <div class="row">
+            <div data-hook="search-right" class="medium-4 columns">&nbsp;</div>
+            <div data-hook="search-box" class="search-box medium-16 columns">
 
-      <div data-hook="above-content" class="row"></div>
-      <div class="search-head">
-        <div class="row">
-          <div data-hook="search-right" class="medium-4 columns">&nbsp;</div>
-          <div data-hook="search-box" class="search-box medium-16 columns">
+              <div class="search">
+                <div class="search-select float-left" data-hook="search-select">
+                  <strong data-hook="search-select-label" class="float-left">Address</strong> <i class="fa fa-caret-down fa-lg"></i>
 
-            <div class="search">
-              <div class="search-select float-left" data-hook="search-select">
-                <strong data-hook="search-select-label" class="float-left">Address</strong> <i class="fa fa-caret-down fa-lg"></i>
+                  <ul class="search-select-options no-bullet hide" data-hook="search-select-options">
+                    <li data-searchtype="address"><label>Address</label> <small>1234 Market St</small></li>
+                    <li data-searchtype="block"><label>Block</label> <small>1200 Market St</small></li>
+                    <li data-searchtype="owner"><label>Owner</label> <small>Doe John</small></li>
+                    <li data-searchtype="account"><label>Account</label> <small>883309000</small></li>
+                    <!-- <li data-searchtype="intersection"><label>Intersection</label> <small>12th &amp; Market</small></li> -->
+                  </ul>
+                </div>
 
-                <ul class="search-select-options no-bullet hide" data-hook="search-select-options">
-                  <li data-searchtype="address"><label>Address</label> <small>1234 Market St</small></li>
-                  <li data-searchtype="block"><label>Block</label> <small>1200 Market St</small></li>
-                  <li data-searchtype="owner"><label>Owner</label> <small>Doe John</small></li>
-                  <li data-searchtype="account"><label>Account</label> <small>883309000</small></li>
-                  <!-- <li data-searchtype="intersection"><label>Intersection</label> <small>12th &amp; Market</small></li> -->
-                </ul>
+                <div data-hook="search-form-container" class="float-left search-form-container">
+                  <!-- Address -->
+                  <form data-hook="search-address" class="search-form-option">
+                    <input type="text" class="float-left field-lg" data-hook="search-address" name="a" placeholder="1234 Market St">
+                    <input type="text" class="float-left field-sm" data-hook="search-unit" name="u" placeholder="Unit #">
+                    <input type="submit" value="submit">
+                  </form>
+
+                  <!-- Block -->
+                  <form data-hook="search-block" class="search-form-option hide">
+                    <input type="text" class="float-left field-sm" data-hook="search-blocknum" name="bn" placeholder="1200">
+                    <input type="text" class="float-left field-lg" data-hook="search-blockstreet" name="bs" placeholder="Market St">
+                    <input type="submit" value="submit">
+                  </form>
+
+                  <!-- Owner -->
+                  <form data-hook="search-owner" class="search-form-option hide">
+                    <input type="text" class="float-left" name="o" placeholder="Doe John">
+                    <input type="submit" value="submit">
+                  </form>
+
+                  <!-- Account -->
+                  <form data-hook="search-account" class="search-form-option hide">
+                    <input type="text" class="float-left" name="an" placeholder="883309000">
+                    <input type="submit" value="submit">
+                  </form>
+
+                  <!-- Intersection -->
+                  <!-- <form data-hook="search-intersection" class="search-form-option hide">
+                    <input type="text" class="float-left field-md" data-hook="search-int-street1" name="s1" placeholder="12th St">
+                    <input type="text" class="float-left field-md" data-hook="search-int-street2" name="s2" placeholder="Market St">
+                    <input type="submit" value="submit">
+                  </form> -->
+                </div>
               </div>
+              <div data-hook="search-select-close" class="search-select-close hide"></div>
 
-              <div data-hook="search-form-container" class="float-left search-form-container">
-                <!-- Address -->
-                <form data-hook="search-address" class="search-form-option">
-                  <input type="text" class="float-left field-lg" data-hook="search-address" name="a" placeholder="1234 Market St">
-                  <input type="text" class="float-left field-sm" data-hook="search-unit" name="u" placeholder="Unit #">
-                  <input type="submit" value="submit">
-                </form>
-
-                <!-- Block -->
-                <form data-hook="search-block" class="search-form-option hide">
-                  <input type="text" class="float-left field-sm" data-hook="search-blocknum" name="bn" placeholder="1200">
-                  <input type="text" class="float-left field-lg" data-hook="search-blockstreet" name="bs" placeholder="Market St">
-                  <input type="submit" value="submit">
-                </form>
-
-                <!-- Owner -->
-                <form data-hook="search-owner" class="search-form-option hide">
-                  <input type="text" class="float-left" name="o" placeholder="Doe John">
-                  <input type="submit" value="submit">
-                </form>
-
-                <!-- Account -->
-                <form data-hook="search-account" class="search-form-option hide">
-                  <input type="text" class="float-left" name="an" placeholder="883309000">
-                  <input type="submit" value="submit">
-                </form>
-
-                <!-- Intersection -->
-                <!-- <form data-hook="search-intersection" class="search-form-option hide">
-                  <input type="text" class="float-left field-md" data-hook="search-int-street1" name="s1" placeholder="12th St">
-                  <input type="text" class="float-left field-md" data-hook="search-int-street2" name="s2" placeholder="Market St">
-                  <input type="submit" value="submit">
-                </form> -->
-              </div>
             </div>
-            <div data-hook="search-select-close" class="search-select-close hide"></div>
-
+            <div data-hook="search-left" class="medium-4 columns">&nbsp;</div>
           </div>
-          <div data-hook="search-left" class="medium-4 columns">&nbsp;</div>
-        </div>
-        <div data-hook="owner-search-disclaimer" class="row hide">
-          <div class="small-24 columns">
-            <p class="center mtm mbn">
-              Your IP address is <strong data-hook="owner-search-disclaimer-ip" data-default="170.115.248.21">(<i class="fa fa-spinner fa-lg spin"></i> Loading)</strong> and you searched for properties owned by <strong data-hook="owner-search-disclaimer-query">(<i class="fa fa-spinner fa-lg spin"></i> Loading)</strong> on <span data-hook="owner-search-disclaimer-datetime"></span>.
-              <span data-tooltip aria-haspopup="true" class="has-tip" title="Property owner searches are recorded to encourage safe and responsible use. The data shown here represents your visit to this page."><i class="fa fa-info-circle"></i></span>
-            </p>
+          <div data-hook="owner-search-disclaimer" class="row hide">
+            <div class="small-24 columns">
+              <p class="center mtm mbn">
+                Your IP address is <strong data-hook="owner-search-disclaimer-ip" data-default="170.115.248.21">(<i class="fa fa-spinner fa-lg spin"></i> Loading)</strong> and you searched for properties owned by <strong data-hook="owner-search-disclaimer-query">(<i class="fa fa-spinner fa-lg spin"></i> Loading)</strong> on <span data-hook="owner-search-disclaimer-datetime"></span>.
+                <span data-tooltip aria-haspopup="true" class="has-tip" title="Property owner searches are recorded to encourage safe and responsible use. The data shown here represents your visit to this page."><i class="fa fa-info-circle"></i></span>
+              </p>
+            </div>
           </div>
         </div>
+        <div data-hook="content" class="row"></div>
+        <div data-hook="below-content" class="row"></div>
       </div>
-      <div data-hook="content" class="row"></div>
-      <div data-hook="below-content" class="row"></div>
-    </div>
-
+    </main>
     <!-- Begin Footer -->
     <div class="row feedback">
       <div class="small-24 columns">
