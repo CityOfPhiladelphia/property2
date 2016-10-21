@@ -6,6 +6,14 @@ var app = {};
 // Expose it for introspection
 window.app = app;
 
+// Config
+app.config = {
+  ajaxType:             $.support.cors ? 'json' : 'jsonp',
+  gatekeeperKey:        'c0eb3e7795b0235dfed5492fcd12a344',
+  initialMapZoomLevel:  18,
+  defaultError:         'Failed to retrieve results. Please try another search.',
+};
+
 // Set up pointers to useful elements
 app.hooks = {};
 
@@ -66,6 +74,19 @@ app.hooks.appTitle.contents().wrap(app.hooks.frontLink);
 app.hooks.searchSelect.on('click', function(e) {
   e.preventDefault();
   app.hooks.searchSelectOptions.toggleClass('hide');
+  app.hooks.searchSelectClose.toggleClass('hide');
+});
+
+app.hooks.searchSelectClose.on('click', function(e) {
+  e.preventDefault();
+  app.hooks.searchSelectOptions.toggleClass('hide');
+  app.hooks.searchSelectClose.toggleClass('hide');
+});
+$('.search-form-option').on('click', function(e) {
+  if ( !$('.search-select-close').hasClass('hide') ){
+    app.hooks.searchSelectOptions.addClass('hide');
+    app.hooks.searchSelectClose.addClass('hide');
+  }
 });
 
 app.hooks.searchSelectOptions.find('li').on('click', function(e) {
@@ -128,11 +149,6 @@ app.hooks.searchFormContainer.find('form').on('submit', function (e) {
   }
 });
 
-// global settings
-app.settings = {
-  ajaxType: $.support.cors ? 'json' : 'jsonp'
-};
-
 // global variables
 app.globals = {};
 
@@ -180,13 +196,34 @@ if (history.state === undefined){
 app.util = {};
 
 // Get a full address with unit included from OPA property
-app.util.addressWithUnit = function (property) {
-  var unit = property.unit || '';
-  if (unit) unit = ' #' + unit.replace(/^0+/, '');
-  return property.full_address + unit;
-};
+// This may not be needed after migrating to AIS
+// app.util.address = function (property) {
+//   var unit = property.unit;
+//   // Trim leading zeros
+//   if (unit) {
+//     var unitTrimmed = unit.replace(/^0+/, '');
+//     if (unitTrimmed.length > 0) unit = unitTrimmed;
+//     else unit = null;
+//   }
+//   // Handle different address keys in OPA, Socrata
+//   var address = property.full_address || property.location;
+//   address += (unit ? ' #' + unit : '');
+//   return address;
+// };
 
-app.util.normalizeSearchQuery = function(data) {
+// Form a well-formatted ZIP code.
+app.util.formatZipCode = function (zip) {
+  if (zip) {
+    if (!(typeof zip == 'string' || zip instanceof String)) {
+      zip = zip.toString();
+    }
+    if (zip.length === 9) zip  = [zip.slice(0, 5), '-', zip.slice(5)].join('');
+  }
+  else zip = '';
+  return zip;
+}
+
+app.util.normalizeSearchQuery = function (data) {
   var parsedQuery, label;
 
   if (data.an) {
@@ -233,7 +270,7 @@ app.util.normalizeSearchQuery = function(data) {
   return parsedQuery;
 };
 
-app.util.cleanPropertyQuery = function(query) {
+app.util.cleanPropertyQuery = function (query) {
   if (!query) {
     return '';
   }
@@ -242,16 +279,7 @@ app.util.cleanPropertyQuery = function(query) {
   return query.replace(/\./g, ' ').replace(/ {2,}/g, ' ').replace(/#/g, '').trim().toUpperCase();
 };
 
-// Pull a human-readable sales date from what the OPA API gives us
-app.util.formatSalesDate = function (salesDate) {
-  var d, m;
-  if (m = /(-?\d+)-/.exec(salesDate)) {
-    d = new Date(+m[1]);
-    return (d.getMonth() + 1) + '/' + d.getDate() + '/' +  d.getFullYear();
-  } else return '';
-};
-
-app.util.abbrevToFullDay = function(abbrev) {
+app.util.abbrevToFullDay = function (abbrev) {
   switch(abbrev) {
     case 'SUN': return 'Sunday';
     case 'MON': return 'Monday';
@@ -282,7 +310,7 @@ app.util.serializeObject = function (form) {
 };
 
 // Serialize an object to query string params
-app.util.serializeQueryStringParams = function(obj) {
+app.util.serializeQueryStringParams = function (obj) {
   var str = [];
   for(var p in obj) {
     if (obj.hasOwnProperty(p)) {
@@ -297,3 +325,65 @@ accounting.settings.currency.precision = 0;
 
 //things to do on small screens
 var smallScreens = $( window ).width() >= '480';
+
+app.util.constructTencode = function (aisObj) {
+  var props = aisObj.properties,
+      streetCode = props.street_code,
+      addressLow = props.address_low.toString(),
+      addressLowPadded = '0'.repeat(5 - addressLow.length) + addressLow,
+      unitNum = props.unit_num,
+      tencode = streetCode + addressLowPadded;
+
+  // check for unit num and pad
+  if (unitNum.length > 0) {
+    var unitNumPadded = '0'.repeat(7 - unitNum.length) + unitNum;
+    tencode += unitNumPadded; 
+  }
+
+  return tencode;
+}
+
+// polyfill for String.repeat() on browsers without ES6 support
+if (!String.prototype.repeat) {
+  String.prototype.repeat = function(count) {
+    'use strict';
+    if (this == null) {
+      throw new TypeError('can\'t convert ' + this + ' to object');
+    }
+    var str = '' + this;
+    count = +count;
+    if (count != count) {
+      count = 0;
+    }
+    if (count < 0) {
+      throw new RangeError('repeat count must be non-negative');
+    }
+    if (count == Infinity) {
+      throw new RangeError('repeat count must be less than infinity');
+    }
+    count = Math.floor(count);
+    if (str.length == 0 || count == 0) {
+      return '';
+    }
+    // Ensuring count is a 31-bit integer allows us to heavily optimize the
+    // main part. But anyway, most current (August 2014) browsers can't handle
+    // strings 1 << 28 chars or longer, so:
+    if (str.length * count >= 1 << 28) {
+      throw new RangeError('repeat count must not overflow maximum string size');
+    }
+    var rpt = '';
+    for (;;) {
+      if ((count & 1) == 1) {
+        rpt += str;
+      }
+      count >>>= 1;
+      if (count == 0) {
+        break;
+      }
+      str += str;
+    }
+    // Could we try:
+    // return Array(count + 1).join(this);
+    return rpt;
+  }
+}

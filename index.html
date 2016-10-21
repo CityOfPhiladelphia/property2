@@ -90,7 +90,7 @@
               <div data-swiftype-index="false" class="large-24 columns">
                 <nav>
                   <ul data-hook="crumbs" class="breadcrumbs">
-                    <li><a href="/">alpha.phila.gov</a></li>
+                    <li><a href="http://alpha.phila.gov">alpha.phila.gov</a></li>
                     <li>Property</li>
                   </ul>
                 </nav>
@@ -115,7 +115,7 @@
                   <li data-searchtype="block"><label>Block</label> <small>1200 Market St</small></li>
                   <li data-searchtype="owner"><label>Owner</label> <small>Doe John</small></li>
                   <li data-searchtype="account"><label>Account</label> <small>883309000</small></li>
-                  <li data-searchtype="intersection"><label>Intersection</label> <small>12th &amp; Market</small></li>
+                  <!-- <li data-searchtype="intersection"><label>Intersection</label> <small>12th &amp; Market</small></li> -->
                 </ul>
               </div>
 
@@ -147,13 +147,14 @@
                 </form>
 
                 <!-- Intersection -->
-                <form data-hook="search-intersection" class="search-form-option hide">
+                <!-- <form data-hook="search-intersection" class="search-form-option hide">
                   <input type="text" class="float-left field-md" data-hook="search-int-street1" name="s1" placeholder="12th St">
                   <input type="text" class="float-left field-md" data-hook="search-int-street2" name="s2" placeholder="Market St">
                   <input type="submit">
-                </form>
+                </form> -->
               </div>
             </div>
+            <div data-hook="search-select-close" class="search-select-close hide"></div>
 
           </div>
           <div data-hook="search-left" class="medium-4 columns">&nbsp;</div>
@@ -263,7 +264,7 @@
           <div class="columns medium-centered">
             <p class="mam h3">
             View valuation and physical details of properties within the City of Philadelphia.</p>
-            <p><i class="fa fa-arrow-down"></i> Use the tool below to select <span class="caps bold">address, block, owner, account</span> or <span class="caps bold">intersection</span>.</p>
+            <p><i class="fa fa-arrow-down"></i> Use the tool below to select <span class="caps bold">address, block, owner</span> or <span class="caps bold">account</span><!-- or <span class="caps bold">intersection</span>-->.</p>
           </div>
         </div>
       </div>
@@ -284,7 +285,7 @@
       <div data-hook="no-results" class="columns">0 properties found</div>
       <div data-hook="results" class="columns results-view">
         <div data-hook="count" class="medium-6 columns" style="display:none"><span id="total"></span> properties found</div>
-        <table role="grid" summary="Property search results." class="tablesaw tablesaw-stack results no-borders" data-tablesaw-mode="stack">
+        <table role="grid" summary="Property search results." class="tablesaw tablesaw-stack results no-borders" data-tablesaw-mode="stack" data-hook="results-table">
           <thead>
             <tr>
               <th scope="col">Address</th>
@@ -316,7 +317,7 @@
               <div class="text-right">
                 <a data-hook="street-view-url" href="#" class="small-text external" target="_blank">See in Google Street View</a>
               </div>
-              <div class="map-explainer"><p><small>These maps are created using data that may not represent the precise legal boundaries of each parcel. If you need access to the legal descriptions as they are contained in deeds, please refer to the Department of Records's <a href="https://secure.phila.gov/parcelexplorerauth/">Parcel Explorer</a>.</small></p></div>
+              <div class="map-explainer"><p><small>These maps are created for reference only and do not represent precise legal boundaries. If you need access to the legal descriptions as they are contained in deeds, please refer to the Department of Records's <a href="https://secure.phila.gov/parcelexplorerauth/">Parcel Explorer</a>.</small></p></div>
             </div>
           </div>
           <div class="row">
@@ -415,7 +416,7 @@
         <div data-hook="valuation-status"><i class="fa fa-spinner fa-lg spin"></i> Loading...</div>
         <div data-hook="valuation-panel" class="row hide">
           <div class="columns">
-            <table role="grid" summary="Property valuation history." class="tablesaw tablesaw-stack" data-tablesaw-mode="stack">
+            <table role="grid" summary="Property valuation history." class="tablesaw tablesaw-stack" data-tablesaw-mode="stack" data-hook='valuation-table'>
               <thead>
                 <tr>
                   <th scope="col">Year</th>
@@ -626,14 +627,14 @@
     <script src="//cdnjs.cloudflare.com/ajax/libs/foundation/6.1.2/foundation.min.js"></script>
     <script src="//cityofphiladelphia.github.io/patterns/dist/1.2.1/js/patterns.min.js"></script>
     <script src="//cdnjs.cloudflare.com/ajax/libs/accounting.js/0.4.1/accounting.min.js"></script>
-    
+    <script src="//cdnjs.cloudflare.com/ajax/libs/moment.js/2.13.0/moment.min.js"></script>
     <!-- Use defer below so that the ArcGIS library loads after the page is
          completely parsed.
          https://geonet.esri.com/message/448542#comment-469973
          https://github.com/Esri/angular-esri-map/issues/38#issuecomment-91439901
     -->
     <script src="//js.arcgis.com/3.15/" defer></script>
-    
+
     <script src="//maps.googleapis.com/maps/api/js?v=3&libraries=geometry"></script>
     <script src="js/deparam.js"></script>
     <script src="js/app.js"></script>
