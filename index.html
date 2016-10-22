@@ -121,27 +121,33 @@
                 <div data-hook="search-form-container" class="float-left search-form-container">
                   <!-- Address -->
                   <form data-hook="search-address" class="search-form-option">
-                    <input type="text" class="float-left field-lg" data-hook="search-address" name="a" placeholder="1234 Market St">
-                    <input type="text" class="float-left field-sm" data-hook="search-unit" name="u" placeholder="Unit #">
+                    <label for="search-address" class="show-for-sr">Search by block</label>
+                    <input id="search-address" type="text" class="float-left field-lg" data-hook="search-address" name="a" placeholder="1234 Market St">
+                    <label for="search-unit" class="show-for-sr">Unit number</label>
+                    <input id="search-unit" type="text" class="float-left field-sm" data-hook="search-unit" name="u" placeholder="Unit #">
                     <input type="submit" value="submit">
                   </form>
 
                   <!-- Block -->
                   <form data-hook="search-block" class="search-form-option hide">
-                    <input type="text" class="float-left field-sm" data-hook="search-blocknum" name="bn" placeholder="1200">
-                    <input type="text" class="float-left field-lg" data-hook="search-blockstreet" name="bs" placeholder="Market St">
+                    <label for="search-blocknum" class="show-for-sr">Block number</label>
+                    <input id="search-blocknum" type="text" class="float-left field-sm" data-hook="search-blocknum" name="bn" placeholder="1200">
+                    <label for="search-blockstreet" class="show-for-sr">Block street</label>
+                    <input id="search-blockstreet" type="text" class="float-left field-lg" data-hook="search-blockstreet" name="bs" placeholder="Market St">
                     <input type="submit" value="submit">
                   </form>
 
                   <!-- Owner -->
                   <form data-hook="search-owner" class="search-form-option hide">
-                    <input type="text" class="float-left" name="o" placeholder="Doe John">
+                    <label for="search-owner" class="show-for-sr">Search by owner</label>
+                    <input id="search-owner" type="text" class="float-left" name="o" placeholder="Doe John">
                     <input type="submit" value="submit">
                   </form>
 
                   <!-- Account -->
                   <form data-hook="search-account" class="search-form-option hide">
-                    <input type="text" class="float-left" name="an" placeholder="883309000">
+                    <label for="search-account" class="show-for-sr">Search by account number</label>
+                    <input id="search-account" type="text" class="float-left" name="an" placeholder="883309000">
                     <input type="submit" value="submit">
                   </form>
 
@@ -223,7 +229,7 @@
 
     <!-- End Footer -->
     <div id="terms-modal" class="reveal" data-reveal aria-labelledby="modal-title" aria-hidden="true" role="dialog">
-      <h3>Terms of Use</h3>
+      <h3 id="modal-title">Terms of Use</h3>
       <p>The Office of Property Assessment of the City of Philadelphia (OPA) makes every effort to produce and publish on this site the most accurate and current information available to it. Our ownership records are based on deeds as recorded with the City of Philadelphia Department of Records (DOR), and we revise these records for currency as often as we are able. You are responsible, however, for verifying the accuracy of the information on this site by referring to the corresponding deed(s).</p>
       <p>The OPA is not an abstract company and we do not determine who has the better title to a property if the public records conflict as to ownership. The information on this site is not intended to indicate the quality of title or priority of interest in any property, and you are advised not to rely on it for that purpose.</p>
       <p>The market values and assessed values published on this site may not reflect changes made since the last update in our database. We do not have any information as to whether taxes have been paid for any particular property.</p>
