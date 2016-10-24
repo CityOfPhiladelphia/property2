@@ -36,7 +36,8 @@ body {
 .front {
   margin-top: 1.6rem;
 }
-.panel h4{
+.panel h4,
+.panel .h4{
   color:#666;
   margin-bottom: 0;
 }
