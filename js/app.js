@@ -8,10 +8,12 @@ window.app = app;
 
 // Config
 app.config = {
-  ajaxType:             $.support.cors ? 'json' : 'jsonp',
-  gatekeeperKey:        'c0eb3e7795b0235dfed5492fcd12a344',
-  initialMapZoomLevel:  18,
-  defaultError:         'Failed to retrieve results. Please try another search.',
+  ajaxType:                   $.support.cors ? 'json' : 'jsonp',
+  gatekeeperKey:              'c0eb3e7795b0235dfed5492fcd12a344',
+  initialMapZoomLevel:        18,
+  defaultError:               'Failed to retrieve results. Please try another search.',
+  propertyTaxRate:            0.013998,
+  homesteadExemptionAmount:   30000,
 };
 
 // Set up pointers to useful elements
@@ -71,31 +73,31 @@ app.hooks.crumbs.update = function (crumb) {
 // App title should link to front
 app.hooks.appTitle.contents().wrap(app.hooks.frontLink);
 
-app.hooks.searchSelect.on('click', function(e) {
+app.hooks.searchSelect.on('click', function (e) {
   e.preventDefault();
   app.hooks.searchSelectOptions.toggleClass('hide');
   app.hooks.searchSelectClose.toggleClass('hide');
 });
 
-app.hooks.searchSelectClose.on('click', function(e) {
+app.hooks.searchSelectClose.on('click', function (e) {
   e.preventDefault();
   app.hooks.searchSelectOptions.toggleClass('hide');
   app.hooks.searchSelectClose.toggleClass('hide');
 });
-$('.search-form-option').on('click', function(e) {
+$('.search-form-option').on('click', function (e) {
   if ( !$('.search-select-close').hasClass('hide') ){
     app.hooks.searchSelectOptions.addClass('hide');
     app.hooks.searchSelectClose.addClass('hide');
   }
 });
 
-app.hooks.searchSelectOptions.find('li').on('click', function(e) {
+app.hooks.searchSelectOptions.find('li').on('click', function (e) {
   e.preventDefault();
 
   var type = $(this).data('searchtype');
 
   // Reset the forms when selecting a new one
-  app.hooks.searchFormContainer.find('form').each(function(i, form) {
+  app.hooks.searchFormContainer.find('form').each(function (i, form) {
     form.reset();
   });
 
@@ -337,11 +339,25 @@ app.util.constructTencode = function (aisObj) {
   // check for unit num and pad
   if (unitNum.length > 0) {
     var unitNumPadded = '0'.repeat(7 - unitNum.length) + unitNum;
-    tencode += unitNumPadded; 
+    tencode += unitNumPadded;
   }
 
   return tencode;
 }
+
+// takes a valuation history object (as returned by socrata), tax rate, and
+// homestead amount; estimates the propery tax
+app.util.estimatePropertyTaxes = function (valuation, taxRate, homestead) {
+  var marketValue = valuation.market_value || 0,
+      taxableLand = valuation.taxable_land || 0,
+      taxableBuilding = valuation.taxable_building || 0,
+      taxable = parseInt(taxableLand) + parseInt(taxableBuilding),
+      homestead = homestead || 0,
+      taxableAdjusted = taxable - parseInt(homestead),
+      taxEstimate = taxableAdjusted * taxRate;
+
+  return taxEstimate;
+};
 
 // polyfill for String.repeat() on browsers without ES6 support
 if (!String.prototype.repeat) {
