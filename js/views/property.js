@@ -26,6 +26,12 @@ app.views.property = function (accountNumber) {
   app.hooks.content.children().detach();
   app.hooks.aboveContent.children().detach();
 
+  // Reset tax estimate elements
+  app.hooks.taxEstimateAmount.empty();
+  app.hooks.homesteadClause.addClass('hide');
+  app.hooks.homesteadPreview.addClass('hide');
+  app.hooks.taxEstimate.addClass('hide');
+
   // Show loading messages
   app.hooks.valuationStatus.removeClass('hide');
   app.hooks.trashStatus.removeClass('hide');
@@ -33,6 +39,18 @@ app.views.property = function (accountNumber) {
   app.hooks.valuationPanel.addClass('hide');
   app.hooks.trashPanel.addClass('hide');
   app.hooks.serviceAreaPanel.addClass('hide');
+
+  // Listen for clicks on Homestead Exemption preview tool
+  app.hooks.homesteadPreviewToggle.click(function (e) {
+    var shouldApplyHomestead = $(this).is(':checked'),
+        mostRecentValuation = history.state.mostRecentValuation;
+        nextTaxEstimate = app.util.estimatePropertyTaxes(
+                            mostRecentValuation,
+                            app.config.propertyTaxRate,
+                            shouldApplyHomestead ? app.config.homesteadExemptionAmount : 0
+                          );
+    app.hooks.taxEstimateAmount.text(accounting.formatMoney(nextTaxEstimate));
+  });
 
   if (!history.state) history.replaceState({}, '');
 
@@ -347,6 +365,8 @@ app.views.property = function (accountNumber) {
     var url = '//data.phila.gov/resource/npdr-96qp.json?parcel_number=' + accountNumber;
     $.ajax(url)
       .done(function (data) {
+        if (data.length === 0) return;
+
         // Sort by valuation year
         data.sort(function(a,b) {return (a.year > b.year) ? 1 : ((b.year > a.year) ? -1 : 0);} );
         data.reverse();
@@ -366,6 +386,46 @@ app.views.property = function (accountNumber) {
         // Update the Tablesaw responsive tables
         $(document).trigger('enhance.tablesaw');
 
+        /*
+        TAX ESTIMATE
+        */
+
+        app.hooks.taxEstimate.removeClass('hide');
+
+        var mostRecentValuation = data[0];
+
+        // save most recent valuation in state, for estimating taxes on the fly
+        // with/without homestead
+        var nextState = $.extend({}, history.state);
+        nextState.mostRecentValuation = mostRecentValuation;
+        if (app.globals.historyState) {
+          history.replaceState(nextState, ''); // Second param not optional in IE10
+        } else {
+          history.state = nextState;
+        }
+
+        // estimate taxes based on most recent valuation
+        // note: good test case for tax-exempt property is 1200 CHESTNUT
+        var valuationYear = mostRecentValuation.year,
+            homestead = opa.homestead_exemption,
+            taxRate = app.config.propertyTaxRate,
+            taxEstimate = app.util.estimatePropertyTaxes(
+                            mostRecentValuation,
+                            taxRate,
+                            homestead
+                          );
+
+        // render
+        app.hooks.taxEstimateAmount.text(accounting.formatMoney(taxEstimate));
+        app.hooks.taxEstimateYear.text(valuationYear);
+
+        if (homestead > 0) {
+          // render homestead amount
+          app.hooks.homesteadAmount.text(accounting.formatMoney(homestead));
+          app.hooks.homesteadClause.removeClass('hide');
+        } else {
+          app.hooks.homesteadPreview.removeClass('hide');
+        }
       })
       .fail(function () {
         // TODO show warning
