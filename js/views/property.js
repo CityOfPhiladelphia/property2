@@ -448,7 +448,6 @@ app.views.property = function (accountNumber) {
     // Public safety
     app.hooks.policePsa.text(sa.police_service_area);
     app.hooks.policeDistrict.text(sa.police_district);
-    app.hooks.policeSector.text(sa.police_sector);
     app.hooks.policeDivision.text(sa.police_division);
 
     // Streets
@@ -466,13 +465,6 @@ app.views.property = function (accountNumber) {
     // Districts
     app.hooks.planning.text(sa.planning_district);
     app.hooks.liDistrict.text(sa.li_district);
-    app.hooks.recreation.text(sa.recreation_district);
-
-    // Water
-    app.hooks.pwdMaintenance.text(sa.pwd_maint_district);
-    app.hooks.pwdPressure.text(sa.pwd_pressure_district);
-    app.hooks.waterTreatment.text(sa.pwd_treatment_plant);
-    app.hooks.waterPlate.text(sa.pwd_water_plate);
 
     // Hide status messages, load content.
     app.hooks.trashStatus.addClass('hide');
