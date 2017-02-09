@@ -17,8 +17,7 @@ app.views.results = function (parsedQuery) {
 
   var endpointMap = {
     'address': 'addresses',
-    'account': 'account', //TODO
-    'intersection': 'intersection',
+    'account': 'account',
     'block': 'block',
     'owner': 'owner',
   };
@@ -29,10 +28,6 @@ app.views.results = function (parsedQuery) {
   switch (parsedQuery.type) {
     case 'account':
       endpoint += encodeURI(parsedQuery.account);
-      break;
-    // TODO there's currently no intersection endpoint
-    case 'intersection':
-      endpoint += encodeURI(parsedQuery.street1 + '/' + parsedQuery.street2);
       break;
     case 'block':
       endpoint += encodeURI(parsedQuery.address);

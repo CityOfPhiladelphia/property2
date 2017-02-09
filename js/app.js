@@ -112,10 +112,6 @@ function showSearchOption(type) {
     app.hooks.searchSelectLabel.text('Account');
     app.hooks.searchAccount.removeClass('hide');
     break;
-  case 'intersection':
-    app.hooks.searchSelectLabel.text('Intersection');
-    app.hooks.searchIntersection.removeClass('hide');
-    break;
   case 'block':
     app.hooks.searchSelectLabel.text('Block');
     app.hooks.searchBlock.removeClass('hide');
@@ -231,14 +227,6 @@ app.util.normalizeSearchQuery = function (data) {
       type: 'account',
       label: app.util.cleanPropertyQuery(data.an),
       account: app.util.cleanPropertyQuery(data.an)
-    };
-
-  } else if (data.s1 && data.s2) {
-    parsedQuery = {
-      type: 'intersection',
-      label: app.util.cleanPropertyQuery(data.s1 + ' and ' + data.s2),
-      street1: app.util.cleanPropertyQuery(data.s1),
-      street2: app.util.cleanPropertyQuery(data.s2)
     };
 
   } else if (data.bn && data.bs) {
