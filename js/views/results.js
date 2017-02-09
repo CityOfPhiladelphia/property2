@@ -1,6 +1,8 @@
 /*global $,app*/
 
 app.views.results = function (parsedQuery) {
+  console.debug('*results*', parsedQuery)
+
   // Breadcrumbs
   app.hooks.resultsCrumb.find('b').text(parsedQuery.label);
   app.hooks.crumbs.update(app.hooks.resultsCrumb);
