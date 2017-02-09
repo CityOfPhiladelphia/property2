@@ -170,7 +170,6 @@ app.views.property = function (accountNumber) {
     app.hooks.belowContent.append(app.hooks.propertySecondary);
 
     // Set OPA inquiry link
-    console.log('about to construct tencode', state);
     var tencode = app.util.constructTencode(state.ais);
     app.hooks.opaInquiryUrl.attr('href', 'http://opa.phila.gov/opa.apps/Help/CitizenMain.aspx?sch=Ctrl2&s=1&url=search&id=' + tencode);
 
