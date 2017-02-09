@@ -50,76 +50,83 @@ app.views.results = function (parsedQuery) {
   app.hooks.content.empty(); // Remove loading message
   app.hooks.ownerSearchDisclaimer.addClass('hide');
 
-  if (history.state && app.globals.historyState) {
-    render();
+  var state = history.state;
+
+  if (app.globals.historyState && state && state.ais) {
+    didGetAisData(history.state.ais);
   } else {
     app.hooks.content.append(app.hooks.loading);
-    getData()
+    getAisData();
   }
 
-  function getData () {
+  function getAisData () {
     var params = {
       // gatekeeperKey: app.config['gatekeeperKey'],
       include_units: null,
       opa_only: null,
     };
 
-    $.ajax( 'https://api.phila.gov/ais/v1/' + endpoint,
-      {data: params, dataType: app.config.ajaxType})
-      .done(function (aisData) {
-        var property, accountNumber, href, withUnit;
-
-        if (!app.globals.historyState) history.state = {};
-
-        // For business reasons, owner searches need to always show on the
-        // results page for the disclaimer.
-        if (!isOwnerSearch && (
-            aisData.type == 'Feature' ||
-            aisData.features.length === 1)) {
-          // If only one property go straight to property view
-          feature = (aisData.features ? aisData.features[0] : aisData);
-          attrs = feature.properties;
-          accountNumber = attrs.opa_account_num;
-          href = '?' + $.param({p: accountNumber});
-          withUnit = feature.properties.street_address;
-
-          history.replaceState({
-            ais: feature,
-            address: withUnit,
-          }, withUnit, href);
-
-          app.views.property(accountNumber);
-        } else {
-          // Fetch market_value, sale data from OPA dataset
-          var opaUrl = constructOpaUrl(aisData.features);
-          $.ajax(opaUrl, {dataType: app.config.ajaxType})
-          .done(function (opaData) {
-            var keyedOpaData = keyBy(opaData, 'parcel_number')
-            $.each(aisData.features, function (index, feature) {
-              $.extend(feature.properties, keyedOpaData[feature.properties.opa_account_num] || {})
-            })
-
-            var newState = $.extend({}, history.state);
-            // Used for rendering a special owner search disclaimer
-            if (isOwnerSearch) {
-              aisData = $.extend({isOwnerSearch: true}, aisData);
-            }
-            newState = aisData
-
-            if (!app.globals.historyState) {
-              history.state = newState;
-            } else {
-              history.replaceState(newState, ''); // Second param not optional in IE10
-            }
-            render();
-          });
-        }
-      })
-      .fail(function () {
+    $.ajax({
+      url: 'https://api.phila.gov/ais/v1/' + endpoint,
+      data: params,
+      dataType: app.config.ajaxType,
+      success: didGetAisData,
+      fail: function () {
         var error = app.config.defaultError;
         history.replaceState({error: error}, '');
         render();
-      });
+      },
+    });
+  }
+
+  function didGetAisData (aisData) {
+    var property, accountNumber, href, withUnit;
+
+    if (!app.globals.historyState) history.state = {};
+
+    // For business reasons, owner searches need to always show on the
+    // results page for the disclaimer.
+    if (!isOwnerSearch && (
+      aisData.type == 'Feature' ||
+      aisData.features.length === 1)) {
+        // If only one property go straight to property view
+        feature = (aisData.features ? aisData.features[0] : aisData);
+        attrs = feature.properties;
+        accountNumber = attrs.opa_account_num;
+        href = '?' + $.param({p: accountNumber});
+        withUnit = feature.properties.street_address;
+
+        history.replaceState({
+          ais: feature,
+          address: withUnit,
+        }, withUnit, href);
+
+        app.views.property(accountNumber);
+      } else {
+        // Fetch market_value, sale data from OPA dataset
+        var opaUrl = constructOpaUrl(aisData.features);
+        $.ajax(opaUrl, {dataType: app.config.ajaxType})
+        .done(function (opaData) {
+          var keyedOpaData = keyBy(opaData, 'parcel_number')
+          $.each(aisData.features, function (index, feature) {
+            $.extend(feature.properties, keyedOpaData[feature.properties.opa_account_num] || {})
+          })
+
+          var newState = $.extend({}, history.state);
+          // Used for rendering a special owner search disclaimer
+          if (isOwnerSearch) {
+            aisData = $.extend({isOwnerSearch: true}, aisData);
+          }
+          newState = aisData
+
+          if (!app.globals.historyState) {
+            history.state = newState;
+          } else {
+            history.replaceState(newState, ''); // Second param not optional in IE10
+          }
+          render();
+        });
+      }
   }
 
   function constructOpaUrl (features) {
@@ -148,6 +155,8 @@ app.views.results = function (parsedQuery) {
   }
 
   function render () {
+    console.debug('results render')
+
     var state = history.state;
     if (state.error) return app.hooks.content.text(state.error);
     var features = state.features;
