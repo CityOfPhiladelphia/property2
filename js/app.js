@@ -158,17 +158,20 @@ app.views = {};
 
 // Routing
 app.route = function () {
-  var params = $.deparam(window.location.search.substr(1));
+  var query = $.deparam(window.location.search.substr(1)),
+      params;
 
-  if (params.p) {
-    app.views.property(params.p);
-  } else if (Object.keys(params).length) {
-    params = app.util.normalizeSearchQuery(params);
-    if (params) {
-      showSearchOption(params.type);
-      app.views.results(params);
-    }
-  } else {
+  // if there's a query, normalize it
+  if (Object.keys(query).length > 0) {
+    params = app.util.normalizeSearchQuery(query);
+  }
+
+  // if normalizing yielded valid params, route to results
+  if (params) {
+    app.views.results(params);
+  }
+  // otherwise show the front page
+  else {
     app.views.front();
   }
 };
@@ -225,13 +228,14 @@ app.util.formatZipCode = function (zip) {
 }
 
 app.util.normalizeSearchQuery = function (data) {
-  var parsedQuery, label;
+  var parsedQuery;
 
-  if (data.an) {
+  if (data.p || data.an) {
+    var accountNum = data.p || data.an;
     parsedQuery = {
       type: 'account',
-      label: app.util.cleanPropertyQuery(data.an),
-      account: app.util.cleanPropertyQuery(data.an)
+      label: app.util.cleanPropertyQuery(accountNum),
+      account: app.util.cleanPropertyQuery(accountNum)
     };
 
   } else if (data.bn && data.bs) {
@@ -242,7 +246,7 @@ app.util.normalizeSearchQuery = function (data) {
     };
 
   } else if (data.a) {
-    label = app.util.cleanPropertyQuery(data.a);
+    var label = app.util.cleanPropertyQuery(data.a);
     label += app.util.cleanPropertyQuery(data.u) ? ' ' + data.u : '';
 
     parsedQuery = {
