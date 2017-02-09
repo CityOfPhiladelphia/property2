@@ -1,5 +1,10 @@
 /*global $*/
 
+// disable console.debug in production
+if (window.location.hostname !== 'localhost') {
+  console.debug = function () {};
+}
+
 // Global namespace for the app
 var app = {};
 

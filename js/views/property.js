@@ -1,6 +1,8 @@
 /*global $,app,esri,accounting,google*/
 
 app.views.property = function (accountNumber) {
+  console.debug('*property*', accountNumber);
+
   var alreadyGettingOpaData, opaRendered, opaDetailsRendered;
 
   app.hooks.ownerSearchDisclaimer.addClass('hide');
@@ -39,17 +41,14 @@ app.views.property = function (accountNumber) {
   }
 
   if (history.state.ais && history.state.opa) {
-    console.log('Has all required props (ais,opa)', history.state);
     renderOpa();
     renderOpaDetails();
     renderSa();
   } else if (history.state.ais && !history.state.opa) {
-    console.log('Has ais, missing other required props (opa)', history.state);
     renderSa();
     getOpaData();
   } else {
     app.hooks.content.append(app.hooks.loading);
-    console.log('Did not have all required props (ais,opa)', history.state);
     getSaData();
   }
 
