@@ -71,7 +71,8 @@ app.views.results = function (parsedQuery) {
       data: params,
       dataType: app.config.ajaxType,
       success: didGetAisData,
-      fail: function () {
+      error: function (jqXHR, textStatus, errorThrown) {
+        console.debug('ais error', textStatus);
         var error = app.config.defaultError;
         history.replaceState({error: error}, '');
         render();
