@@ -18,9 +18,12 @@ app.config = {
   initialMapZoomLevel:  18,
   defaultError:         'Failed to retrieve results. Please try another search.',
   // carto tables used for retrieving property details
-  datasets: {
-    properties:             'opa_properties_public_20170213',
-    valuations:             '',
+  carto: {
+    baseUrl:              '//phl.carto.com/api/v2/sql',
+    datasets: {
+      properties:           'opa_properties_public_20170213',
+      valuations:           'opa_assessments_20170214',
+    },
   },
 };
 

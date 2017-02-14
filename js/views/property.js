@@ -59,15 +59,18 @@ app.views.property = function (accountNumber) {
   }
 
   function getOpaData () {
+    var url = app.config.carto.baseUrl,
+        table = app.config.carto.datasets.properties;
+
     alreadyGettingOpaData = true;
-    params = {q: "select * from " + app.config.datasets.properties + " where \
+    params = {q: "select * from " + table + " where \
                   parcel_number = '" + accountNumber + "'"};
-    $.ajax('//phl.carto.com/api/v2/sql',
-      {
-        dataType: app.config.ajaxType,
-        data: params,
-      }
-    )
+
+    $.ajax({
+      url: url,
+      dataType: app.config.ajaxType,
+      data: params,
+    })
       .then(function (res) {
         var rows = res.rows,
             d = $.Deferred();
@@ -343,13 +346,24 @@ app.views.property = function (accountNumber) {
     app.hooks.zoning.html(state.opa.zoning);
 
     // Fetch and render valuation history
-    var url = '//data.phila.gov/resource/npdr-96qp.json?parcel_number=' + accountNumber;
-    $.ajax(url)
-      .done(function (data) {
+    var url = app.config.carto.baseUrl,
+        table = app.config.carto.datasets.valuations,
+        accountNum = state.ais.properties.opa_account_num,
+        params = {
+          q: "select * from " + table + " where parcel_number = '" +
+              accountNum + "'",
+        };
+
+    $.ajax({
+      url: url,
+      data: params,
+      success: function (data) {
+        var rows = data.rows;
+
         // Sort by valuation year
-        data.sort(function(a,b) {return (a.year > b.year) ? 1 : ((b.year > a.year) ? -1 : 0);} );
-        data.reverse();
-        data.forEach(function (vh) {
+        rows.sort(function(a,b) {return (a.year > b.year) ? 1 : ((b.year > a.year) ? -1 : 0);} );
+        rows.reverse();
+        rows.forEach(function (vh) {
           var row = $('<tr>');
           row.append($('<td>').text(vh.year));
           row.append($('<td>').text(accounting.formatMoney(vh.market_value)));
@@ -362,14 +376,16 @@ app.views.property = function (accountNumber) {
 
         app.hooks.valuationTable.append(app.hooks.valuation);
         app.hooks.valuationPanel.append(app.hooks.valuationTable);
+
         // Update the Tablesaw responsive tables
         $(document).trigger('enhance.tablesaw');
+      },
 
-      })
-      .fail(function () {
+      error: function () {
         // TODO show warning
-        // console.warn('Error getting valuation history');
-      });
+        console.warn('Error getting valuation history');
+      },
+    })
 
     // Render sales info
     app.hooks.salesPrice.text(accounting.formatMoney(state.opa.sale_price));
