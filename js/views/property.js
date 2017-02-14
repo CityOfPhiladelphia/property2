@@ -60,17 +60,20 @@ app.views.property = function (accountNumber) {
 
   function getOpaData () {
     alreadyGettingOpaData = true;
-    params = {parcel_number: accountNumber};
-    $.ajax('//data.phila.gov/resource/w7rb-qrn8.json',
+    params = {q: "select * from " + app.config.datasets.properties + " where \
+                  parcel_number = '" + accountNumber + "'"};
+    $.ajax('//phl.carto.com/api/v2/sql',
       {
         dataType: app.config.ajaxType,
         data: params,
       }
     )
       .then(function (res) {
-        var d = $.Deferred();
+        var rows = res.rows,
+            d = $.Deferred();
+
         // make sure we got at least one result
-        res.length > 0 ? d.resolve(res[0]) : d.reject();
+        rows.length > 0 ? d.resolve(rows[0]) : d.reject();
         return d.promise();
       })
       .done(function (data) {
