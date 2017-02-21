@@ -67,7 +67,7 @@ app.views.results = function (parsedQuery) {
     };
 
     $.ajax({
-      url: 'https://api.phila.gov/ais/v1/' + endpoint,
+      url: 'https://api.phila.gov/ais_ps/v1/' + endpoint,
       data: params,
       dataType: app.config.ajaxType,
       success: didGetAisData,
@@ -193,7 +193,7 @@ app.views.results = function (parsedQuery) {
             page: state.page + 1
           };
 
-          $.ajax('https://api.phila.gov/ais/v1/' + endpoint,
+          $.ajax('https://api.phila.gov/ais_ps/v1/' + endpoint,
                  {data: params, dataType: app.config.ajaxType})
             .done(function (aisData) {
               // Fetch market_value, sale data from OPA dataset

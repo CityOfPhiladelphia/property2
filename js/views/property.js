@@ -103,7 +103,7 @@ app.views.property = function (accountNumber) {
       // gatekeeperKey: app.config['gatekeeperKey'],
     };
 
-    $.ajax( 'https://api.phila.gov/ais/v1/account/' + accountNumber,
+    $.ajax( 'https://api.phila.gov/ais_ps/v1/account/' + accountNumber,
       {data: params, dataType: app.config.ajaxType})
       .done(function (data) {
         var state = $.extend({}, history.state);
