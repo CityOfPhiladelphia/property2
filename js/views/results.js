@@ -85,6 +85,15 @@ app.views.results = function (parsedQuery) {
 
     if (!app.globals.historyState) history.state = {};
 
+    // If we didn't get a good result from AIS, show the error message.
+    if (!aisData || !aisData.features) {
+      console.debug('no ais features', aisData);
+      var error = app.config.defaultError;
+      history.replaceState({error: error}, '');
+      render();
+      return;
+    }
+
     // For business reasons, owner searches need to always show on the
     // results page for the disclaimer.
     if (!isOwnerSearch && (
@@ -103,10 +112,10 @@ app.views.results = function (parsedQuery) {
         }, withUnit, href);
 
         app.views.property(accountNumber);
-      } else {
-        // Fetch market_value, sale data from OPA dataset
-        var opaUrl = constructOpaUrl(aisData.features);
-        $.ajax(opaUrl, {dataType: app.config.ajaxType})
+    } else {
+      // Fetch market_value, sale data from OPA dataset
+      var opaUrl = constructOpaUrl(aisData.features);
+      $.ajax(opaUrl, {dataType: app.config.ajaxType})
         .done(function (opaData) {
           var keyedOpaData = keyBy(opaData, 'parcel_number')
           $.each(aisData.features, function (index, feature) {
@@ -127,7 +136,7 @@ app.views.results = function (parsedQuery) {
           }
           render();
         });
-      }
+    }
   }
 
   function constructOpaUrl (features) {
