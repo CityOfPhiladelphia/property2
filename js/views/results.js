@@ -85,8 +85,9 @@ app.views.results = function (parsedQuery) {
 
     if (!app.globals.historyState) history.state = {};
 
-    // If we didn't get a good result from AIS, show the error message.
-    if (!aisData || !aisData.features) {
+    // If we didn't get a good result from AIS (or rehydrate a feature from
+    // history), show the error message.
+    if (!aisData || (!aisData.features && !aisData.properties)) {
       console.debug('no ais features', aisData);
       var error = app.config.defaultError;
       history.replaceState({error: error}, '');
