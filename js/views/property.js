@@ -1,6 +1,8 @@
 /*global $,app,esri,accounting,google*/
 
 app.views.property = function (accountNumber) {
+  console.debug('*property*', accountNumber);
+
   var alreadyGettingOpaData, opaRendered, opaDetailsRendered;
 
   app.hooks.ownerSearchDisclaimer.addClass('hide');
@@ -57,17 +59,14 @@ app.views.property = function (accountNumber) {
   }
 
   if (history.state.ais && history.state.opa) {
-    console.log('Has all required props (ais,opa)', history.state);
     renderOpa();
     renderOpaDetails();
     renderSa();
   } else if (history.state.ais && !history.state.opa) {
-    console.log('Has ais, missing other required props (opa)', history.state);
     renderSa();
     getOpaData();
   } else {
     app.hooks.content.append(app.hooks.loading);
-    console.log('Did not have all required props (ais,opa)', history.state);
     getSaData();
   }
 
@@ -122,7 +121,7 @@ app.views.property = function (accountNumber) {
       // gatekeeperKey: app.config['gatekeeperKey'],
     };
 
-    $.ajax( 'https://api.phila.gov/ais/v1/account/' + accountNumber,
+    $.ajax( 'https://api.phila.gov/ais_ps/v1/account/' + accountNumber,
       {data: params, dataType: app.config.ajaxType})
       .done(function (data) {
         var state = $.extend({}, history.state);
@@ -507,7 +506,6 @@ app.views.property = function (accountNumber) {
     // Public safety
     app.hooks.policePsa.text(sa.police_service_area);
     app.hooks.policeDistrict.text(sa.police_district);
-    app.hooks.policeSector.text(sa.police_sector);
     app.hooks.policeDivision.text(sa.police_division);
 
     // Streets
@@ -525,13 +523,6 @@ app.views.property = function (accountNumber) {
     // Districts
     app.hooks.planning.text(sa.planning_district);
     app.hooks.liDistrict.text(sa.li_district);
-    app.hooks.recreation.text(sa.recreation_district);
-
-    // Water
-    app.hooks.pwdMaintenance.text(sa.pwd_maint_district);
-    app.hooks.pwdPressure.text(sa.pwd_pressure_district);
-    app.hooks.waterTreatment.text(sa.pwd_treatment_plant);
-    app.hooks.waterPlate.text(sa.pwd_water_plate);
 
     // Hide status messages, load content.
     app.hooks.trashStatus.addClass('hide');

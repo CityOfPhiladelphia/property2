@@ -29,7 +29,7 @@
 
     <link rel="stylesheet" href="//js.arcgis.com/3.15/esri/css/esri.css">
     <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
-    <link rel="stylesheet" href="//cityofphiladelphia.github.io/patterns/dist/1.2.1/css/patterns.css">
+    <link rel="stylesheet" href="//cityofphiladelphia.github.io/patterns/dist/1.4.1/css/patterns.css">
     <link rel="stylesheet" href="css/style.css">
     <script src="//cdnjs.cloudflare.com/ajax/libs/modernizr/2.8.3/modernizr.js"></script>
 
@@ -114,7 +114,6 @@
                     <li data-searchtype="block"><label>Block</label> <small>1200 Market St</small></li>
                     <li data-searchtype="owner"><label>Owner</label> <small>Doe John</small></li>
                     <li data-searchtype="account"><label>Account</label> <small>883309000</small></li>
-                    <!-- <li data-searchtype="intersection"><label>Intersection</label> <small>12th &amp; Market</small></li> -->
                   </ul>
                 </div>
 
@@ -510,7 +509,7 @@
 
         <div class="row"> <!-- Begin service area -->
           <div class="columns">
-            <h2 class="alternate divide">Service Area</h2>
+            <h2 class="alternate divide">Service Areas</h2>
           </div>
         </div>
         <div data-hook="service-area-status"><i class="fa fa-spinner fa-lg spin"></i> Loading...</div>
@@ -540,29 +539,24 @@
             </div>
           </div>
           <div class="row">
-            <div class="columns">
+            <div class="medium-12 columns">
               <div class="panel mbm">
-                <div class="row">
-                  <div class="columns">
-                    <h3>Public Safety</h3>
-                  </div>
-                </div>
-                <div class="row">
-                  <div class="medium-12 columns">
-                    <h4 class="alternate">Police District</h4>
-                    <strong data-hook="police-district"></strong>
-
-                    <h4 class="alternate">Police Sector</h4>
-                    <strong data-hook="police-sector"></strong>
-                  </div>
-                  <div class="medium-12 columns">
-                    <h4 class="alternate">Police Public Service Area</h4>
-                    <strong data-hook="police-psa"></strong>
-
-                    <h4 class="alternate">Police Division</h4>
-                    <strong data-hook="police-division"></strong>
-                  </div>
-                </div>
+                <h3>Public Safety</h3>
+                <h4 class="alternate">Police District</h4>
+                <strong data-hook="police-district"></strong>
+                <h4 class="alternate">Police Public Service Area</h4>
+                <strong data-hook="police-psa"></strong>
+                <h4 class="alternate">Police Division</h4>
+                <strong data-hook="police-division"></strong>
+              </div>
+            </div>
+            <div class="medium-12 columns">
+              <div class="panel mbm">
+                <h3>Districts</h3>
+                <h4 class="alternate">Planning</h4>
+                <strong data-hook="planning"></strong>
+                <h4 class="alternate">Licenses and Inspections (L+I)</h4>
+                <strong data-hook="li-district"></strong>
               </div>
             </div>
           </div>
@@ -606,41 +600,17 @@
               </div>
             </div>
           </div>
-          <div class="row">
-            <div class="medium-12 columns">
-              <div class="panel mbm">
-                <h3>Districts</h3>
-                <h4 class="alternate">Planning</h4>
-                <strong data-hook="planning"></strong>
-                <h4 class="alternate">Licenses and Inspections (L+I)</h4>
-                <strong data-hook="li-district"></strong>
-                <h4 class="alternate">Recreation</h4>
-                <strong data-hook="recreation"></strong>
-              </div>
-            </div>
-            <div class="medium-12 columns">
-              <div class="panel mbm">
-                <h3>Water</h3>
-                <h4 class="alternate">PWD Maintenance Districts</h4>
-                <strong data-hook="pwd-maintenance"></strong>
-                <h4 class="alternate">PWD Pressure Districts</h4>
-                <strong data-hook="pwd-pressure"></strong>
-                <h4 class="alternate">Water Treatment Plant</h4>
-                <strong data-hook="water-treatment"></strong>
-                <h4 class="alternate">Water Plate Index</h4>
-                <strong data-hook="water-plate"></strong>
-              </div>
-            </div>
-          </div>
         </div><!-- End service area panel -->
       </div><!-- End secondary content area -->
     </div> <!-- End templates -->
 
     <!--[if !IE 8]><!-->
 
+    <script src="//cdnjs.cloudflare.com/ajax/libs/es5-shim/4.5.9/es5-shim.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/es6-shim/0.35.3/es6-shim.min.js"></script>
     <script src="//code.jquery.com/jquery-2.2.1.min.js"></script>
     <script src="//cdnjs.cloudflare.com/ajax/libs/foundation/6.1.2/foundation.min.js"></script>
-    <script src="//cityofphiladelphia.github.io/patterns/dist/1.2.1/js/patterns.min.js"></script>
+    <script src="//cityofphiladelphia.github.io/patterns/dist/1.4.1/js/patterns.min.js"></script>
     <script src="//cdnjs.cloudflare.com/ajax/libs/accounting.js/0.4.1/accounting.min.js"></script>
     <script src="//cdnjs.cloudflare.com/ajax/libs/moment.js/2.13.0/moment.min.js"></script>
     <!-- Use defer below so that the ArcGIS library loads after the page is
