@@ -14,9 +14,11 @@ app.views.property = function (accountNumber) {
   app.hooks.searchFormContainer.find('form').each(function(i, form) {
     form.reset();
   });
-  app.hooks.searchLeft.removeClass('medium-4').addClass('medium-14')
-    .empty().append(app.hooks.propertyTitle);
-    app.hooks.searchRight.html('');
+  app.hooks.searchLeft.removeClass('medium-4')
+                      .addClass('medium-14')
+                      .empty()
+                      .append(app.hooks.propertyTitle);
+  app.hooks.searchRight.html('');
   app.hooks.searchBox.removeClass('medium-16').addClass('medium-10 float-right');
 
   // Clear existing elements out of the way
