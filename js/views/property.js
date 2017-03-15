@@ -153,8 +153,6 @@ app.views.property = function (accountNumber) {
       if (owner) app.hooks.propertyOwners.append($('<div>').text(owner));
     });
 
-    app.hooks.opaAccount.text(state.opa.parcel_number);
-
     // Empty things that will be rendered form OPA details
     app.hooks.improvementDescription.empty();
     app.hooks.landArea.empty();
@@ -334,6 +332,10 @@ app.views.property = function (accountNumber) {
     pm.append($('<div>').text(mailing_street));
     pm.append($('<div>').text(mailing_city_state));
     pm.append($('<div>').text(mailing_zip));
+
+    // Update tax balance button with a direct link to the account
+    var taxBalanceUrl = 'http://www.phila.gov/revenue/realestatetax/?txtBRTNo=' + opa.parcel_number;
+    app.hooks.taxBalanceLink.attr('href', taxBalanceUrl);
 
     // Render zoning
     // TODO Socrata is missing zoning description
