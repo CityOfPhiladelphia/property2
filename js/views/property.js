@@ -379,6 +379,7 @@ app.views.property = function (accountNumber) {
     app.hooks.salesDate.text(saleDate);
 
     // Render property details
+    app.hooks.opaAccount.text(state.opa.parcel_number);
     app.hooks.improvementCondition.text(getExteriorConditionDescription(state.opa.exterior_condition));
     app.hooks.improvementDescription.text(state.opa.building_code_description);
     app.hooks.landArea.text(accounting.formatNumber(state.opa.total_area));
