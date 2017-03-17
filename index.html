@@ -406,7 +406,17 @@
           </div>
         </div>
         <div class="row">
-          <div class="hide-for-print medium-14 columns"><p class="no-margin normal">Real Estate Tax account balances have not yet been added to this application.</p></div>
+          <div data-hook="tax-estimate" class="medium-14 columns">
+            <div data-hook="tax-estimate-amount" class="stat tax-estimate-amount"></div>
+            <p class="small-text tax-estimate-disclaimer">
+              This is the real estate tax estimate for <span data-hook="tax-estimate-year"></span><span data-hook="homestead-clause">, including a Homestead Exemption of <span data-hook="homestead-amount"></span></span>.
+              The actual amount assessed may be different.
+            </p>
+            <div data-hook="homestead-preview">
+              <input type="checkbox" id="homestead-preview-toggle" data-hook="homestead-preview-toggle">
+              <label class="small-text" for="homestead-preview-toggle">Estimate with Homestead Exemption of $30,000</label>
+            </div>
+          </div>
           <div class="medium-10 columns text-right">
             <a data-hook="tax-balance-link" class="button no-margin">View the Tax Balance</a>
           </div>
