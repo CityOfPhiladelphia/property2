@@ -67,7 +67,7 @@ app.views.results = function (parsedQuery) {
     };
 
     $.ajax({
-      url: 'https://api.phila.gov/ais/v1/' + endpoint,
+      url: 'https://api.phila.gov/ais_ps/v1/' + endpoint,
       data: params,
       dataType: app.config.ajaxType,
       success: didGetAisData,
@@ -84,6 +84,16 @@ app.views.results = function (parsedQuery) {
     var property, accountNumber, href, withUnit;
 
     if (!app.globals.historyState) history.state = {};
+
+    // If we didn't get a good result from AIS (or rehydrate a feature from
+    // history), show the error message.
+    if (!aisData || (!aisData.features && !aisData.properties)) {
+      console.debug('no ais features', aisData);
+      var error = app.config.defaultError;
+      history.replaceState({error: error}, '');
+      render();
+      return;
+    }
 
     // For business reasons, owner searches need to always show on the
     // results page for the disclaimer.
@@ -103,10 +113,10 @@ app.views.results = function (parsedQuery) {
         }, withUnit, href);
 
         app.views.property(accountNumber);
-      } else {
-        // Fetch market_value, sale data from OPA dataset
-        var opaUrl = constructOpaUrl(aisData.features);
-        $.ajax(opaUrl, {dataType: app.config.ajaxType})
+    } else {
+      // Fetch market_value, sale data from OPA dataset
+      var opaUrl = constructOpaUrl(aisData.features);
+      $.ajax(opaUrl, {dataType: app.config.ajaxType})
         .done(function (opaData) {
           var keyedOpaData = keyBy(opaData, 'parcel_number')
           $.each(aisData.features, function (index, feature) {
@@ -127,7 +137,7 @@ app.views.results = function (parsedQuery) {
           }
           render();
         });
-      }
+    }
   }
 
   function constructOpaUrl (features) {
@@ -193,7 +203,7 @@ app.views.results = function (parsedQuery) {
             page: state.page + 1
           };
 
-          $.ajax('https://api.phila.gov/ais/v1/' + endpoint,
+          $.ajax('https://api.phila.gov/ais_ps/v1/' + endpoint,
                  {data: params, dataType: app.config.ajaxType})
             .done(function (aisData) {
               // Fetch market_value, sale data from OPA dataset

@@ -14,9 +14,11 @@ app.views.property = function (accountNumber) {
   app.hooks.searchFormContainer.find('form').each(function(i, form) {
     form.reset();
   });
-  app.hooks.searchLeft.removeClass('medium-4').addClass('medium-14')
-    .empty().append(app.hooks.propertyTitle);
-    app.hooks.searchRight.html('');
+  app.hooks.searchLeft.removeClass('medium-4')
+                      .addClass('medium-14')
+                      .empty()
+                      .append(app.hooks.propertyTitle);
+  app.hooks.searchRight.html('');
   app.hooks.searchBox.removeClass('medium-16').addClass('medium-10 float-right');
 
   // Clear existing elements out of the way
@@ -109,7 +111,7 @@ app.views.property = function (accountNumber) {
       // gatekeeperKey: app.config['gatekeeperKey'],
     };
 
-    $.ajax( 'https://api.phila.gov/ais/v1/account/' + accountNumber,
+    $.ajax( 'https://api.phila.gov/ais_ps/v1/account/' + accountNumber,
       {data: params, dataType: app.config.ajaxType})
       .done(function (data) {
         var state = $.extend({}, history.state);
@@ -156,8 +158,6 @@ app.views.property = function (accountNumber) {
     owners.forEach(function (owner) {
       if (owner) app.hooks.propertyOwners.append($('<div>').text(owner));
     });
-
-    app.hooks.opaAccount.text(state.opa.parcel_number);
 
     // Empty things that will be rendered form OPA details
     app.hooks.improvementDescription.empty();
@@ -339,6 +339,10 @@ app.views.property = function (accountNumber) {
     pm.append($('<div>').text(mailing_city_state));
     pm.append($('<div>').text(mailing_zip));
 
+    // Update tax balance button with a direct link to the account
+    var taxBalanceUrl = 'http://www.phila.gov/revenue/realestatetax/?txtBRTNo=' + opa.parcel_number;
+    app.hooks.taxBalanceLink.attr('href', taxBalanceUrl);
+
     // Render zoning
     // TODO Socrata is missing zoning description
     // app.hooks.zoning.html(state.opa.characteristics.zoning + ': ' +
@@ -394,6 +398,7 @@ app.views.property = function (accountNumber) {
     app.hooks.salesDate.text(saleDate);
 
     // Render property details
+    app.hooks.opaAccount.text(state.opa.parcel_number);
     app.hooks.improvementCondition.text(getExteriorConditionDescription(state.opa.exterior_condition));
     app.hooks.improvementDescription.text(state.opa.building_code_description);
     app.hooks.landArea.text(accounting.formatNumber(state.opa.total_area));
