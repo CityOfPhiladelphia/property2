@@ -17,6 +17,14 @@ app.config = {
   gatekeeperKey:        'c0eb3e7795b0235dfed5492fcd12a344',
   initialMapZoomLevel:  18,
   defaultError:         'Failed to retrieve results. Please try another search.',
+  // carto tables used for retrieving property details
+  carto: {
+    baseUrl:              'https://phl.carto.com/api/v2/sql',
+    datasets: {
+      properties:           'opa_properties_public',
+      valuations:           'assessments_1',
+    },
+  },
 };
 
 // Set up pointers to useful elements
