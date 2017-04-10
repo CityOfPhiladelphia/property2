@@ -118,7 +118,7 @@ app.views.results = function (parsedQuery) {
       var opaUrl = constructOpaUrl(aisData.features);
       $.ajax(opaUrl, {dataType: app.config.ajaxType})
         .done(function (opaData) {
-          var keyedOpaData = keyBy(opaData, 'parcel_number')
+          var keyedOpaData = keyBy(opaData.rows, 'parcel_number')
           $.each(aisData.features, function (index, feature) {
             $.extend(feature.properties, keyedOpaData[feature.properties.opa_account_num] || {})
           })
