@@ -21,8 +21,8 @@ app.config = {
   carto: {
     baseUrl:              '//phl.carto.com/api/v2/sql',
     datasets: {
-      properties:           'test_opa_properties',
-      valuations:           'test_opa_assessments',
+      properties:           'opa_properties_public',
+      valuations:           'assessments',
     },
   },
 };
