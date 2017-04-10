@@ -146,15 +146,18 @@ app.views.results = function (parsedQuery) {
     })
 
     var params = {
-      $select: [
+      select: [
         'parcel_number',
         'market_value',
         'sale_date',
         'sale_price'
       ].join(','),
-      $where: 'parcel_number in ("' + accountNumbers.join('","') + '")'
+      where: 'parcel_number in ("' + accountNumbers.join('","') + '")'
     };
-    return '//data.phila.gov/resource/w7rb-qrn8.json?' + $.param(params)
+    var query = 'SELECT parcel_number, market_value, sale_date, sale_price FROM '
+      + app.config.carto.datasets.properties + " WHERE parcel_number IN ('"
+      + accountNumbers.join("','") + "')"
+    return app.config.carto.baseUrl + '?q=' + encodeURIComponent(query)
   }
 
   function keyBy (items, key) {
