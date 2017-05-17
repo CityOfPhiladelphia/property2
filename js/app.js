@@ -13,7 +13,6 @@ window.app = app;
 
 // Config
 app.config = {
-  ajaxType:             $.support.cors ? 'json' : 'jsonp',
   gatekeeperKey:        'c0eb3e7795b0235dfed5492fcd12a344',
   initialMapZoomLevel:  18,
   defaultError:         'Failed to retrieve results. Please try another search.',
