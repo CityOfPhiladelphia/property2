@@ -110,9 +110,9 @@ app.views.results = function (parsedQuery) {
     } else {
       // Fetch market_value, sale data from OPA dataset
       var opaUrl = constructOpaUrl(aisData.features);
-      $.ajax(opaUrl, {dataType: app.config.ajaxType})
+      $.ajax(opaUrl)
         .done(function (opaData) {
-          var keyedOpaData = keyBy(opaData, 'parcel_number')
+          var keyedOpaData = keyBy(opaData.rows, 'parcel_number')
           $.each(aisData.features, function (index, feature) {
             $.extend(feature.properties, keyedOpaData[feature.properties.opa_account_num] || {})
           })
@@ -148,15 +148,18 @@ app.views.results = function (parsedQuery) {
     })
 
     var params = {
-      $select: [
+      select: [
         'parcel_number',
         'market_value',
         'sale_date',
         'sale_price'
       ].join(','),
-      $where: 'parcel_number in ("' + accountNumbers.join('","') + '")'
+      where: 'parcel_number in ("' + accountNumbers.join('","') + '")'
     };
-    return '//data.phila.gov/resource/w7rb-qrn8.json?' + $.param(params)
+    var query = 'SELECT parcel_number, market_value, sale_date, sale_price FROM '
+      + app.config.carto.datasets.properties + " WHERE parcel_number IN ('"
+      + accountNumbers.join("','") + "')"
+    return app.config.carto.baseUrl + '?q=' + encodeURIComponent(query)
   }
 
   function keyBy (items, key) {
@@ -205,29 +208,31 @@ app.views.results = function (parsedQuery) {
             page: state.page + 1
           };
 
-          $.ajax('https://api.phila.gov/ais_ps/v1/' + endpoint,
-                 {data: params, dataType: app.config.ajaxType})
+          $.ajax({
+            url: 'https://api.phila.gov/ais_ps/v1/' + endpoint,
+            data: params
+          })
             .done(function (aisData) {
               // Fetch market_value, sale data from OPA dataset
               var opaUrl = constructOpaUrl(aisData.features);
-              $.ajax(opaUrl, {dataType: app.config.ajaxType})
-              .done(function (opaData) {
-                var keyedOpaData = keyBy(opaData, 'parcel_number')
-                $.each(aisData.features, function (index, feature) {
-                  $.extend(feature.properties, keyedOpaData[feature.properties.opa_account_num] || {})
-                })
+              $.ajax(opaUrl)
+                .done(function (opaData) {
+                  var keyedOpaData = keyBy(opaData, 'parcel_number')
+                  $.each(aisData.features, function (index, feature) {
+                    $.extend(feature.properties, keyedOpaData[feature.properties.opa_account_num] || {})
+                  })
 
-                state.features = state.features.concat(aisData.features);
-                state.page = aisData.page;
-                history.replaceState(state, ''); // Second param not optional in IE10
+                  state.features = state.features.concat(aisData.features);
+                  state.page = aisData.page;
+                  history.replaceState(state, ''); // Second param not optional in IE10
 
-                $.each(aisData.features, addRow);
-                if (state.total_size === state.features.length) app.hooks.seeMore.hide();
+                  $.each(aisData.features, addRow);
+                  if (state.total_size === state.features.length) app.hooks.seeMore.hide();
 
-                // Remove old Tablesaw data and refresh
-                $('[data-hook="results-table"]').table().data("table").destroy();
-                $('[data-hook="results-table"]').table().data("table").refresh();
-              });
+                  // Remove old Tablesaw data and refresh
+                  $('[data-hook="results-table"]').table().data("table").destroy();
+                  $('[data-hook="results-table"]').table().data("table").refresh();
+                });
             });
         });
         app.hooks.seeMore.show();
