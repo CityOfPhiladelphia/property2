@@ -69,14 +69,8 @@ app.views.results = function (parsedQuery) {
     $.ajax({
       url: 'https://api.phila.gov/ais_ps/v1/' + endpoint,
       data: params,
-      dataType: app.config.ajaxType,
       success: didGetAisData,
-      error: function (jqXHR, textStatus, errorThrown) {
-        console.debug('ais error', textStatus);
-        var error = app.config.defaultError;
-        history.replaceState({error: error}, '');
-        render();
-      },
+      error: didGetAisError,
     });
   }
 
@@ -138,6 +132,14 @@ app.views.results = function (parsedQuery) {
           render();
         });
     }
+  }
+
+  function didGetAisError(jqXHR, textStatus, errorThrown) {
+    console.debug('ais error', textStatus, errorThrown);
+
+    var error = app.config.defaultError;
+    history.replaceState({error: error}, '');
+    render();
   }
 
   function constructOpaUrl (features) {
