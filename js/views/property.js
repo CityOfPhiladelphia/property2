@@ -347,7 +347,7 @@ app.views.property = function (accountNumber) {
     // TODO Socrata is missing zoning description
     // app.hooks.zoning.html(state.opa.characteristics.zoning + ': ' +
     //   state.opa.characteristics.zoning_description);
-    app.hooks.zoning.html(state.opa.zoning);
+    app.hooks.zoning.html(state.ais.properties.zoning);
 
     // Fetch and render valuation history
     var url = app.config.carto.baseUrl,
