@@ -24,28 +24,32 @@ app.views.results = function (parsedQuery) {
     'owner': 'owner',
   };
 
-  var endpoint = endpointMap[parsedQuery.type] + '/',
-      isOwnerSearch = false;
+  var queryType = parsedQuery.type,
+      endpoint = endpointMap[queryType] + '/',
+      isOwnerSearch = false,
+      queryParam;
 
-  switch (parsedQuery.type) {
+  switch(queryType) {
     case 'account':
-      endpoint += encodeURI(parsedQuery.account);
+      queryParam = parsedQuery.account;
       break;
     case 'block':
-      endpoint += encodeURI(parsedQuery.address);
+      queryParam = parsedQuery.address;
       break;
     case 'address':
-      endpoint += encodeURI(parsedQuery.address);
+      queryParam = parsedQuery.address;
 
       if (parsedQuery.unit) {
-        endpoint += encodeURI(' UNIT ' + parsedQuery.unit);
+        queryParam = ' UNIT ' + parsedQuery.unit;
       }
       break;
     case 'owner':
       isOwnerSearch = true;
-      endpoint += encodeURI(parsedQuery.owner);
+      queryParam = parsedQuery.owner;
       break;
   }
+
+  endpoint += encodeURI(queryParam);
 
   app.hooks.content.empty(); // Remove loading message
   app.hooks.ownerSearchDisclaimer.addClass('hide');
@@ -135,10 +139,21 @@ app.views.results = function (parsedQuery) {
   }
 
   function didGetAisError(jqXHR, textStatus, errorThrown) {
-    console.debug('ais error', textStatus, errorThrown);
+    var status = jqXHR.responseJSON.status,
+        message;
 
-    var error = app.config.defaultError;
-    history.replaceState({error: error}, '');
+    console.debug('did get ais error', status);
+
+    switch(status) {
+      case 404:
+        message = "We couldn't find any results for <strong>" + queryType.toUpperCase() + ": " + queryParam + "</strong>. Please review your search and try again."
+        break;
+      default:
+        message = app.config.defaultError;
+        break;
+    }
+
+    history.replaceState({error: message}, '');
     render();
   }
 
@@ -171,10 +186,8 @@ app.views.results = function (parsedQuery) {
   }
 
   function render () {
-    console.debug('results render')
-
     var state = history.state;
-    if (state.error) return app.hooks.content.text(state.error);
+    if (state.error) return app.hooks.content.html(state.error);
     var features = state.features;
     var total_size = state.total_size;
     var isOwnerSearch = state.isOwnerSearch;
