@@ -37,6 +37,7 @@ app.views.property = function (accountNumber) {
   if (!history.state) history.replaceState({}, '');
 
   // If there's an error, render it and stop there.
+  // REVIEW this doesn't seem to be used anymore
   if (history.state.error) {
     renderError(history.state.error);
     return;
