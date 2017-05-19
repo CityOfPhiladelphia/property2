@@ -146,7 +146,9 @@ app.views.results = function (parsedQuery) {
 
     switch(status) {
       case 404:
-        message = "We couldn't find any results for <strong>" + queryType.toUpperCase() + ": " + queryParam + "</strong>. Please review your search and try again."
+        message = "We couldn't find any <strong>" + queryType +
+                  "</strong> results for <strong>" + queryParam +
+                  "</strong>. Please review your search and try again.";
         break;
       default:
         message = app.config.defaultError;
