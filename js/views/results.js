@@ -40,7 +40,7 @@ app.views.results = function (parsedQuery) {
       queryParam = parsedQuery.address;
 
       if (parsedQuery.unit) {
-        queryParam = ' UNIT ' + parsedQuery.unit;
+        queryParam += ' UNIT ' + parsedQuery.unit;
       }
       break;
     case 'owner':
