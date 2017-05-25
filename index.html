@@ -48,6 +48,28 @@
 
     <!-- Sentry, for error logging -->
     <script src="//cdn.ravenjs.com/3.15.0/raven.min.js"></script>
+    <script>
+      (function () {
+        var dsn = 'https://6f99da4446264d5b8512496f7a7d2158@sentry.io/172304',
+            options = {
+              shouldSendCallback: function (data) {
+                var extra = data.extra,
+                    status = extra.status,
+                    url = extra.url,
+                    isAis = url.includes('api.phila.gov/ais');
+
+                // sample 2% of 404s from ais (we get a lot of these)
+                if (status === 404 && isAis && Math.random() > 0.02) {
+                  return false;
+                }
+
+                return true;
+              }
+            };
+
+        Raven.config(dsn, options).install();
+      })();
+    </script>
 
     <!--[if lte IE 8]>
       <p class="browsehappy alert">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
@@ -613,7 +635,6 @@
     </div> <!-- End templates -->
 
     <!--[if !IE 8]><!-->
-
     <script src="//cdnjs.cloudflare.com/ajax/libs/es5-shim/4.5.9/es5-shim.min.js"></script>
     <script src="//cdnjs.cloudflare.com/ajax/libs/es6-shim/0.35.3/es6-shim.min.js"></script>
     <script src="//code.jquery.com/jquery-2.2.1.min.js"></script>
