@@ -46,31 +46,6 @@
       })(window,document,'script','dataLayer','GTM-MC6CR2');</script>
     <!-- End Google Tag Manager -->
 
-    <!-- Sentry, for error logging -->
-    <script src="//cdn.ravenjs.com/3.15.0/raven.min.js"></script>
-    <script>
-      (function () {
-        var dsn = 'https://6f99da4446264d5b8512496f7a7d2158@sentry.io/172304',
-            options = {
-              shouldSendCallback: function (data) {
-                var extra = data.extra,
-                    status = extra.status,
-                    url = extra.url,
-                    isAis = url.includes('api.phila.gov/ais');
-
-                // sample 2% of 404s from ais (we get a lot of these)
-                if (status === 404 && isAis && Math.random() > 0.02) {
-                  return false;
-                }
-
-                return true;
-              }
-            };
-
-        Raven.config(dsn, options).install();
-      })();
-    </script>
-
     <!--[if lte IE 8]>
       <p class="browsehappy alert">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
     <![endif]-->
@@ -651,6 +626,35 @@
     <script src="//js.arcgis.com/3.15/" defer></script>
 
     <script src="//maps.googleapis.com/maps/api/js?v=3&libraries=geometry"></script>
+
+    <!--
+      install and configure sentry for error logging. this should be placed
+      after vendor scripts have loaded but before local ones.
+    -->
+    <script src="//cdn.ravenjs.com/3.15.0/raven.min.js"></script>
+    <script>
+      (function () {
+        var dsn = 'https://6f99da4446264d5b8512496f7a7d2158@sentry.io/172304',
+            options = {
+              shouldSendCallback: function (data) {
+                var extra = data.extra,
+                    status = extra.status,
+                    url = extra.url,
+                    isAis = url.includes('api.phila.gov/ais');
+
+                // sample 2% of 404s from ais (we get a lot of these)
+                if (status === 404 && isAis && Math.random() > 0.02) {
+                  return false;
+                }
+
+                return true;
+              }
+            };
+
+        Raven.config(dsn, options).install();
+      })();
+    </script>
+
     <script src="js/deparam.js"></script>
     <script src="js/app.js"></script>
     <script src="js/views/front.js"></script>
