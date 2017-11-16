@@ -645,7 +645,7 @@
                     isAis = url.indexOf('api.phila.gov/ais') !== -1;
 
                 // sample 2% of 404s from ais (we get a lot of these)
-                if (status === 404 && isAis && Math.random() > 0.02) {
+                if (isAis && status === 404 && Math.random() > 0.02) {
                   return false;
                 }
 
