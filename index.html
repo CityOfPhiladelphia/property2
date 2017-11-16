@@ -634,13 +634,15 @@
     <script src="//cdn.ravenjs.com/3.15.0/raven.min.js"></script>
     <script>
       (function () {
+        // REVIEW can this url be protocol-less?
         var dsn = 'https://6f99da4446264d5b8512496f7a7d2158@sentry.io/172304',
             options = {
               shouldSendCallback: function (data) {
-                var extra = data.extra,
+                var dataOrEmptyObj = data || {},
+                    extra = dataOrEmptyObj.extra || {},
                     status = extra.status,
-                    url = extra.url,
-                    isAis = url.includes('api.phila.gov/ais');
+                    url = extra.url || '',
+                    isAis = url.indexOf('api.phila.gov/ais') !== -1;
 
                 // sample 2% of 404s from ais (we get a lot of these)
                 if (status === 404 && isAis && Math.random() > 0.02) {
