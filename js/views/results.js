@@ -111,8 +111,7 @@ app.views.results = function (parsedQuery) {
 
         // leave sentry breadcrumb to help with debugging
         Raven.captureBreadcrumb({
-          message: 'results.js: didGetAisData will replace AIS state [single \
-                    result]',
+          message: 'results.js: didGetAisData will replace AIS state [single result]',
           category: 'data',
           level: 'debug',
           data: {
@@ -145,8 +144,7 @@ app.views.results = function (parsedQuery) {
 
           // leave sentry breadcrumb to help with debugging
           Raven.captureBreadcrumb({
-            message: 'results.js: didGetAisData will replace AIS state \
-                      [multiple results]',
+            message: 'results.js: didGetAisData will replace AIS state [multiple results]',
             category: 'data',
             level: 'debug',
             data: {
