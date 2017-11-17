@@ -84,7 +84,9 @@ app.views.results = function (parsedQuery) {
       message: 'results.js: didGetAisData',
       category: 'data',
       level: 'debug',
-      data: aisData,
+      data: {
+        aisData: aisData,
+      },
     });
 
     var property, accountNumber, href, withUnit;
