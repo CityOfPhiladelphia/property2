@@ -118,14 +118,7 @@ app.views.property = function (accountNumber) {
   }
 
   function getSaData() {
-    var params = {
-      // gatekeeperKey: app.config['gatekeeperKey'],
-    };
-
-    $.ajax({
-      url: 'https://api.phila.gov/ais_ps/v1/account/' + accountNumber,
-      data: params
-    })
+    $.ajax('https://api.phila.gov/ais_ps/v1/account/' + accountNumber)
       .done(function (data) {
         var state = $.extend({}, history.state);
         var property, href, withUnit;
