@@ -129,7 +129,7 @@ app.views.property = function (accountNumber) {
 
         // leave sentry breadcrumb to help with debugging
         Raven.captureBreadcrumb({
-          message: 'results.js: getSaData will replace state',
+          message: 'results.js: getSaData will replace AIS state',
           category: 'data',
           level: 'debug',
           data: {
