@@ -84,7 +84,18 @@ app.views.property = function (accountNumber) {
       .done(function (data) {
         var state = $.extend({}, history.state);
         state.opa = data;
-        state.address = state.ais.properties.opa_address;
+        // per issue #208, this line has been throwing errors when state.ais
+        // is undefined (which should never happen). wrapping it in a try and
+        // passing the exact state data back with the exception.
+        try {
+          state.address = state.ais.properties.opa_address;
+        } catch (e) {
+          Raven.captureException(e, {
+            extra: {
+              state: state,
+            }
+          });
+        }
 
         if (app.globals.historyState) {
           history.replaceState(state, ''); // Second param not optional in IE10
