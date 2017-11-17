@@ -61,7 +61,7 @@ app.views.property = function (accountNumber) {
     return history.state.opa && history.state.opa.mailing_address_1;
   }
 
-  function getOpaData () {
+  function getOpaData() {
     var url = app.config.carto.baseUrl,
         table = app.config.carto.datasets.properties;
 
@@ -106,7 +106,7 @@ app.views.property = function (accountNumber) {
     return history.state.ais;
   }
 
-  function getSaData () {
+  function getSaData() {
     var params = {
       // gatekeeperKey: app.config['gatekeeperKey'],
     };
@@ -137,7 +137,7 @@ app.views.property = function (accountNumber) {
       });
   }
 
-  function renderOpa () {
+  function renderOpa() {
     var state = history.state;
 
     // Breadcrumbs
@@ -303,7 +303,7 @@ app.views.property = function (accountNumber) {
     });
   }
 
-  function renderOpaDetails () {
+  function renderOpaDetails() {
     var state = history.state,
         opa = state.opa;
 
@@ -367,7 +367,9 @@ app.views.property = function (accountNumber) {
         var rows = data.rows;
 
         // Sort by valuation year
-        rows.sort(function(a,b) {return (a.year > b.year) ? 1 : ((b.year > a.year) ? -1 : 0);} );
+        rows.sort(function (a, b) {
+          return (a.year > b.year) ? 1 : ((b.year > a.year) ? -1 : 0);
+        });
         rows.reverse();
         rows.forEach(function (vh) {
           var row = $('<tr>');
@@ -420,7 +422,7 @@ app.views.property = function (accountNumber) {
   }
 
   function getExteriorConditionDescription(id) {
-    switch (id) {
+    switch(id) {
       case '1':
         return 'Other';
       case '2':
@@ -497,7 +499,7 @@ app.views.property = function (accountNumber) {
     app.hooks.serviceAreaPanel.removeClass('hide');
   }
 
-  function renderError (error) {
+  function renderError(error) {
     app.hooks.propertySecondary.hide();
     app.hooks.content.text(error);
   }
