@@ -644,8 +644,8 @@
                     url = extra.url || '',
                     isAis = url.indexOf('api.phila.gov/ais') !== -1;
 
-                // sample 2% of 404s from ais (we get a lot of these)
-                if (isAis && status === 404 && Math.random() > 0.02) {
+                // don't send ais 404s (these are tracked in gatekeeper)
+                if (isAis && status == 404) {
                   return false;
                 }
 
