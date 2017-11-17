@@ -18,10 +18,10 @@ app.views.results = function (parsedQuery) {
   app.hooks.aboveContent.children().detach();
 
   var endpointMap = {
-    'address': 'addresses',
-    'account': 'account',
-    'block': 'block',
-    'owner': 'owner',
+    address: 'addresses',
+    account: 'account',
+    block: 'block',
+    owner: 'owner',
   };
 
   var queryType = parsedQuery.type,
@@ -63,7 +63,7 @@ app.views.results = function (parsedQuery) {
     getAisData();
   }
 
-  function getAisData () {
+  function getAisData() {
     var params = {
       // gatekeeperKey: app.config['gatekeeperKey'],
       include_units: null,
@@ -78,7 +78,7 @@ app.views.results = function (parsedQuery) {
     });
   }
 
-  function didGetAisData (aisData) {
+  function didGetAisData(aisData) {
     var property, accountNumber, href, withUnit;
 
     if (!app.globals.historyState) history.state = {};
@@ -159,7 +159,7 @@ app.views.results = function (parsedQuery) {
     render();
   }
 
-  function constructOpaUrl (features) {
+  function constructOpaUrl(features) {
     var accountNumbers = $.map(features, function (feature) {
       return feature.properties.opa_account_num
     })
@@ -179,7 +179,7 @@ app.views.results = function (parsedQuery) {
     return app.config.carto.baseUrl + '?q=' + encodeURIComponent(query)
   }
 
-  function keyBy (items, key) {
+  function keyBy(items, key) {
     var hash = {}
     for (var i = 0; i < items.length; i++) {
       hash[items[i][key]] = items[i]
@@ -187,16 +187,16 @@ app.views.results = function (parsedQuery) {
     return hash
   }
 
-  function render () {
+  function render() {
     var state = history.state;
     if (state.error) return app.hooks.content.html(state.error);
     var features = state.features;
-    var total_size = state.total_size;
+    var totalSize = state.total_size;
     var isOwnerSearch = state.isOwnerSearch;
 
     app.hooks.content.empty(); // Remove loading message
 
-    if (total_size === 0) {
+    if (totalSize === 0) {
       return app.hooks.content.append(app.hooks.noResults);
     }
 
@@ -211,7 +211,7 @@ app.views.results = function (parsedQuery) {
     if (features) {
       $.each(features, addRow);
 
-      if (total_size > features.length) {
+      if (totalSize > features.length) {
         var seeMoreA = app.hooks.seeMore.find('a');
         seeMoreA.off('click'); // Drop previously created click events
         seeMoreA.on('click', function (e) {
@@ -242,7 +242,7 @@ app.views.results = function (parsedQuery) {
                   history.replaceState(state, ''); // Second param not optional in IE10
 
                   $.each(aisData.features, addRow);
-                  if (state.total_size === state.features.length) app.hooks.seeMore.hide();
+                  if (state.totalSize === state.features.length) app.hooks.seeMore.hide();
 
                   // Remove old Tablesaw data and refresh
                   $('[data-hook="results-table"]').table().data("table").destroy();
@@ -274,17 +274,17 @@ app.views.results = function (parsedQuery) {
 
     // Fetch IP & show it
     $.getJSON('https://api.ipify.org?format=json')
-      .done(function(response) {
-        if(response.ip) {
+      .done(function (response) {
+        if (response.ip) {
           app.hooks.ownerSearchDisclaimerIp.text(response.ip);
         }
       })
-      .fail(function() {
+      .fail(function () {
         app.hooks.ownerSearchDisclaimerIp.text(app.hooks.ownerSearchDisclaimerIp.attr('data-default'));
       });
   }
 
-  function addRow (index, property) {
+  function addRow(index, property) {
     var row = app.hooks.resultRow.clone(),
         attrs = property.properties,
         accountNumber = attrs.opa_account_num,
