@@ -79,6 +79,14 @@ app.views.results = function (parsedQuery) {
   }
 
   function didGetAisData(aisData) {
+    // leave sentry breadcrumb to help with debugging
+    Raven.captureBreadcrumb({
+      message: 'results.js: didGetAisData',
+      category: 'data',
+      level: 'debug',
+      data: aisData,
+    });
+
     var property, accountNumber, href, withUnit;
 
     if (!app.globals.historyState) history.state = {};
