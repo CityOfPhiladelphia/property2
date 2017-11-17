@@ -121,6 +121,10 @@ app.views.property = function (accountNumber) {
       .done(function (data) {
         var state = $.extend({}, history.state);
         var property, href, withUnit;
+        
+        // DEBUG for sentry breadcrumb
+        var prevState = $.extend({}, state);
+
         state.ais = data;
 
         // leave sentry breadcrumb to help with debugging
@@ -129,7 +133,8 @@ app.views.property = function (accountNumber) {
           category: 'data',
           level: 'debug',
           data: {
-            state: state,
+            prevState: prevState,
+            nextState: state,
           },
         });
 
