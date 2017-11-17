@@ -93,7 +93,7 @@ app.views.property = function (accountNumber) {
           Raven.captureException(e, {
             extra: {
               state: state,
-            }
+            },
           });
         }
 
@@ -113,12 +113,25 @@ app.views.property = function (accountNumber) {
       });
   }
 
+  // this appears to be called when the app is loaded with a account num in the
+  // query string.
   function getSaData() {
+    // REVIEW should this url be protocol-less?
     $.ajax('https://api.phila.gov/ais_ps/v1/account/' + accountNumber)
       .done(function (data) {
         var state = $.extend({}, history.state);
         var property, href, withUnit;
         state.ais = data;
+
+        // leave sentry breadcrumb to help with debugging
+        Raven.captureBreadcrumb({
+          message: 'results.js: getSaData will replace state',
+          category: 'data',
+          level: 'debug',
+          data: {
+            state: state,
+          },
+        });
 
         if (app.globals.historyState) {
           history.replaceState(state, ''); // Second param not optional in IE10
