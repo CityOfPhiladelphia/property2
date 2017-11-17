@@ -79,16 +79,6 @@ app.views.results = function (parsedQuery) {
   }
 
   function didGetAisData(aisData) {
-    // leave sentry breadcrumb to help with debugging
-    Raven.captureBreadcrumb({
-      message: 'results.js: didGetAisData',
-      category: 'data',
-      level: 'debug',
-      data: {
-        aisData: aisData,
-      },
-    });
-
     var property, accountNumber, href, withUnit;
 
     if (!app.globals.historyState) history.state = {};
@@ -103,6 +93,7 @@ app.views.results = function (parsedQuery) {
       return;
     }
 
+    // single result
     if (!isOwnerSearch && (
       aisData.type == 'Feature' ||
       aisData.features.length === 1)) {
@@ -113,12 +104,27 @@ app.views.results = function (parsedQuery) {
         href = '?' + $.param({p: accountNumber});
         withUnit = feature.properties.street_address;
 
-        history.replaceState({
+        var nextState = {
           ais: feature,
           address: withUnit,
-        }, withUnit, href);
+        };
+
+        // leave sentry breadcrumb to help with debugging
+        Raven.captureBreadcrumb({
+          message: 'results.js: didGetAisData will replace AIS state [single \
+                    result]',
+          category: 'data',
+          level: 'debug',
+          data: {
+            prevState: history.state,
+            nextState: nextState,
+          },
+        });
+
+        history.replaceState(nextState, withUnit, href);
 
         app.views.property(accountNumber);
+    // multiple results
     } else {
       // Fetch market_value, sale data from OPA dataset
       var opaUrl = constructOpaUrl(aisData.features);
@@ -130,13 +136,24 @@ app.views.results = function (parsedQuery) {
           })
 
           var newState = $.extend({}, history.state);
-          // Used for rendering a special owner search disclaimer
           // For business reasons, owner searches need to always show on the
           // results page for the disclaimer.
           if (isOwnerSearch) {
             aisData = $.extend({isOwnerSearch: true}, aisData);
           }
-          newState = aisData
+          newState = aisData;
+
+          // leave sentry breadcrumb to help with debugging
+          Raven.captureBreadcrumb({
+            message: 'results.js: didGetAisData will replace AIS state \
+                      [multiple results]',
+            category: 'data',
+            level: 'debug',
+            data: {
+              prevState: history.state,
+              nextState: newState,
+            },
+          });
 
           if (!app.globals.historyState) {
             history.state = newState;
