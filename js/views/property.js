@@ -188,7 +188,18 @@ app.views.property = function (accountNumber) {
     app.hooks.belowContent.append(app.hooks.propertySecondary);
 
     // Set OPA inquiry link
-    var tencode = app.util.constructTencode(state.ais);
+    // this has been failing when state.ais is undefined. wrapping in a try.
+    // related to issue #208.
+    var tencode;
+    try {
+      tencode = app.util.constructTencode(state.ais);
+    } catch (e) {
+      Raven.captureException(e, {
+        extra: {
+          state: state,
+        },
+      });
+    }
     app.hooks.opaInquiryUrl.attr('href', 'http://opa.phila.gov/opa.apps/Help/CitizenMain.aspx?sch=Ctrl2&s=1&url=search&id=' + tencode);
 
     // Set L&I link
