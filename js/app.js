@@ -327,8 +327,8 @@ app.util.serializeQueryStringParams = function (obj) {
 // We only handle whole dollar amounts here
 accounting.settings.currency.precision = 0;
 
-//things to do on small screens
-var smallScreens = $( window ).width() >= '480';
+// things to do on small screens
+var smallScreens = $(window).width() >= '480';
 
 app.util.constructTencode = function (aisObj) {
   var props = aisObj.properties,
