@@ -123,7 +123,8 @@ app.views.property = function (accountNumber) {
         var property, href, withUnit;
         
         // DEBUG for sentry breadcrumb
-        var prevState = $.extend({}, state);
+        // Object.keys has been shimmed, so this should work everywhere.
+        var prevStateKeys = Object.keys(state || {});
 
         state.ais = data;
 
@@ -133,8 +134,8 @@ app.views.property = function (accountNumber) {
           category: 'data',
           level: 'debug',
           data: {
-            prevState: prevState,
-            nextState: state,
+            prevStateKeys: prevStateKeys,
+            nextStateKeys: Object.keys(state || {}),
           },
         });
 

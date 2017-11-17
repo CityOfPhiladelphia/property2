@@ -115,8 +115,9 @@ app.views.results = function (parsedQuery) {
           category: 'data',
           level: 'debug',
           data: {
-            prevState: history.state,
-            nextState: nextState,
+            // Object.keys has been shimmed, so this should work everywhere.
+            prevStateKeys: Object.keys(history.state || {}),
+            nextStateKeys: Object.keys(nextState || {}),
           },
         });
 
@@ -148,8 +149,9 @@ app.views.results = function (parsedQuery) {
             category: 'data',
             level: 'debug',
             data: {
-              prevState: history.state,
-              nextState: newState,
+              // Object.keys has been shimmed, so this should work everywhere.
+              prevStateKeys: Object.keys(history.state || {}),
+              nextStateKeys: Object.keys(newState || {}),
             },
           });
 
