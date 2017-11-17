@@ -113,10 +113,6 @@ app.views.property = function (accountNumber) {
       });
   }
 
-  function hasSaDetails() {
-    return history.state.ais;
-  }
-
   function getSaData() {
     $.ajax('https://api.phila.gov/ais_ps/v1/account/' + accountNumber)
       .done(function (data) {
