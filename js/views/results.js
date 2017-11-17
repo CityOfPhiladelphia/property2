@@ -103,8 +103,6 @@ app.views.results = function (parsedQuery) {
       return;
     }
 
-    // For business reasons, owner searches need to always show on the
-    // results page for the disclaimer.
     if (!isOwnerSearch && (
       aisData.type == 'Feature' ||
       aisData.features.length === 1)) {
@@ -133,6 +131,8 @@ app.views.results = function (parsedQuery) {
 
           var newState = $.extend({}, history.state);
           // Used for rendering a special owner search disclaimer
+          // For business reasons, owner searches need to always show on the
+          // results page for the disclaimer.
           if (isOwnerSearch) {
             aisData = $.extend({isOwnerSearch: true}, aisData);
           }
