@@ -117,7 +117,9 @@ app.views.results = function (parsedQuery) {
           data: {
             // Object.keys has been shimmed, so this should work everywhere.
             prevStateKeys: Object.keys(history.state || {}),
+            prevAisKeys: Object.keys((history.state || {}).ais || {}),
             nextStateKeys: Object.keys(nextState || {}),
+            nextAisKeys: Object.keys((nextState || {}).ais || {}),
           },
         });
 
