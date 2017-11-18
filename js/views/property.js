@@ -379,7 +379,23 @@ app.views.property = function (accountNumber) {
     // TODO Socrata is missing zoning description
     // app.hooks.zoning.html(state.opa.characteristics.zoning + ': ' +
     //   state.opa.characteristics.zoning_description);
-    app.hooks.zoning.html(state.ais.properties.zoning);
+
+    // DEBUG
+    var zoning;
+
+    // this line has been throwing errors when state.ais is undefined,
+    // which should never happen.
+    try {
+     zoning = state.ais.properties.zoning;
+    } catch (e) {
+      Raven.captureException(e, {
+        extra: {
+          state: state,
+        },
+      });
+    }
+
+    app.hooks.zoning.html(zoning || '');
 
     // Fetch and render valuation history
     var url = app.config.carto.baseUrl,
