@@ -327,12 +327,33 @@ app.views.results = function (parsedQuery) {
     row.append($('<td class="hide-for-small-only">').html('<i class="fa fa-arrow-circle-right"></i>'));
 
     row.on('click', function (e) {
-        if (e.ctrlKey || e.altKey || e.shiftKey) return;
-        e.preventDefault();
-        history.pushState({ais: property, address: withUnit}, withUnit, href);
-        window.scroll(0, 0);
-        app.views.property(accountNumber);
+      if (e.ctrlKey || e.altKey || e.shiftKey) return;
+      e.preventDefault();
+
+      var nextState = {
+        ais: property,
+        address: withUnit,
+      };
+
+      // leave sentry breadcrumb to help with debugging
+      Raven.captureBreadcrumb({
+        message: 'results.js: row click callback will push state',
+        category: 'data',
+        level: 'debug',
+        data: {
+          // Object.keys has been shimmed, so this should work everywhere.
+          prevStateKeys: Object.keys(history.state || {}),
+          prevAisKeys: Object.keys((history.state || {}).ais || {}),
+          nextStateKeys: Object.keys(nextState),
+          nextAisKeys: Object.keys(property || {}),
+        },
       });
+
+      history.pushState(nextState, withUnit, href);
+      
+      window.scroll(0, 0);
+      app.views.property(accountNumber);
+    });
     app.hooks.resultRows.append(row);
   }
 };
