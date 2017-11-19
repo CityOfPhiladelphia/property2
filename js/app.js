@@ -206,22 +206,6 @@ if (history.state === undefined){
 // App utilties
 app.util = {};
 
-// Get a full address with unit included from OPA property
-// This may not be needed after migrating to AIS
-// app.util.address = function (property) {
-//   var unit = property.unit;
-//   // Trim leading zeros
-//   if (unit) {
-//     var unitTrimmed = unit.replace(/^0+/, '');
-//     if (unitTrimmed.length > 0) unit = unitTrimmed;
-//     else unit = null;
-//   }
-//   // Handle different address keys in OPA, Socrata
-//   var address = property.full_address || property.location;
-//   address += (unit ? ' #' + unit : '');
-//   return address;
-// };
-
 // Form a well-formatted ZIP code.
 app.util.formatZipCode = function (zip) {
   if (zip) {
