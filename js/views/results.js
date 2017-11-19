@@ -168,7 +168,7 @@ app.views.results = function (parsedQuery) {
   }
 
   function didGetAisError(jqXHR, textStatus, errorThrown) {
-    var status = jqXHR.responseJSON.status,
+    var status = jqXHR.status,
         message;
 
     console.debug('did get ais error', status);
