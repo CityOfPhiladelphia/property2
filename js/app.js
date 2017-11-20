@@ -201,6 +201,7 @@ function showSearchOption(type) {
 // pushState on search submit
 app.hooks.searchFormContainer.find('form').on('submit', function (e) {
   if (e.ctrlKey || e.altKey || e.shiftKey) return;
+  // TODO preventDefault is not working on IE9; see issue #211
   e.preventDefault();
 
   var params = app.util.serializeObject(this),
