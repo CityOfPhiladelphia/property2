@@ -8,9 +8,6 @@ if (window.location.hostname !== 'localhost') {
 // Global namespace for the app
 var app = {};
 
-// Expose it for introspection
-window.app = app;
-
 // global variables
 app.globals = {};
 
