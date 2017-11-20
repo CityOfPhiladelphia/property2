@@ -26,11 +26,48 @@ if (history.state === undefined){
 } else {
   app.globals.historyState = true;
 }
-// Global namespace for the app
-var app = {};
 
-// Expose it for introspection
-window.app = app;
+// DEBUG; see issue #208
+// wrap all calls to pushState and replaceState so they leave a sentry
+// breadcrumb. this is to help narrow down what's wiping out the ais state
+// randomly.
+(function () {
+  var _pushState = history.pushState.bind(history),
+      _replaceState = history.replaceState.bind(history),
+      leaveSentryBreadcrumb = function (pushOrReplace, nextState, caller) {
+        var prevState = history.state || {},
+            prevAis = prevState.ais || {},
+            nextState = nextState || {},
+            nextAis = nextState.ais || {},
+            message = pushOrReplace + 'State';
+
+        if (caller) {
+          message = caller + ': ' + message;
+        }
+
+        Raven.captureBreadcrumb({
+          message: message,
+          category: 'state',
+          level: 'debug',
+          data: {
+            prevStateKeys: Object.keys(prevState),
+            prevAisKeys: Object.keys(prevAis),
+            nextStateKeys: Object.keys(nextState),
+            nextAisKeys: Object.keys(nextAis),
+          },
+        });
+      };
+
+  history.pushState = function (state, title, location, caller) {
+    leaveSentryBreadcrumb('push', state, caller);
+    _pushState(state, title, location);
+  };
+
+  history.replaceState = function (state, title, location, caller) {
+    leaveSentryBreadcrumb('replace', state, caller);
+    _replaceState(state, title, location);
+  };
+})();
 
 // Config
 app.config = {
@@ -177,9 +214,6 @@ app.hooks.searchFormContainer.find('form').on('submit', function (e) {
     app.views.results(params);
   }
 });
-
-// global variables
-app.globals = {};
 
 // A place for views to populate
 app.views = {};
