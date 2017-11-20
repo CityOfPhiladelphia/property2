@@ -91,4 +91,4 @@
 
     return obj;
   };
-})(jQuery);
+})(jQuery || $);
