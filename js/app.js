@@ -2,7 +2,10 @@
 
 // disable console.debug in production
 if (window.location.hostname !== 'localhost') {
-  console.debug = function () {};
+  // check for console first (this breaks on some versions of IE)
+  if (console) {
+    console.debug = function () {};
+  }
 }
 
 // Global namespace for the app
