@@ -657,6 +657,34 @@
       })();
     </script>
 
+    <script>
+      // DEBUG; see issue #210
+      // we're seeing a number of errors in sentry where jquery is not defined. it's
+      // unclear why this is happening - perhaps because of an issue with the jquery
+      // cdn. this isn't a very elegant solution, but at least it gives affected
+      // users some warning that the page isn't going to work.
+      // TODO research this more and/or come up with a better error message.
+      try {
+        $();
+        jQuery();
+      } catch (e) {
+        alert(
+          "Oops! There was a problem loading this page. Please refresh your " + 
+          "browser window and try again.\n\n" +
+
+          "We've made a note of this issue and are looking into a solution. We " +
+          "appreciate your patience."
+        );
+
+        // tell sentry and report globals
+        Raven.captureException(e, {
+          extra: {
+            globals: Object.keys(window),
+          },
+        });
+      }
+    </script>
+
     <script src="js/deparam.js"></script>
     <script src="js/app.js"></script>
     <script src="js/views/front.js"></script>
