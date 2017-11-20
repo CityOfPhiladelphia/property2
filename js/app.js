@@ -11,6 +11,30 @@ var app = {};
 // Expose it for introspection
 window.app = app;
 
+// global variables
+app.globals = {};
+
+// Shims to gracefully degrade pushState and replaceState for IE9
+if (!history.pushState) {
+  history.pushState = function (s, t, l) {window.location = l};
+  history.replaceState = function (s, t, l) {
+    if (l) window.location = l;
+    else history.state = s;
+  };
+}
+
+// Support browsers lacking history.state support (Safari 5)
+if (history.state === undefined){
+  app.globals.historyState = false;
+} else {
+  app.globals.historyState = true;
+}
+// Global namespace for the app
+var app = {};
+
+// Expose it for introspection
+window.app = app;
+
 // Config
 app.config = {
   gatekeeperKey:        'c0eb3e7795b0235dfed5492fcd12a344',
@@ -186,22 +210,6 @@ app.route = function () {
 // Route on page load and back button
 $(app.route);
 window.onpopstate = app.route;
-
-// Shims to gracefully degrade pushState and replaceState for IE9
-if (!history.pushState) {
-  history.pushState = function (s, t, l) {window.location = l};
-  history.replaceState = function (s, t, l) {
-    if (l) window.location = l;
-    else history.state = s;
-  };
-}
-
-// Support browsers lacking history.state support (Safari 5)
-if (history.state === undefined){
-  app.globals.historyState = false;
-} else {
-  app.globals.historyState = true;
-}
 
 // App utilties
 app.util = {};
