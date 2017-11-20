@@ -111,7 +111,8 @@ app.hooks.frontLink = $('<a>').attr('href', window.location.pathname).on('click'
   e.preventDefault();
   window.scroll(0, 0);
   if (!window.location.search) return; // already at the front
-  history.pushState(null, a.text(), href);
+  // history.pushState(null, a.text(), href);
+  history.pushState(null, a.text(), href, 'app.js - front link');
   app.views.front();
 });
 
@@ -209,7 +210,8 @@ app.hooks.searchFormContainer.find('form').on('submit', function (e) {
 
   if (params) {
     $(this).find('input').blur();
-    history.pushState(null, params, '?' + queryStringParams);
+    // history.pushState(null, params, '?' + queryStringParams);
+    history.pushState(null, params, '?' + queryStringParams, 'app.js - search form submit');
     window.scroll(0, 0);
     app.views.results(params);
   }

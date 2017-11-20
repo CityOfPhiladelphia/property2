@@ -34,7 +34,8 @@ app.views.property = function (accountNumber) {
   app.hooks.trashPanel.addClass('hide');
   app.hooks.serviceAreaPanel.addClass('hide');
 
-  if (!history.state) history.replaceState({}, '');
+  // if (!history.state) history.replaceState({}, '');
+  if (!history.state) history.replaceState({}, '', null, 'property.js - init');
 
   // If there's an error, render it and stop there.
   // REVIEW this doesn't seem to be used anymore
@@ -98,7 +99,8 @@ app.views.property = function (accountNumber) {
         }
 
         if (app.globals.historyState) {
-          history.replaceState(state, ''); // Second param not optional in IE10
+          // history.replaceState(state, ''); // Second param not optional in IE10
+          history.replaceState(state, '', null, 'property.js - get opa data done'); // Second param not optional in IE10
         } else {
           history.state = state;
         }
@@ -108,7 +110,8 @@ app.views.property = function (accountNumber) {
       })
       .fail(function () {
         var error = app.config.defaultError;
-        history.replaceState({error: error}, '');
+        // history.replaceState({error: error}, '');
+        history.replaceState({error: error}, '', null, 'property.js - get opa data fail');
         renderError(error);
       });
   }
@@ -128,19 +131,9 @@ app.views.property = function (accountNumber) {
 
         state.ais = data;
 
-        // leave sentry breadcrumb to help with debugging
-        Raven.captureBreadcrumb({
-          message: 'results.js: getSaData will replace AIS state',
-          category: 'data',
-          level: 'debug',
-          data: {
-            prevStateKeys: prevStateKeys,
-            nextStateKeys: Object.keys(state || {}),
-          },
-        });
-
         if (app.globals.historyState) {
-          history.replaceState(state, ''); // Second param not optional in IE10
+          // history.replaceState(state, ''); // Second param not optional in IE10
+          history.replaceState(state, '', null, 'property.js - get sa data done'); // Second param not optional in IE10
         } else {
           history.state = state;
         }
@@ -150,7 +143,8 @@ app.views.property = function (accountNumber) {
       })
       .fail(function () {
         var error = app.config.defaultError;
-        history.replaceState({error: error}, '');
+        // history.replaceState({error: error}, '');
+        history.replaceState({error: error}, '', null, 'property.js - get sa data fail');
         // render();
         renderError(error);
       });

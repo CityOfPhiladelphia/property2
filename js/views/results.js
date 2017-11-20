@@ -88,7 +88,8 @@ app.views.results = function (parsedQuery) {
     if (!aisData || (!aisData.features && !aisData.properties)) {
       console.debug('no ais features', aisData);
       var error = app.config.defaultError;
-      history.replaceState({error: error}, '');
+      // history.replaceState({error: error}, '');
+      history.replaceState({error: error}, '', null, 'results.js - did get ais data');
       render();
       return;
     }
@@ -109,21 +110,8 @@ app.views.results = function (parsedQuery) {
           address: withUnit,
         };
 
-        // leave sentry breadcrumb to help with debugging
-        Raven.captureBreadcrumb({
-          message: 'results.js: didGetAisData will replace AIS state [single result]',
-          category: 'data',
-          level: 'debug',
-          data: {
-            // Object.keys has been shimmed, so this should work everywhere.
-            prevStateKeys: Object.keys(history.state || {}),
-            prevAisKeys: Object.keys((history.state || {}).ais || {}),
-            nextStateKeys: Object.keys(nextState || {}),
-            nextAisKeys: Object.keys((nextState || {}).ais || {}),
-          },
-        });
-
-        history.replaceState(nextState, withUnit, href);
+        // history.replaceState(nextState, withUnit, href);
+        history.replaceState(nextState, withUnit, href, 'results.js - did get ais result [single]');
 
         app.views.property(accountNumber);
     // multiple results
@@ -145,22 +133,11 @@ app.views.results = function (parsedQuery) {
           }
           newState = aisData;
 
-          // leave sentry breadcrumb to help with debugging
-          Raven.captureBreadcrumb({
-            message: 'results.js: didGetAisData will replace AIS state [multiple results]',
-            category: 'data',
-            level: 'debug',
-            data: {
-              // Object.keys has been shimmed, so this should work everywhere.
-              prevStateKeys: Object.keys(history.state || {}),
-              nextStateKeys: Object.keys(newState || {}),
-            },
-          });
-
           if (!app.globals.historyState) {
             history.state = newState;
           } else {
-            history.replaceState(newState, ''); // Second param not optional in IE10
+            // history.replaceState(newState, ''); // Second param not optional in IE10
+            history.replaceState(newState, '', null, 'results.js - did get ais data [multiple]'); // Second param not optional in IE10
           }
           render();
         });
@@ -184,7 +161,8 @@ app.views.results = function (parsedQuery) {
         break;
     }
 
-    history.replaceState({error: message}, '');
+    // history.replaceState({error: message}, '');
+    history.replaceState({error: message}, '', null, 'results.js - did get ais error');
     render();
   }
 
@@ -268,7 +246,8 @@ app.views.results = function (parsedQuery) {
 
                   state.features = state.features.concat(aisData.features);
                   state.page = aisData.page;
-                  history.replaceState(state, ''); // Second param not optional in IE10
+                  // history.replaceState(state, ''); // Second param not optional in IE10
+                  history.replaceState(state, '', null, 'results.js - see more click'); // Second param not optional in IE10
 
                   $.each(aisData.features, addRow);
                   if (state.totalSize === state.features.length) app.hooks.seeMore.hide();
@@ -335,21 +314,8 @@ app.views.results = function (parsedQuery) {
         address: withUnit,
       };
 
-      // leave sentry breadcrumb to help with debugging
-      Raven.captureBreadcrumb({
-        message: 'results.js: row click callback will push state',
-        category: 'data',
-        level: 'debug',
-        data: {
-          // Object.keys has been shimmed, so this should work everywhere.
-          prevStateKeys: Object.keys(history.state || {}),
-          prevAisKeys: Object.keys((history.state || {}).ais || {}),
-          nextStateKeys: Object.keys(nextState),
-          nextAisKeys: Object.keys(property || {}),
-        },
-      });
-
-      history.pushState(nextState, withUnit, href);
+      // history.pushState(nextState, withUnit, href);
+      history.pushState(nextState, withUnit, href, 'results.js - row click');
       
       window.scroll(0, 0);
       app.views.property(accountNumber);
