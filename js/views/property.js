@@ -94,6 +94,7 @@ app.views.property = function (accountNumber) {
           Raven.captureException(e, {
             extra: {
               state: state,
+              historyState: app.globals.historyState,
             },
           });
         }
@@ -199,6 +200,7 @@ app.views.property = function (accountNumber) {
       Raven.captureException(e, {
         extra: {
           state: state,
+          historyState: app.globals.historyState,
         },
       });
     }
@@ -385,6 +387,7 @@ app.views.property = function (accountNumber) {
       Raven.captureException(e, {
         extra: {
           state: state,
+          historyState: app.globals.historyState,
         },
       });
     }
