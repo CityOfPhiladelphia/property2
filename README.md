@@ -60,14 +60,6 @@ Property is hosted on GitHub pages. To deploy:
 3. Merge the Pull Request.
 4. Done!
 
-## APIs
-
-OPA API for geocoding and looking up property details
-- http://phlapi.com/opaapi.html
-
-Service Areas on Socrata
-- https://data.phila.gov/resource/bz79-67af
-
 ## Supported Browsers
 
 Test against each of these browsers, including mobile and print view, before deploying to production.
