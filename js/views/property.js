@@ -125,7 +125,7 @@ app.views.property = function (accountNumber) {
       .done(function (data) {
         var state = $.extend({}, history.state);
         var property, href, withUnit;
-        
+
         // DEBUG for sentry breadcrumb
         // Object.keys has been shimmed, so this should work everywhere.
         var prevStateKeys = Object.keys(state || {});
@@ -534,6 +534,9 @@ app.views.property = function (accountNumber) {
     // Districts
     app.hooks.planning.text(sa.planning_district);
     app.hooks.liDistrict.text(sa.li_district);
+    app.hooks.censusTract.text(sa.census_tract_2010);
+    app.hooks.censusBlockGroup.text(sa.census_block_group_2010);
+    app.hooks.commercialCorridor.text(sa.commercial_corridor || 'n/a');
 
     // Hide status messages, load content.
     app.hooks.trashStatus.addClass('hide');
