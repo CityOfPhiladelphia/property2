@@ -125,7 +125,7 @@ app.views.property = function (accountNumber) {
       .done(function (data) {
         var state = $.extend({}, history.state);
         var property, href, withUnit;
-        
+
         // DEBUG for sentry breadcrumb
         // Object.keys has been shimmed, so this should work everywhere.
         var prevStateKeys = Object.keys(state || {});
@@ -368,7 +368,8 @@ app.views.property = function (accountNumber) {
     pm.append($('<div>').text(mailing_zip));
 
     // Update tax balance button with a direct link to the account
-    var taxBalanceUrl = 'http://www.phila.gov/revenue/realestatetax/?txtBRTNo=' + opa.parcel_number;
+    // var taxBalanceUrl = 'http://www.phila.gov/revenue/realestatetax/?txtBRTNo=' + opa.parcel_number;
+    var taxBalanceUrl = 'http://www.phila.gov/revenue/realestatetax/';
     app.hooks.taxBalanceLink.attr('href', taxBalanceUrl);
 
     // Render zoning
