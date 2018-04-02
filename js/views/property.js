@@ -368,8 +368,7 @@ app.views.property = function (accountNumber) {
     pm.append($('<div>').text(mailing_zip));
 
     // Update tax balance button with a direct link to the account
-    // var taxBalanceUrl = 'http://www.phila.gov/revenue/realestatetax/?txtBRTNo=' + opa.parcel_number;
-    var taxBalanceUrl = 'http://www.phila.gov/revenue/realestatetax/';
+    var taxBalanceUrl = 'http://www.phila.gov/revenue/realestatetax/?txtBRTNo=' + opa.parcel_number;
     app.hooks.taxBalanceLink.attr('href', taxBalanceUrl);
 
     // Render zoning
