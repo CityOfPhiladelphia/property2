@@ -206,8 +206,15 @@ app.views.property = function (accountNumber) {
     }
     app.hooks.opaInquiryUrl.attr('href', 'http://opa.phila.gov/opa.apps/Help/CitizenMain.aspx?sch=Ctrl2&s=1&url=search&id=' + tencode);
 
+    // REVIEW this seems to work, but when you hover over the link in chrome
+    // it doesn't appear to be encoded.
+    var addressEncoded = encodeURIComponent(state.address);
+
     // Set L&I link
-    app.hooks.liLink.attr('href', 'http://li.phila.gov/#summary?address=' + encodeURI(state.address));
+    app.hooks.liLink.attr('href', 'http://li.phila.gov/#summary?address=' + addressEncoded);
+
+    // set atlas link
+    app.hooks.atlasLink.attr('href', 'https://atlas.phila.gov/#/' + addressEncoded + '/deeds');
 
     opaRendered = true;
   }
@@ -368,8 +375,7 @@ app.views.property = function (accountNumber) {
     pm.append($('<div>').text(mailing_zip));
 
     // Update tax balance button with a direct link to the account
-    // var taxBalanceUrl = 'http://www.phila.gov/revenue/realestatetax/?txtBRTNo=' + opa.parcel_number;
-    var taxBalanceUrl = 'http://www.phila.gov/revenue/realestatetax/';
+    var taxBalanceUrl = 'http://www.phila.gov/revenue/realestatetax/?txtBRTNo=' + opa.parcel_number;
     app.hooks.taxBalanceLink.attr('href', taxBalanceUrl);
 
     // Render zoning
