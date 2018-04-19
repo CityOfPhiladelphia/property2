@@ -379,19 +379,54 @@ app.views.property = function (accountNumber) {
     app.hooks.taxBalanceLink.attr('href', taxBalanceUrl);
 
     // Update tax estimate
+    // function updateTaxEstimate () {
+    //   var rate = +app.hooks.taxEstimateRate.val()
+    //   var homestead = +app.hooks.taxEstimateHomestead.val()
+    //   var hasHomestead = (opa.homestead_exemption > 0)
+    //   var marketValue = opa.market_value
+    //   var exemptValue = opa.exempt_building + opa.exempt_land
+    //   var taxableValue = Math.max(0, marketValue - exemptValue)
+    //   var taxEstimateResult = Math.max(0, taxableValue * (rate / 100))
+    //   app.hooks.taxEstimateResult.text(accounting.formatMoney(taxEstimateResult))
+    // }
+
     function updateTaxEstimate () {
-      var rate = +app.hooks.taxEstimateRate.val()
-      var homestead = +app.hooks.taxEstimateHomestead.val()
+      var selection = app.hooks.taxEstimateRate.val()
+      var rate = (selection === 'proposed') ? 1.4572 : 1.3998
+      var homesteadValue = (selection === 'proposed') ? 45000 : 30000
+      var isHomesteadChecked = app.hooks.taxEstimateHomesteadCheckbox.prop('checked')
+      var alreadyHasHomestead = (opa.homestead_exemption > 0)
+
       var marketValue = opa.market_value
       var exemptValue = opa.exempt_building + opa.exempt_land
-      var taxableValue = Math.max(0, marketValue - exemptValue - homestead)
-      var taxEstimateResult = Math.max(0, taxableValue * (rate / 100))
-      app.hooks.taxEstimateResult.text(accounting.formatMoney(taxEstimateResult))
+      var taxableValue = (isHomesteadChecked && !alreadyHasHomestead)
+        ? marketValue - exemptValue - homesteadValue
+        : marketValue - exemptValue // homesteadValue included in exemptBuilding
+
+      var taxEstimate = Math.max(0, taxableValue * (rate / 100))
+      var formattedTaxEstimate = accounting.formatMoney(taxEstimate)
+      app.hooks.taxEstimateResult.text(formattedTaxEstimate)
     }
+
+    function updateHomesteadLabel () {
+      var selection = app.hooks.taxEstimateRate.val()
+      var homesteadValue = (selection === 'proposed') ? 45000 : 30000
+      var newHomesteadLabel = accounting.formatMoney(homesteadValue)
+      app.hooks.taxEstimateHomesteadLabel.text(newHomesteadLabel)
+    }
+
+    var alreadyHasHomestead = (opa.homestead_exemption > 0)
+    app.hooks.taxEstimateHomesteadCheckbox
+      .prop('checked', alreadyHasHomestead)
+      .prop('disabled', alreadyHasHomestead)
+
     updateTaxEstimate()
 
     app.hooks.taxEstimateRate
-      .add(app.hooks.taxEstimateHomestead)
+      .change(updateTaxEstimate)
+      .change(updateHomesteadLabel)
+
+    app.hooks.taxEstimateHomesteadCheckbox
       .change(updateTaxEstimate)
 
     app.hooks.taxEstimateButton.click(function () {

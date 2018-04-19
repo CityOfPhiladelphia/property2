@@ -424,17 +424,14 @@
             <div class="medium-8 columns">
               <label for="rate">Tax rate</label>
               <select id="rate" data-hook="tax-estimate-rate">
-                <option value="1.3998">1.3998% (Current)</option>
-                <option value="1.4">1.4572% (Proposed)</option>
+                <option value="current">1.3998% (Current)</option>
+                <option value="proposed">1.4572% (Proposed)</option>
               </select>
             </div>
             <div class="medium-8 columns">
-              <label for="homestead">Homestead exemption</label>
-              <select id="homestead" data-hook="tax-estimate-homestead">
-                <option value="0">No homestead</option>
-                <option value="30000">$30,000</option>
-                <option value="45000">$45,000</option>
-              </select>
+              <label>Homestead exemption</label>
+              <input type="checkbox" id="homestead" data-hook="tax-estimate-homestead-checkbox">
+              <label for="homestead" data-hook="tax-estimate-homestead-label">$30,000</label>
             </div>
             <div class="medium-8 columns text-right" style="margin-top: 28px">
               <a data-hook="tax-estimate-button" class="button no-margin">Estimate 2019 tax</a>
