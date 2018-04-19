@@ -378,6 +378,27 @@ app.views.property = function (accountNumber) {
     var taxBalanceUrl = 'http://www.phila.gov/revenue/realestatetax/?txtBRTNo=' + opa.parcel_number;
     app.hooks.taxBalanceLink.attr('href', taxBalanceUrl);
 
+    // Update tax estimate
+    function updateTaxEstimate () {
+      var rate = +app.hooks.taxEstimateRate.val()
+      var homestead = +app.hooks.taxEstimateHomestead.val()
+      var marketValue = opa.market_value
+      var exemptValue = opa.exempt_building + opa.exempt_land
+      var taxableValue = Math.max(0, marketValue - exemptValue - homestead)
+      var taxEstimateResult = Math.max(0, taxableValue * (rate / 100))
+      app.hooks.taxEstimateResult.text(accounting.formatMoney(taxEstimateResult))
+    }
+    updateTaxEstimate()
+
+    app.hooks.taxEstimateRate
+      .add(app.hooks.taxEstimateHomestead)
+      .change(updateTaxEstimate)
+
+    app.hooks.taxEstimateButton.click(function () {
+      $(this).hide()
+      app.hooks.taxEstimateResult.show()
+    })
+
     // Render zoning
     // TODO Socrata is missing zoning description
     // app.hooks.zoning.html(state.opa.characteristics.zoning + ': ' +
