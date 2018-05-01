@@ -393,8 +393,8 @@ app.views.property = function (accountNumber) {
           isHomesteadChecked = homesteadCheckbox.prop('checked');
 
       // check if they already have a homestead exemption
-      var existingHomesteadValue = opa.homestead_exemption || 0;
-      var alreadyHasHomestead = existingHomesteadValue > 0;
+      var existingHomesteadValue = opa.homestead_exemption || 0,
+          alreadyHasHomestead = existingHomesteadValue > 0;
 
       // handle homestead exemption if necessary
       if (isHomesteadChecked) {
@@ -402,35 +402,33 @@ app.views.property = function (accountNumber) {
         if (useProposed) {
           // and they already have an exemption
           if (alreadyHasHomestead) {
-            var homesteadDiff;
-
-            // and it's over 45k, use 45k
-            // (there are only a handful of these, but just in case)
-            if (existingHomesteadValue > 45000) {
-              homesteadDiff = 45000;
-            // otherwise find the difference between 45k and the exemption they
-            // already have
-            } else {
-              homesteadDiff = 45000 - existingHomesteadValue;
-            }
-
-            exemptValue += homesteadDiff;
+            // calculate their current homestead proportionate to 30k and
+            // apply to 45k
+            var proposedHomestead = existingHomesteadValue / 30000 * 45000;
+            // exemptValue += proposedHomestead;
+            exemptValue = proposedHomestead;
           // if they don't already have a homestead, use 45k
           } else {
-            exemptValue += 45000;
+            exemptValue = 45000;
           }
         // if we're using the current rate
         } else {
-          exemptValue += existingHomesteadValue;
+          // use their existing homestead or the standard homestead of 30k
+          exemptValue = existingHomesteadValue || 30000;
         }
       }
 
       // calculate tax estimate
-      var taxableValue = marketValue - exemptValue;
-      var taxEstimate = Math.max(0, taxableValue * (rate / 100));
+      var taxableValue = marketValue - exemptValue,
+          taxEstimate = taxableValue * rate / 100,
+          taxEstimateOrZero = Math.max(taxEstimate, 0);
+
+      // leaving this in here because it's super useful for debugging.
+      // console.log('taxable value', taxableValue, '=', 'marketValue', marketValue, '- exemptValue', exemptValue);
+      // console.log('tax estimate', taxEstimate, '= max of', taxEstimate, 'and 0');
 
       // format and update
-      var formattedTaxEstimate = accounting.formatMoney(taxEstimate);
+      var formattedTaxEstimate = accounting.formatMoney(taxEstimateOrZero);
       app.hooks.taxEstimateResult.text(formattedTaxEstimate);
     }
 
@@ -458,24 +456,28 @@ app.views.property = function (accountNumber) {
       app.hooks.taxEstimateHomesteadLabel.text(newHomesteadLabel);
     }
 
-    var alreadyHasHomestead = (opa.homestead_exemption > 0)
+    var alreadyHasHomestead = (opa.homestead_exemption > 0);
+    var hasExemptValue = opa.exempt_building + opa.exempt_land > 0;
+    var shouldDisableHomestead = alreadyHasHomestead || hasExemptValue;
     app.hooks.taxEstimateHomesteadCheckbox
       .prop('checked', alreadyHasHomestead)
-      .prop('disabled', alreadyHasHomestead)
+      .prop('disabled', shouldDisableHomestead);
 
-    updateTaxEstimate()
-    updateHomesteadLabel()
+    app.hooks.homesteadDisabledTip.toggle(!alreadyHasHomestead && shouldDisableHomestead);
+
+    updateTaxEstimate();
+    updateHomesteadLabel();
 
     app.hooks.taxEstimateRate
       .change(updateTaxEstimate)
-      .change(updateHomesteadLabel)
+      .change(updateHomesteadLabel);
 
     app.hooks.taxEstimateHomesteadCheckbox
-      .change(updateTaxEstimate)
+      .change(updateTaxEstimate);
 
     app.hooks.taxEstimateButton.click(function () {
-      $(this).hide()
-      app.hooks.taxEstimateResult.show()
+      $(this).hide();
+      app.hooks.taxEstimateResult.show();
     })
 
     // Render zoning
