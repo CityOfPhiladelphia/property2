@@ -435,6 +435,9 @@ app.views.property = function (accountNumber) {
     }
 
     function updateHomesteadLabel() {
+      // call foundation again to activate the homestead disabled tooltip
+      $(document).foundation();
+
       var existingHomesteadValue = opa.homestead_exemption,
           rateVal = app.hooks.taxEstimateRate.val(),
           displayHomesteadValue;

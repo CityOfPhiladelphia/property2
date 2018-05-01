@@ -163,6 +163,14 @@ body {
   width: 100%;
 }
 
+#homestead {
+  margin-bottom: 0.5rem;
+}
+
+[data-hook="homestead-disabled-tip"] {
+  font-weight: normal;
+}
+
 @media only screen and (max-width: 40em) {
   .front .callout {
     margin:0.625rem 0 1rem 0;
@@ -206,6 +214,10 @@ body {
   }
   .search-box.medium-10 .search-form-container {
     width: 70%;
+  }
+
+  [data-hook="homestead-disabled-tip"] {
+    margin-left: 25px;
   }
 }
 

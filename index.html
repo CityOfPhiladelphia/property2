@@ -431,7 +431,13 @@
             <div class="medium-8 columns">
               <label>Homestead exemption</label>
               <input type="checkbox" id="homestead" data-hook="tax-estimate-homestead-checkbox">
-              <label for="homestead" data-hook="tax-estimate-homestead-label">/label>
+              <label for="homestead" data-hook="tax-estimate-homestead-label"></label>
+              <div data-hook="homestead-disabled-tip"
+                   data-tooltip title="It looks like you may have another exemption that makes you not eligible for the homestead exemption. Please contact the Revenue Department at (215) 686-6600 for more information."
+                   class="has-tip"
+              >
+                   Why can't I check this?
+              </div>
             </div>
             <div class="medium-8 columns text-right" style="margin-top: 28px">
               <a data-hook="tax-estimate-button" class="button no-margin">Estimate 2019 tax</a>
