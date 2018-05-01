@@ -443,7 +443,7 @@ app.views.property = function (accountNumber) {
       // if they already have a homestead exemption, use that value
       if (existingHomesteadValue > 0) {
         if (rateVal === 'proposed') {
-          displayHomesteadValue = 45000;
+          displayHomesteadValue = existingHomesteadValue / 30000 * 45000;
         } else {
           displayHomesteadValue = existingHomesteadValue;
         }
