@@ -216,6 +216,9 @@ app.views.property = function (accountNumber) {
     // set atlas link
     app.hooks.atlasLink.attr('href', 'https://atlas.phila.gov/#/' + addressEncoded + '/deeds');
 
+    // set zoning permit doc link
+    app.hooks.zoningPermitLink.attr('href', 'https://atlas.phila.gov/#/' + addressEncoded + '/li');
+
     opaRendered = true;
   }
 
