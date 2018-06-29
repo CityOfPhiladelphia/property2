@@ -386,7 +386,7 @@ app.views.property = function (accountNumber) {
       var marketValue = opa.market_value,
           exemptValue = opa.exempt_building + opa.exempt_land;
 
-      var rate = 1.4572;
+      var rate = 1.3998;
 
       // get homestead checkbox value
       var homesteadCheckbox = app.hooks.taxEstimateHomesteadCheckbox,
