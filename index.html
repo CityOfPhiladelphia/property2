@@ -12,8 +12,8 @@
     <!-- Swiftype Meta Tags -->
     <meta class="swiftype" name="title" data-type="string" content="Property" />
     <meta class="swiftype" name="body" data-type="text" content="Find valuations, real estate taxes, physical details, trash and recycling days, and school information for properties within the City of Philadelphia." />
-      <meta class="swiftype" name="tags" data-type="string" content="app" />
-  <meta class="swiftype" name="site-priority" data-type="integer" content="10" />
+    <meta class="swiftype" name="tags" data-type="string" content="app" />
+    <meta class="swiftype" name="site-priority" data-type="integer" content="10" />
 
     <meta property="og:title" content="Property | phila.gov" />
     <meta property="og:url" content="http://property.phila.gov" />
@@ -70,13 +70,16 @@
         <div class="row expanded">
           <div class="columns">
             <div class="row">
-              <div data-swiftype-index="false" class="large-24 columns">
+              <div data-swiftype-index="false" class="small-18 medium-20 columns">
                 <nav>
                   <ul data-hook="crumbs" class="breadcrumbs">
-                    <li><a href="https://beta.phila.gov">beta.phila.gov</a></li>
+                    <li><a href="https://beta.phila.gov"><i class="fa fa-home"></i></a></li>
                     <li>Property</li>
                   </ul>
                 </nav>
+              </div>
+              <div data-hook-index="false" class="small-6 medium-4 columns text-right">
+                <div id="google_translate_element" class="no-js"><i class="fa fa-globe"></i><span class="show-for-sr">Google Translate</span></div>
               </div>
             </div>
           </div>
@@ -706,7 +709,12 @@
     <script>
       $(document).foundation();
     </script>
-
+    <script type="text/javascript">
+      function googleTranslateElementInit() {
+        new google.translate.TranslateElement({pageLanguage: 'en', layout: google.translate.TranslateElement.InlineLayout.SIMPLE}, 'google_translate_element');
+      }
+    </script>
+    <script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
     <!--<![endif]-->
   </body>
 </html>
