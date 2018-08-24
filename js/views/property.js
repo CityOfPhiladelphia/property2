@@ -407,12 +407,12 @@ app.views.property = function (accountNumber) {
           if (alreadyHasHomestead) {
             // calculate their current homestead proportionate to 30k and
             // apply to 45k
-            var proposedHomestead = existingHomesteadValue / 30000 * 45000;
+            var proposedHomestead = existingHomesteadValue / 30000 * 40000;
             // exemptValue += proposedHomestead;
             exemptValue = proposedHomestead;
           // if they don't already have a homestead, use 45k
           } else {
-            exemptValue = 45000;
+            exemptValue = 40000;
           }
         // if we're using the current rate
         } else {
@@ -446,13 +446,13 @@ app.views.property = function (accountNumber) {
       // if they already have a homestead exemption, use that value
       if (existingHomesteadValue > 0) {
         if (rateVal === 'proposed') {
-          displayHomesteadValue = existingHomesteadValue / 30000 * 45000;
+          displayHomesteadValue = existingHomesteadValue / 30000 * 40000;
         } else {
           displayHomesteadValue = existingHomesteadValue;
         }
       // otherwise, use the value associated with the tax rate they selected
       } else {
-        displayHomesteadValue = (rateVal === 'proposed') ? 45000 : 30000;
+        displayHomesteadValue = (rateVal === 'proposed') ? 40000 : 30000;
       }
 
       var newHomesteadLabel = accounting.formatMoney(displayHomesteadValue);
