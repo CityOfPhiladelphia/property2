@@ -433,6 +433,8 @@ app.views.property = function (accountNumber) {
       .prop('disabled', shouldDisableHomestead);
 
     app.hooks.homesteadDisabledTip.toggle(!alreadyHasHomestead && shouldDisableHomestead);
+    // call foundation again to activate the homestead disabled tooltip
+    $(app.hooks.homesteadDisabledTip).foundation();
 
     updateTaxEstimate();
 
@@ -443,6 +445,7 @@ app.views.property = function (accountNumber) {
       $(this).hide();
       app.hooks.taxEstimateResult.show();
     })
+
 
     // Render zoning
     // TODO Socrata is missing zoning description
