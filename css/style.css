@@ -167,6 +167,80 @@ body {
   margin-bottom: 0.5rem;
 }
 
+#google_translate_element {
+  display: inline-block;
+  font-size: .8rem;
+  line-height: 1;
+  color: #444;
+}
+#google_translate_element .fa{
+  display: inline;
+}
+#google_translate_element a{
+  padding: 0 1.5rem 0 .5rem;
+  color: #444;
+}
+#google_translate_element a:hover{
+  color: white;
+}
+#google_translate_element a::before{
+  display: inline-block;
+  content: 'Translate';
+  font-family: "Open Sans", Helvetica, Roboto, Arial, sans-serif;
+  font-weight: normal;
+  text-transform: none;
+}
+
+#google_translate_element .goog-te-gadget{
+  display: inline-block;
+}
+
+#google_translate_element .goog-te-gadget-simple{
+  padding:0;
+  background: none;
+  border: none;
+  text-transform: uppercase;
+
+}
+#google_translate_element .goog-te-gadget-simple img {
+  display: none;
+}
+
+#google_translate_element .goog-te-gadget-simple span {
+  vertical-align: top !important;
+}
+
+#google_translate_element .goog-te-gadget-simple .goog-te-menu-value {
+  margin: 0 0;
+  position: relative;
+}
+
+#google_translate_element .goog-te-gadget-simple .goog-te-menu-value::after{
+  display: inline;
+  border: inset 5px;
+  border-color: #444 transparent transparent;
+  border-top-style: solid;
+  border-bottom-width: 0;
+  content: '';
+  position: absolute;
+  line-height: 0;
+  right: 7px;
+  top: 2px;
+}
+
+#google_translate_element .goog-te-gadget-simple a.goog-te-menu-value:hover::after{
+  border-color: white transparent;
+}
+
+#google_translate_element .goog-te-gadget-simple .goog-te-menu-value span{
+  display: none;
+}
+
+ul.breadcrumbs {
+  padding:0;
+  line-height: 1.8;
+}
+
 [data-hook="homestead-disabled-tip"] {
   font-weight: normal;
 }
@@ -240,6 +314,7 @@ body {
   #alpha-alert, header, nav, footer, .feedback, .button, .button + .small-text, .search, .map-container, #breadcrumbs, .search-box, .divider, .search-right, .zoning-link{
     display:none !important;
   }
+
 
   /*tablesaw-specific overrides */
   .tablesaw-stack td .tablesaw-cell-label,
