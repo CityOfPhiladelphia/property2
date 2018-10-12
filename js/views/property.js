@@ -402,7 +402,7 @@ app.views.property = function (accountNumber) {
         if (alreadyHasHomestead) {
           // calculate their current homestead proportionate to 30k and
           // apply to 40k
-          var proposedHomestead = existingHomesteadValue / 30000 * 40000;
+          var proposedHomestead = existingHomesteadValue / 40000 * 40000;
           // exemptValue += proposedHomestead;
           exemptValue = proposedHomestead;
         // if they don't already have a homestead, use 40k
