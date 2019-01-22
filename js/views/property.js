@@ -476,10 +476,12 @@ app.views.property = function (accountNumber) {
 
   function getExteriorConditionDescription(id) {
     switch(id) {
+      case '0':
+        return 'Not Applicable';
       case '1':
-        return 'Other';
+        return 'New Construction';
       case '2':
-        return 'New / Rehabbed';
+        return 'Rehab';
       case '3':
         return 'Above Average';
       case '4':
@@ -487,7 +489,7 @@ app.views.property = function (accountNumber) {
       case '5':
         return 'Below Average';
       case '6':
-        return 'Vacant';
+        return 'Poor';
       case '7':
         return 'Sealed / Structurally Compromised';
       default:
