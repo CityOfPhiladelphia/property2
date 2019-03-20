@@ -218,6 +218,13 @@ app.views.property = function (accountNumber) {
 
     // set zoning permit doc link
     app.hooks.zoningPermitLink.attr('href', 'https://atlas.phila.gov/#/' + addressEncoded + '/li');
+    
+    // set trash day link
+    app.hooks.trashLink.attr('href', 'https://www.phila.gov/trashday/?a=' + addressEncoded);
+    
+    // set openmaps day link
+    app.hooks.openmapsLink.attr('href', 'https://openmaps.phila.gov/#/' + addressEncoded);
+
 
     opaRendered = true;
   }
@@ -313,32 +320,10 @@ app.views.property = function (accountNumber) {
   }
 
   function setStreetViewLink() {
-    var state = history.state,
-        sv, addressLatLng;
-
-    // Fetch StreetView data
-    sv = new google.maps.StreetViewService();
-    addressLatLng = new google.maps.LatLng(
-      state.ais.geometry.coordinates[1], state.ais.geometry.coordinates[0]);
-
-    sv.getPanoramaByLocation(addressLatLng, 50, function(panoData, status) {
-      var cbp = '',
-          heading;
-
-      if (status === google.maps.StreetViewStatus.OK) {
-        heading = google.maps.geometry.spherical.computeHeading(
-                    panoData.location.latLng, addressLatLng);
-
-        cbp = '&cbp=12,'+heading+',0,1,0';
-      }
-
-      // Set the street view url
-      app.hooks.streetViewUrl.attr('href', 'http://maps.google.com/maps?q=loc:'+
-        state.ais.geometry.coordinates[1] + ',' + state.ais.geometry.coordinates[0] + '&layer=c&cbll='+
-        state.ais.geometry.coordinates[1] + ',' + state.ais.geometry.coordinates[0] + cbp);
-    });
+    var state = history.state
+    app.hooks.streetViewUrl.attr('href', 'https://cyclomedia.phila.gov/?' + state.ais.geometry.coordinates[1] +  '&' + state.ais.geometry.coordinates[0]);
   }
-
+  
   function renderOpaDetails() {
     var state = history.state,
         opa = state.opa;
@@ -514,7 +499,7 @@ app.views.property = function (accountNumber) {
 
     // Render service areas
     // Sidebox
-    app.hooks.rubbishDay.text(app.util.abbrevToFullDay(sa.rubbish_recycle_day));
+    //app.hooks.rubbishDay.text(app.util.abbrevToFullDay(sa.rubbish_recycle_day));
 
     // School catchment
     app.hooks.elementarySchool.text(sa.elementary_school);
@@ -522,34 +507,34 @@ app.views.property = function (accountNumber) {
     app.hooks.highSchool.text(sa.high_school);
 
     // Political
-    app.hooks.councilDistrict.text(sa.council_district_2016);
-    app.hooks.ward.text(sa.political_ward);
-    app.hooks.wardDivisions.text(sa.political_division);
+    //app.hooks.councilDistrict.text(sa.council_district_2016);
+    //app.hooks.ward.text(sa.political_ward);
+    //app.hooks.wardDivisions.text(sa.political_division);
 
     // Public safety
-    app.hooks.policePsa.text(sa.police_service_area);
-    app.hooks.policeDistrict.text(sa.police_district);
-    app.hooks.policeDivision.text(sa.police_division);
+   // app.hooks.policePsa.text(sa.police_service_area);
+  //  app.hooks.policeDistrict.text(sa.police_district);
+  //  app.hooks.policeDivision.text(sa.police_division);
 
     // Streets
-    app.hooks.highwayDistrict.text(sa.highway_district);
-    app.hooks.highwaySection.text(sa.highway_section);
-    app.hooks.highwaySubsection.text(sa.highway_subsection);
-    app.hooks.streetLightRoutes.text(sa.street_light_route);
-    app.hooks.trafficDistrict.text(sa.traffic_district);
-    app.hooks.recyclingDiversion.text((parseFloat(sa.recycling_diversion_rate) * 100).toFixed(1) + '%');  // <-- percentified
-    app.hooks.sanitationArea.text(sa.sanitation_area);
-    app.hooks.sanitationDistrict.text(sa.sanitation_district);
-    app.hooks.leafCollection.text(sa.leaf_collection_area);
-    app.hooks.trafficPmDistrict.text(sa.traffic_pm_district);
+//    app.hooks.highwayDistrict.text(sa.highway_district);
+//    app.hooks.highwaySection.text(sa.highway_section);
+//    app.hooks.highwaySubsection.text(sa.highway_subsection);
+//    app.hooks.streetLightRoutes.text(sa.street_light_route);
+//    app.hooks.trafficDistrict.text(sa.traffic_district);
+//    app.hooks.recyclingDiversion.text((parseFloat(sa.recycling_diversion_rate) * 100).toFixed(1) + '%');  // <-- percentified
+//    app.hooks.sanitationArea.text(sa.sanitation_area);
+//    app.hooks.sanitationDistrict.text(sa.sanitation_district);
+//    app.hooks.leafCollection.text(sa.leaf_collection_area);
+//    app.hooks.trafficPmDistrict.text(sa.traffic_pm_district);
 
     // Districts
-    app.hooks.planning.text(sa.planning_district);
-    app.hooks.liDistrict.text(sa.li_district);
-    app.hooks.censusTract.text(sa.census_tract_2010);
-    app.hooks.censusBlockGroup.text(sa.census_block_group_2010);
-    app.hooks.commercialCorridor.text(sa.commercial_corridor || 'n/a');
-
+//    app.hooks.planning.text(sa.planning_district);
+//    app.hooks.liDistrict.text(sa.li_district);
+//    app.hooks.censusTract.text(sa.census_tract_2010);
+//    app.hooks.censusBlockGroup.text(sa.census_block_group_2010);
+//    app.hooks.commercialCorridor.text(sa.commercial_corridor || 'n/a');
+  
     // Hide status messages, load content.
     app.hooks.trashStatus.addClass('hide');
     app.hooks.trashPanel.removeClass('hide');

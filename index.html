@@ -165,7 +165,7 @@
     <!-- Begin Footer -->
     <div class="row feedback">
       <div class="small-24 columns">
-        <div class="panel center mbl"><p>We're still working on this page's design and content. <a href="https://beta.phila.gov/property-feedback/">How can we make it better?</a></p></div>
+        <div class="panel center mbl"><p>This website is being redesigned.  Some information has been removed from this site to streamline our applications. <a href="https://beta.phila.gov/property-feedback/">Submit Feedback</a></p></div>
       </div>
     </div>
 
@@ -276,7 +276,7 @@
             <div class="columns map-container">
               <div data-hook="map" class="map"></div>
               <div class="text-right">
-                <a data-hook="street-view-url" href="#" class="small-text external" target="_blank">See in Google Street View</a>
+                <a data-hook="street-view-url" href="#" class="small-text external" target="_blank">See in Cyclomedia Street View</a>
               </div>
               <div class="map-explainer">
                 <p>
@@ -352,6 +352,7 @@
             </div>
           </div>
         </div>
+        
       </div>
 
       <!-- Property view main content area -->
@@ -381,6 +382,7 @@
             <a data-hook="tax-balance-link" class="button no-margin">View the Tax Balance</a>
           </div>
         </div> <!-- End taxes -->
+        
         <div class="row"> <!-- Begin valuation -->
           <div class="columns">
             <h2 class="alternate divide">Valuation History</h2>
@@ -459,30 +461,8 @@
             </a>
             <div class="small-text">On the OpenDataPhilly website</div>
           </div>
+          
         </div> <!-- End Open Data -->
-
-        <div class="row"> <!-- Begin trash and recycling -->
-          <div class="columns">
-            <h2 class="alternate divide">Trash &amp; Recycling</h2>
-          </div>
-        </div>
-        <div data-hook="trash-status"><i class="fa fa-spinner fa-lg spin"></i> Loading...</div>
-        <div data-hook="trash-panel" class="row hide">
-          <div class="columns">
-            <div class="panel sales mbm">
-              <div class="row">
-                <div class="medium-12 columns">
-                  <h3 class="h4 alternate">Trash &amp; Recycling Day</h3>
-                  <strong data-hook="rubbish-day" class="stat no-margin"></strong>
-                </div>
-                <div class="medium-12 columns">
-                  <h4 class="alternate">Leaf Collection</h4>
-                  <strong data-hook="leaf-collection"></strong>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
 
         <div class="row"> <!-- Begin L&I -->
           <div class="hide-for-print columns">
@@ -496,14 +476,37 @@
             <div class="small-text">On the Licenses &amp; Inspections website</div>
           </div>
         </div> <!-- End L&I -->
+        
+        <div class="row"> <!-- Begin trash and recycling -->
+          <div class="hide-for-print columns">
+            <h2 class="alternate divide">Trash &amp; Recycling</h2>
+           </div>
+        </div>
+        <div class="row">
+          <div class="hide-for-print medium-14 columns"><p class="no-margin normal">Information about Trash and Recycling has been removed from this application.</p></div>
+            <div class="medium-10 columns text-right">
+               <a data-hook="trash-link" class="button no-margin"  href="https://www.phila.gov/trashday/" target="_blank">View Trash and Recycling Days</a>
+            <div class="small-text">On phila.gov</div>
+          </div>
+        </div>
+        <div data-hook="trash-status"><i class="fa fa-spinner fa-lg spin"></i> Loading...</div>
+        <div data-hook="trash-panel" class="row hide"></div>
 
         <div class="row"> <!-- Begin service area -->
+               
           <div class="columns">
             <h2 class="alternate divide">Service Areas</h2>
           </div>
-        </div>
+          
+          <div class="row">
+              <div class="hide-for-print medium-14 columns"><p class="no-margin normal">Service Areas have been removed from this application.</p></div>
+                <div class="medium-10 columns text-right">
+                  <a class="button no-margin" data-hook="openmaps-link" href="https://openmaps.phila.gov" target="_bank">Go to Openmaps</a>
+                <div class="small-text">Explore Service Areas and other spatial data in OpenMaps</div>
+              </div>
+          </div>
         <div data-hook="service-area-status"><i class="fa fa-spinner fa-lg spin"></i> Loading...</div>
-        <div data-hook="service-area-panel" class="hide">
+        <div data-hook="service-area-panel" class="hide"></div>
           <div class="row">
             <div class="medium-12 columns">
               <div class="panel mbm">
@@ -514,85 +517,6 @@
                 <strong data-hook="middle-school"></strong>
                 <h4 class="alternate">High School</h4>
                 <strong data-hook="high-school"></strong>
-              </div>
-            </div>
-            <div class="medium-12 columns">
-              <div class="panel mbm">
-                <h3>Political</h3>
-                <h4 class="alternate">Councilmanic District (2016)</h4>
-                <strong data-hook="council-district"></strong>
-                <h4 class="alternate">Ward</h4>
-                <strong data-hook="ward"></strong>
-                <h4 class="alternate">Ward Divisions</h4>
-                <strong data-hook="ward-divisions"></strong>
-              </div>
-            </div>
-          </div>
-          <div class="row">
-            <div class="medium-12 columns">
-              <div class="panel mbm">
-                <h3>Public Safety</h3>
-                <h4 class="alternate">Police District</h4>
-                <strong data-hook="police-district"></strong>
-                <h4 class="alternate">Police Public Service Area</h4>
-                <strong data-hook="police-psa"></strong>
-                <h4 class="alternate">Police Division</h4>
-                <strong data-hook="police-division"></strong>
-              </div>
-            </div>
-            <div class="medium-12 columns">
-              <div class="panel mbm">
-                <h3>Districts</h3>
-                <h4 class="alternate">Planning</h4>
-                <strong data-hook="planning"></strong>
-                <h4 class="alternate">Licenses and Inspections (L+I)</h4>
-                <strong data-hook="li-district"></strong>
-                <h4 class="alternate">Census Tract (2010)</h4>
-                <strong data-hook="census-tract"></strong>
-                <h4 class="alternate">Census Block Group (2010)</h4>
-                <strong data-hook="census-block-group"></strong>
-                <h4 class="alternate">Commercial Corridor</h4>
-                <strong data-hook="commercial-corridor"></strong>
-              </div>
-            </div>
-          </div>
-          <div class="row">
-            <div class="columns">
-              <div class="panel mbm">
-                <div class="row">
-                  <div class="columns">
-                    <h3>Streets</h3>
-                  </div>
-                </div>
-                <div class="row">
-                  <div class="medium-12 columns">
-                    <h4 class="alternate">Highway District</h4>
-                    <strong data-hook="highway-district"></strong>
-                    <h4 class="alternate">Highway Section</h4>
-                    <strong data-hook="highway-section"></strong>
-                    <h4 class="alternate">Highway Subsection</h4>
-                    <strong data-hook="highway-subsection"></strong>
-                    <h4 class="alternate">Street Light Routes</h4>
-                    <strong data-hook="street-light-routes"></strong>
-                    <h4 class="alternate">Traffic District</h4>
-                    <strong data-hook="traffic-district"></strong>
-                    <h4 class="alternate">Traffic PM District</h4>
-                    <strong data-hook="traffic-pm-district"></strong>
-                  </div>
-                  <div class="medium-12 columns">
-                    <h4 class="alternate">Trash &amp; Recycling Day</h4>
-                    <strong data-hook="rubbish-day"></strong>
-                    <h4 class="alternate">Leaf Collection Day</h4>
-                    <strong data-hook="leaf-collection"></strong>
-                    <strong data-hook="" class="h1 stat no-margin"></strong>
-                    <h4 class="alternate">Recycling Diversion Rate</h4>
-                    <strong data-hook="recycling-diversion"></strong>
-                    <h4 class="alternate">Sanitation Area</h4>
-                    <strong data-hook="sanitation-area"></strong>
-                    <h4 class="alternate">Sanitation District</h4>
-                    <strong data-hook="sanitation-district"></strong>
-                  </div>
-                </div>
               </div>
             </div>
           </div>
@@ -614,9 +538,11 @@
          https://github.com/Esri/angular-esri-map/issues/38#issuecomment-91439901
     -->
     <script src="//js.arcgis.com/3.15/" defer></script>
-
+  
+    <!--
     <script src="//maps.googleapis.com/maps/api/js?v=3&libraries=geometry"></script>
-
+    -->
+    
     <!--
       install and configure sentry for error logging. this should be placed
       after vendor scripts have loaded but before local ones.
