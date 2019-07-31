@@ -79,7 +79,7 @@ app.config = {
   defaultError:         'Failed to retrieve results. Please try another search.',
   // carto tables used for retrieving property details
   carto: {
-    baseUrl:              'https://phl.carto.com/api/v2/sql',
+    baseUrl:              'https://phl-gsg.carto.com/api/v2/sql',
     datasets: {
       properties:           'opa_properties_public',
       valuations:           'assessments',
