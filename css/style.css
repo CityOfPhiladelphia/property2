@@ -34,10 +34,11 @@ body {
   margin-bottom: 0.8rem;
 }
 .new-property {
-  background-color: #f3c612;
+  background-color: #DAEDFE;
   margin-top: 1rem;
   padding: 1rem 1rem 0.5rem 1rem;
 }
+
 .front {
   margin-top: 1.6rem;
 }
