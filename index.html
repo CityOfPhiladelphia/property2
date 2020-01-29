@@ -621,6 +621,9 @@
 
     <script src="//maps.googleapis.com/maps/api/js?v=3&libraries=geometry"></script>
 
+    <!-- jQuery Modal -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.css" />
     <!--
       install and configure sentry for error logging. this should be placed
       after vendor scripts have loaded but before local ones.
@@ -686,6 +689,9 @@
     <script src="js/views/property.js"></script>
     <script>
       $(document).foundation();
+      window.onload = function() {
+        $("#newPropertyModal").modal();
+      };
     </script>
     <script type="text/javascript">
       function googleTranslateElementInit() {
@@ -694,5 +700,12 @@
     </script>
     <script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
     <!--<![endif]-->
+
+    <div id="newPropertyModal" class="modal">
+      <p>Over the next few months, this website will be phased out and replaced with <a href="https://property-beta.phila.gov/">a new property application</a>.
+        During the beta period, we'd appreciate your help as we improve the new site.</p>
+        <a href="https://property-beta.phila.gov/" class="button">Take me to the new Property Site</a>
+      <a class="button modal-close" href="#" rel="modal:close">No thanks, keep me on the old site.</a>
+    </div>    
   </body>
 </html>
