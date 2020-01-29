@@ -33,6 +33,11 @@ body {
   margin-top: 0.8rem;
   margin-bottom: 0.8rem;
 }
+.new-property {
+  background-color: #f3c612;
+  margin-top: 1rem;
+  padding: 1rem 1rem 0.5rem 1rem;
+}
 .front {
   margin-top: 1.6rem;
 }
@@ -162,6 +167,17 @@ body {
 .button {
   width: 100%;
 }
+
+#new-property-button {
+  background-color: #26cdf7;
+  color: black;
+}
+
+#new-property-button:hover {
+  background-color: black;
+  color:white;
+}
+
 
 #homestead {
   margin-bottom: 0.5rem;
