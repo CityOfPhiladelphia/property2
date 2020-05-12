@@ -7,6 +7,9 @@ app.views.property = function (accountNumber) {
 
   app.hooks.ownerSearchDisclaimer.addClass('hide');
 
+    // New Site Banner Hook
+    app.hooks.newSiteBanner.removeClass('hide');
+
   // Search area prep
   app.hooks.propertyTitle.find('h1').html('&nbsp;');
   app.hooks.propertyTitle.find('.small-text').empty();
