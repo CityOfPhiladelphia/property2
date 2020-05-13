@@ -3,7 +3,9 @@ body {
   investigate further */
   overflow-x:hidden;
 }
-
+.jquery-modal.blocker {
+  z-index: 33;
+}
 .search {
   z-index:32;
 }
@@ -159,7 +161,7 @@ body {
 }
 
 .owners {
-    line-height:1;
+  line-height:1;
 }
 .owners div {
   margin-bottom:1rem;
@@ -179,6 +181,14 @@ body {
   color:white;
 }
 
+a.button:link, a.button:visited {
+  color: #111;
+}
+
+a.button.modal-close {
+  color: black;
+  background-color: lightgray;
+}
 
 #homestead {
   margin-bottom: 0.5rem;

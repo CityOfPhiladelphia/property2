@@ -211,6 +211,10 @@ app.views.results = function (parsedQuery) {
       renderOwnerSearchDisclaimer();
     }
 
+    // New Site Banner Hook
+    app.hooks.newSiteBanner.removeClass('hide');
+    app.hooks.newSiteBanner.addClass('test-add');
+
     // TODO find a place for count
     //app.hooks.count.find('#total').text(state.total);
     //app.hooks.content.append(app.hooks.count);
