@@ -58,7 +58,8 @@ Property is hosted on GitHub pages. To deploy:
 1. Push a new feature branch to GitHub.
 2. Create a Pull Request from your feature branch to the `gh-pages` branch.
 3. Merge the Pull Request.
-4. Done!
+4. Open the cloudfront page under the PHL-OIT account and invalidate the cache so the changes will be reflected in the site.
+5. Done!
 
 ## Supported Browsers
 
