@@ -181,6 +181,10 @@ body {
   color:white;
 }
 
+a.button:link, a.button:visited {
+  color: #111;
+}
+
 a.button.modal-close {
   color: black;
   background-color: lightgray;
