@@ -28,6 +28,11 @@ Start a web server of your choosing. For example:
 python -m SimpleHTTPServer
 ```
 
+For python v3 users:
+```
+python3 -m http.server 9000
+```
+
 You're done! Go visit [http://127.0.0.1:8000](http://127.0.0.1:8000).
 
 ## Contributing
