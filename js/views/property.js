@@ -207,7 +207,8 @@ app.views.property = function (accountNumber) {
         },
       });
     }
-    app.hooks.opaInquiryUrl.attr('href', 'http://opa.phila.gov/opa.apps/Help/CitizenMain.aspx?sch=Ctrl2&s=1&url=search&id=' + tencode);
+    var opa_active_id = state.ais.properties.pwd_account_nums.substring(0,9);
+    app.hooks.opaInquiryUrl.attr('href', 'http://opa.phila.gov/opa.apps/Help/CitizenMain.aspx?sch=Ctrl2&s=1&url=search&id=' + opa_active_id);
 
     // REVIEW this seems to work, but when you hover over the link in chrome
     // it doesn't appear to be encoded.
