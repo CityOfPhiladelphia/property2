@@ -194,10 +194,6 @@ function showSearchOption(type) {
     app.hooks.searchSelectLabel.text('Address');
     app.hooks.searchAddress.removeClass('hide');
     break;
-  case 'owner':
-    app.hooks.searchSelectLabel.text('Owner');
-    app.hooks.searchOwner.removeClass('hide');
-    break;
   }
 }
 
@@ -292,12 +288,6 @@ app.util.normalizeSearchQuery = function (data) {
       unit: app.util.cleanPropertyQuery(data.u)
     };
 
-  } else if (data.o) {
-    parsedQuery = {
-      type: 'owner',
-      label: app.util.cleanPropertyQuery(data.o),
-      owner: app.util.cleanPropertyQuery(data.o)
-    };
   }
 
   return parsedQuery;

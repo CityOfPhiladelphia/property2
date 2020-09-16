@@ -98,7 +98,6 @@
                   <ul class="search-select-options no-bullet hide" data-hook="search-select-options">
                     <li data-searchtype="address"><label>Address</label> <small>1234 Market St</small></li>
                     <li data-searchtype="block"><label>Block</label> <small>1200 Market St</small></li>
-                    <li data-searchtype="owner"><label>Owner</label> <small>Doe John</small></li>
                     <li data-searchtype="account"><label>Account</label> <small>883309000</small></li>
                   </ul>
                 </div>
@@ -119,13 +118,6 @@
                     <input id="search-blocknum" type="text" class="float-left field-sm" data-hook="search-blocknum" name="bn" placeholder="1200">
                     <label for="search-blockstreet" class="show-for-sr">Block street</label>
                     <input id="search-blockstreet" type="text" class="float-left field-lg" data-hook="search-blockstreet" name="bs" placeholder="Market St">
-                    <input type="submit" value="submit">
-                  </form>
-
-                  <!-- Owner -->
-                  <form data-hook="search-owner" class="search-form-option hide">
-                    <label for="search-owner" class="show-for-sr">Search by owner</label>
-                    <input id="search-owner" type="text" class="float-left" name="o" placeholder="Doe John">
                     <input type="submit" value="submit">
                   </form>
 
@@ -150,12 +142,6 @@
             <div data-hook="search-left" class="medium-4 columns">&nbsp;</div>
           </div>
           <div data-hook="owner-search-disclaimer" class="row hide">
-            <div class="small-24 columns">
-              <p class="center mtm mbn">
-                Your IP address is <strong data-hook="owner-search-disclaimer-ip" data-default="170.115.248.21">(<i class="fa fa-spinner fa-lg spin"></i> Loading)</strong> and you searched for properties owned by <strong data-hook="owner-search-disclaimer-query">(<i class="fa fa-spinner fa-lg spin"></i> Loading)</strong> on <span data-hook="owner-search-disclaimer-datetime"></span>.
-                <span data-tooltip aria-haspopup="true" class="has-tip" title="Property owner searches are recorded to encourage safe and responsible use. The data shown here represents your visit to this page."><i class="fa fa-info-circle"></i></span>
-              </p>
-            </div>
           </div>
         </div>
             <!-- New Property Site Banner -->
@@ -229,7 +215,7 @@
           <div class="columns medium-centered">
             <p class="mam h3">
             View valuation and physical details of properties within the City of Philadelphia.</p>
-            <p><i class="fa fa-arrow-down"></i> Use the tool below to select <span class="caps bold">address, block, owner</span> or <span class="caps bold">account</span><!-- or <span class="caps bold">intersection</span>-->.</p>
+            <p><i class="fa fa-arrow-down"></i> Use the tool below to select <span class="caps bold">address, block,</span> or <span class="caps bold">account</span><!-- or <span class="caps bold">intersection</span>-->.</p>
           </div>
         </div>
       </div>
@@ -238,7 +224,14 @@
       <div data-hook="front" class="columns front">
         <div class="row">
           <div class="columns medium-14 medium-centered">
-            <div class="callout">
+            <div class="warning callout">
+              <p>Property Search is no longer allowing Search By Owner due to privacy concerns.</p>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="columns medium-14 medium-centered">
+            <div class="mtm">
               <p>Use this application to search and compare property data in the City of Philadelphia.<br>
               By using this application, you have agreed to its <a data-open="terms-modal" href="#">Terms &amp; Conditions.</a></p>
             </div>
