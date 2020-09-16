@@ -186,13 +186,13 @@ function showSearchOption(type) {
     app.hooks.searchSelectLabel.text('Account');
     app.hooks.searchAccount.removeClass('hide');
     break;
+  case 'block':
+    app.hooks.searchSelectLabel.text('Block');
+    app.hooks.searchBlock.removeClass('hide');
+    break;
   case 'address':
     app.hooks.searchSelectLabel.text('Address');
     app.hooks.searchAddress.removeClass('hide');
-    break;
-  case 'owner':
-    app.hooks.searchSelectLabel.text('Owner');
-    app.hooks.searchOwner.removeClass('hide');
     break;
   }
 }
@@ -270,6 +270,13 @@ app.util.normalizeSearchQuery = function (data) {
       account: app.util.cleanPropertyQuery(accountNum)
     };
 
+  } else if (data.bn && data.bs) {
+    parsedQuery = {
+      type: 'block',
+      label: app.util.cleanPropertyQuery(data.bn + ' ' + data.bs),
+      address: app.util.cleanPropertyQuery(data.bn + ' ' + data.bs)
+    };
+
   } else if (data.a) {
     var label = app.util.cleanPropertyQuery(data.a);
     label += app.util.cleanPropertyQuery(data.u) ? ' ' + data.u : '';
@@ -281,12 +288,6 @@ app.util.normalizeSearchQuery = function (data) {
       unit: app.util.cleanPropertyQuery(data.u)
     };
 
-  } else if (data.o) {
-    parsedQuery = {
-      type: 'owner',
-      label: app.util.cleanPropertyQuery(data.o),
-      owner: app.util.cleanPropertyQuery(data.o)
-    };
   }
 
   return parsedQuery;
