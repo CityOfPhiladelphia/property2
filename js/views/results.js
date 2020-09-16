@@ -20,7 +20,6 @@ app.views.results = function (parsedQuery) {
   var endpointMap = {
     address: 'addresses',
     account: 'account',
-    block: 'block',
     owner: 'owner',
   };
 
@@ -32,9 +31,6 @@ app.views.results = function (parsedQuery) {
   switch(queryType) {
     case 'account':
       queryParam = parsedQuery.account;
-      break;
-    case 'block':
-      queryParam = parsedQuery.address;
       break;
     case 'address':
       queryParam = parsedQuery.address;

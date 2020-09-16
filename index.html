@@ -97,7 +97,6 @@
 
                   <ul class="search-select-options no-bullet hide" data-hook="search-select-options">
                     <li data-searchtype="address"><label>Address</label> <small>1234 Market St</small></li>
-                    <li data-searchtype="block"><label>Block</label> <small>1200 Market St</small></li>
                     <li data-searchtype="owner"><label>Owner</label> <small>Doe John</small></li>
                     <li data-searchtype="account"><label>Account</label> <small>883309000</small></li>
                   </ul>
@@ -106,19 +105,9 @@
                 <div data-hook="search-form-container" class="float-left search-form-container">
                   <!-- Address -->
                   <form data-hook="search-address" class="search-form-option">
-                    <label for="search-address" class="show-for-sr">Search by block</label>
                     <input id="search-address" type="text" class="float-left field-lg" data-hook="search-address" name="a" placeholder="1234 Market St">
                     <label for="search-unit" class="show-for-sr">Unit number</label>
                     <input id="search-unit" type="text" class="float-left field-sm" data-hook="search-unit" name="u" placeholder="Unit #">
-                    <input type="submit" value="submit">
-                  </form>
-
-                  <!-- Block -->
-                  <form data-hook="search-block" class="search-form-option hide">
-                    <label for="search-blocknum" class="show-for-sr">Block number</label>
-                    <input id="search-blocknum" type="text" class="float-left field-sm" data-hook="search-blocknum" name="bn" placeholder="1200">
-                    <label for="search-blockstreet" class="show-for-sr">Block street</label>
-                    <input id="search-blockstreet" type="text" class="float-left field-lg" data-hook="search-blockstreet" name="bs" placeholder="Market St">
                     <input type="submit" value="submit">
                   </form>
 
@@ -229,7 +218,7 @@
           <div class="columns medium-centered">
             <p class="mam h3">
             View valuation and physical details of properties within the City of Philadelphia.</p>
-            <p><i class="fa fa-arrow-down"></i> Use the tool below to select <span class="caps bold">address, block, owner</span> or <span class="caps bold">account</span><!-- or <span class="caps bold">intersection</span>-->.</p>
+            <p><i class="fa fa-arrow-down"></i> Use the tool below to select <span class="caps bold">address, owner</span> or <span class="caps bold">account</span><!-- or <span class="caps bold">intersection</span>-->.</p>
           </div>
         </div>
       </div>
@@ -238,7 +227,14 @@
       <div data-hook="front" class="columns front">
         <div class="row">
           <div class="columns medium-14 medium-centered">
-            <div class="callout">
+            <div class="warning callout">
+              <p>Property Search is no longer allowing Search By Owner due to privacy concerns.</p>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="columns medium-14 medium-centered">
+            <div class="mtm">
               <p>Use this application to search and compare property data in the City of Philadelphia.<br>
               By using this application, you have agreed to its <a data-open="terms-modal" href="#">Terms &amp; Conditions.</a></p>
             </div>

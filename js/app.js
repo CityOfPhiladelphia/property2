@@ -186,10 +186,6 @@ function showSearchOption(type) {
     app.hooks.searchSelectLabel.text('Account');
     app.hooks.searchAccount.removeClass('hide');
     break;
-  case 'block':
-    app.hooks.searchSelectLabel.text('Block');
-    app.hooks.searchBlock.removeClass('hide');
-    break;
   case 'address':
     app.hooks.searchSelectLabel.text('Address');
     app.hooks.searchAddress.removeClass('hide');
@@ -272,13 +268,6 @@ app.util.normalizeSearchQuery = function (data) {
       type: 'account',
       label: app.util.cleanPropertyQuery(accountNum),
       account: app.util.cleanPropertyQuery(accountNum)
-    };
-
-  } else if (data.bn && data.bs) {
-    parsedQuery = {
-      type: 'block',
-      label: app.util.cleanPropertyQuery(data.bn + ' ' + data.bs),
-      address: app.util.cleanPropertyQuery(data.bn + ' ' + data.bs)
     };
 
   } else if (data.a) {
