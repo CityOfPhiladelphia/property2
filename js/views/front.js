@@ -17,4 +17,5 @@ app.views.front = function () {
   app.hooks.content.append(app.hooks.front);
   app.hooks.aboveContent.append(app.hooks.intro);
 
+  app.hooks.ownerSearchDisclaimer.addClass('hide');
 };
