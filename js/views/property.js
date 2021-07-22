@@ -124,7 +124,7 @@ app.views.property = function (accountNumber) {
   // query string.
   function getSaData() {
     // REVIEW should this url be protocol-less?
-    $.ajax('https://api.phila.gov/ais_ps/v1/account/' + accountNumber)
+    $.ajax('https://api.phila.gov/ais_dev/v1/account/' + accountNumber)
       .done(function (data) {
         var state = $.extend({}, history.state);
         var property, href, withUnit;

@@ -152,8 +152,8 @@
               We'd appreciate your feedback as we improve the new site.
             </div>
             <div class="medium-8 columns text-right">
-              <a href="https://property-beta.phila.gov/" id="new-property-button" class="button">Take me to the new site</a>   
-            </div>       
+              <a href="https://property-beta.phila.gov/" id="new-property-button" class="button">Take me to the new site</a>
+            </div>
           </div>
         </div>
         <div data-hook="content" class="row"></div>
@@ -294,10 +294,10 @@
             <div class="new-property text-left">
               <div style="margin-left: 45%" class="row medium-24 columns hide-for-small-only warning"><i class="fa fa-exclamation-triangle fa-2x"></i></div>
               <div class="row medium-24 columns">
-                Please note that the OPA is currently upgrading its computer systems.  This implementation may cause delays in updating internal 
-                records and displaying current information in this section.  We apologize for any delays you may experience.  
+                Please note that the OPA is currently upgrading its computer systems.  This implementation may cause delays in updating internal
+                records and displaying current information in this section.  We apologize for any delays you may experience.
                 You may contact the OPA at <a href="tel:+12156864334">215-686-4334</a> for information on a property, or submit an official inquiry below.
-              </div>     
+              </div>
             </div>
           </div>
           <div class="row">
@@ -642,7 +642,7 @@
                     extra = dataOrEmptyObj.extra || {},
                     status = extra.status,
                     url = extra.url || '',
-                    isAis = url.indexOf('api.phila.gov/ais') !== -1;
+                    isAis = url.indexOf('api.phila.gov/ais_dev') !== -1;
 
                 // don't send ais 404s (these are tracked in gatekeeper)
                 if (isAis && status == 404) {
@@ -709,6 +709,6 @@
         During the beta period, we'd appreciate your help as we improve the new site.</p>
         <a href="https://property-beta.phila.gov/" class="button">Take me to the new Property Site</a>
       <a class="button modal-close" href="#" rel="modal:close">No thanks, keep me on the old site.</a>
-    </div>    
+    </div>
   </body>
 </html>

@@ -71,7 +71,7 @@ app.views.results = function (parsedQuery) {
     };
 
     $.ajax({
-      url: 'https://api.phila.gov/ais_ps/v1/' + endpoint,
+      url: 'https://api.phila.gov/ais_dev/v1/' + endpoint,
       data: params,
       success: didGetAisData,
       error: didGetAisError,
@@ -235,7 +235,7 @@ app.views.results = function (parsedQuery) {
           };
 
           $.ajax({
-            url: 'https://api.phila.gov/ais_ps/v1/' + endpoint,
+            url: 'https://api.phila.gov/ais_dev/v1/' + endpoint,
             data: params
           })
             .done(function (aisData) {
@@ -320,7 +320,7 @@ app.views.results = function (parsedQuery) {
 
       // history.pushState(nextState, withUnit, href);
       history.pushState(nextState, withUnit, href, 'results.js - row click');
-      
+
       window.scroll(0, 0);
       app.views.property(accountNumber);
     });
