@@ -7,11 +7,11 @@ jobs:
   build:
     name: Build files
     runs-on: ubuntu-latest
-    steps: 
+    steps:
       - uses: actions/checkout@master
       - name: Deploy to s3
-        env: 
+        env:
             AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
             AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-        run: 
-          aws s3 cp . s3://property.phila.gov --recursive # change it
+        run:
+          aws s3 cp . s3://property.phila.gov --region us-east-1 --recursive # change it
