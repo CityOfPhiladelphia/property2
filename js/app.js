@@ -80,6 +80,7 @@ app.config = {
   // carto tables used for retrieving property details
   carto: {
     baseUrl:              'https://phl.carto.com/api/v2/sql',
+    testingBaseUrl:       'https://phl-gsg.carto.com/api/v2/sql',
     datasets: {
       properties:           'opa_properties_public',
       valuations:           'assessments',

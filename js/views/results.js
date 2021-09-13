@@ -183,7 +183,7 @@ app.views.results = function (parsedQuery) {
     var query = 'SELECT parcel_number, market_value, sale_date, sale_price FROM '
       + app.config.carto.datasets.properties + " WHERE parcel_number IN ('"
       + accountNumbers.join("','") + "')"
-    return app.config.carto.baseUrl + '?q=' + encodeURIComponent(query)
+    return app.config.carto.testingBaseUrl + '?q=' + encodeURIComponent(query)
   }
 
   function keyBy(items, key) {

@@ -66,7 +66,7 @@ app.views.property = function (accountNumber) {
   }
 
   function getOpaData() {
-    var url = app.config.carto.baseUrl,
+    var url = app.config.carto.testingBaseUrl,
         table = app.config.carto.datasets.properties;
 
     alreadyGettingOpaData = true;
