@@ -384,6 +384,72 @@ app.views.property = function (accountNumber) {
     var taxBalanceUrl = 'http://www.phila.gov/revenue/realestatetax/?txtBRTNo=' + opa.parcel_number;
     app.hooks.taxBalanceLink.attr('href', taxBalanceUrl);
 
+    function updateTaxEstimate() {
+      // get assessment values
+      var marketValue = opa.market_value,
+          exemptValue = opa.exempt_building + opa.exempt_land;
+
+      var rate = 1.3998;
+
+      // get homestead checkbox value
+      var homesteadCheckbox = app.hooks.taxEstimateHomesteadCheckbox,
+          isHomesteadChecked = homesteadCheckbox.prop('checked');
+
+      // check if they already have a homestead exemption
+      var existingHomesteadValue = opa.homestead_exemption || 0,
+          alreadyHasHomestead = existingHomesteadValue > 0;
+
+      // handle homestead exemption if necessary
+      if (isHomesteadChecked) {
+        // if they already have an exemption
+        if (alreadyHasHomestead) {
+          // calculate their current homestead proportionate to 30k and
+          // apply to 40k
+          var proposedHomestead = existingHomesteadValue / 40000 * 40000;
+          // exemptValue += proposedHomestead;
+          exemptValue = proposedHomestead;
+        // if they don't already have a homestead, use 40k
+        } else {
+          exemptValue = 40000;
+        }
+      }
+
+      // calculate tax estimate
+      var taxableValue = marketValue - exemptValue,
+          taxEstimate = taxableValue * rate / 100,
+          taxEstimateOrZero = Math.max(taxEstimate, 0);
+
+      // leaving this in here because it's super useful for debugging.
+      // console.log('taxable value', taxableValue, '=', 'marketValue', marketValue, '- exemptValue', exemptValue);
+      // console.log('tax estimate', taxEstimate, '= max of', taxEstimate, 'and 0');
+
+      // format and update
+      var formattedTaxEstimate = accounting.formatMoney(taxEstimateOrZero);
+      app.hooks.taxEstimateResult.text(formattedTaxEstimate);
+    }
+
+    var alreadyHasHomestead = (opa.homestead_exemption > 0);
+    var hasExemptValue = opa.exempt_building + opa.exempt_land > 0;
+    var shouldDisableHomestead = alreadyHasHomestead || hasExemptValue;
+    app.hooks.taxEstimateHomesteadCheckbox
+      .prop('checked', alreadyHasHomestead)
+      .prop('disabled', shouldDisableHomestead);
+
+    app.hooks.homesteadDisabledTip.toggle(!alreadyHasHomestead && shouldDisableHomestead);
+    // call foundation again to activate the homestead disabled tooltip
+    $(app.hooks.homesteadDisabledTip).foundation();
+
+    updateTaxEstimate();
+
+    app.hooks.taxEstimateHomesteadCheckbox
+      .change(updateTaxEstimate);
+
+    app.hooks.taxEstimateButton.click(function () {
+      $(this).hide();
+      app.hooks.taxEstimateResult.show();
+    })
+
+
     // Render zoning
     // TODO Socrata is missing zoning description
     // app.hooks.zoning.html(state.opa.characteristics.zoning + ': ' +

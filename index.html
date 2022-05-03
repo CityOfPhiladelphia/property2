@@ -379,6 +379,40 @@
         </div> <!-- End owners -->
         <div class="row"> <!-- Begin taxes -->
           <div class="hide-for-print columns">
+            <h2 class="alternate divide">Real Estate Tax Calculator</h2>
+          </div>
+        </div>
+        <div class="row columns" style="margin-bottom: 10px">
+          <p class="normal">
+            You can estimate the 2019 Real Estate Tax of this property based on the tax rate and
+            <a href="https://beta.phila.gov/services/property-lots-housing/get-the-homestead-exemption/">Homestead Exemption</a> amount.
+            The Homestead Exemption will typically save homeowners about $550 on their Real Estate Tax.
+            These estimates are for information only, and may not be the actual amount of Real Estate Tax for 2019.
+          </p>
+
+          <div class="row">
+            <div class="medium-7 columns">
+              <label for="rate">Tax rate</label>
+              <p>1.3998% (2019)</p>
+            </div>
+            <div class="medium-9 columns">
+              <input type="checkbox" id="homestead" data-hook="tax-estimate-homestead-checkbox">
+              <label for="homestead">Homestead Exemption</label>
+              <div data-hook="homestead-disabled-tip"
+                   data-tooltip title="It looks like your property already has an exemption that makes it ineligible for the Homestead Exemption."
+                   class="has-tip"
+              >
+                   Why can't I check this?
+              </div>
+            </div>
+            <div class="medium-8 columns text-right" style="margin-top: 28px">
+              <a data-hook="tax-estimate-button" class="button no-margin">Estimate 2019 tax</a>
+              <strong data-hook="tax-estimate-result" class="stat" style="display: none"></strong>
+            </div>
+          </div>
+        </div> <!-- End taxes -->
+        <div class="row"> <!-- Begin taxes -->
+          <div class="hide-for-print columns">
             <h2 class="alternate divide">Real Estate Tax Balance</h2>
           </div>
         </div>
